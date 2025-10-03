@@ -87,7 +87,7 @@ export const WeatherDisplay = ({ weather, loading, error }: Props) => {
   const weatherIcon = getWeatherIcon(weather.weatherCode);
 
   return (
-    <div className="w-full landscape:w-auto text-3xl sm:text-4xl md:text-5xl lg:text-6xl overflow-hidden">
+    <div className="w-full landscape:w-1/2 text-3xl sm:text-4xl md:text-5xl lg:text-6xl overflow-hidden">
       <div className="flex flex-col items-center landscape:items-end gap-1 sm:gap-2 md:gap-3">
         <div className="flex items-center gap-2 sm:gap-3 font-bold">
           {weatherIcon}
