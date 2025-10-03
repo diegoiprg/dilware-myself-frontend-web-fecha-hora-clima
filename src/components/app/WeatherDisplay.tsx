@@ -88,10 +88,10 @@ export const WeatherDisplay = ({ weather, loading, error }: Props) => {
 
   return (
     <div className="w-full text-3xl sm:text-4xl md:text-5xl lg:text-6xl overflow-hidden">
-      <div className="rounded-3xl bg-white/70 backdrop-blur-xl p-6 shadow-lg border border-white/20">
+      <div className="rounded-full bg-gradient-to-br from-blue-500/20 to-purple-500/20 backdrop-blur-sm p-6 shadow-2xl border border-white/10">
         <div className="flex flex-col items-center gap-1 sm:gap-2 md:gap-3">
           <div className="flex items-center gap-2 sm:gap-3 font-bold">
-            <div className="bg-blue-500/10 rounded-full p-2">{weatherIcon}</div>
+            <div className="bg-white/20 rounded-full p-2">{weatherIcon}</div>
             <span>{formatTemp(weather.temperature, tempUnit)}</span>
           </div>
           <div className="flex items-center gap-1 sm:gap-2 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-muted-foreground">
