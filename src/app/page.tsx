@@ -17,7 +17,7 @@ import {
 } from 'lucide-react';
 
 // App version
-const APP_VERSION = 'v1.2.1';
+const APP_VERSION = 'v1.2.2';
 
 // Spanish month abbreviations
 const MONTHS_ES = [
@@ -176,25 +176,31 @@ export default function ChronosViewPage() {
 
         if (data && data.results && data.results[0]) {
           const result = data.results[0];
-          // Collect all available administrative parts
-          const locationParts = [
-            result.neighbourhood,
-            result.admin4,
-            result.admin3,
-            result.admin2,
-            result.admin1,
-            result.city,
-            result.country,
-          ].filter(Boolean); // Filter out any null/undefined parts
+          const finalParts: string[] = [];
 
-          // Remove duplicates to avoid "Lima, Lima, Peru"
-          const uniqueLocationParts = [...new Set(locationParts)];
+          const mostSpecific =
+            result.neighbourhood || result.admin4 || result.admin3;
+          const city = result.city || result.admin2;
+          const region = result.admin1;
+          const country = result.country;
 
-          // Re-join the unique parts, this naturally puts the most specific parts first if available
-          if (uniqueLocationParts.length > 0) {
-            setLocation(uniqueLocationParts.join(', '));
+          if (mostSpecific) {
+            finalParts.push(mostSpecific);
+          }
+          if (city && !finalParts.includes(city)) {
+            finalParts.push(city);
+          }
+          if (region && !finalParts.includes(region)) {
+            finalParts.push(region);
+          }
+          if (country && !finalParts.includes(country)) {
+            finalParts.push(country);
+          }
+
+          if (finalParts.length > 0) {
+            setLocation(finalParts.filter(Boolean).join(', '));
           } else {
-            throw new Error('No location parts found');
+            throw new Error('No location parts found after processing');
           }
         } else {
           throw new Error('No location name data in response');
@@ -224,12 +230,7 @@ export default function ChronosViewPage() {
         const data = await response.json();
         if (data.latitude && data.longitude) {
           fetchWeather(data.latitude, data.longitude);
-          const locationParts = [
-            data.city,
-            data.region,
-            data.country_name,
-          ].filter(Boolean);
-          setLocation(locationParts.join(', ') || 'Ubicación desconocida');
+          fetchLocationName(data.latitude, data.longitude);
         } else {
           setError('Location N/A');
           setLocation('Ubicación desconocida');

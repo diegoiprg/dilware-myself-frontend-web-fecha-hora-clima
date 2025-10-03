@@ -1,8 +1,14 @@
 import type { NextConfig } from 'next';
 
+const repo = 'dilware-myself-frontend-web-fecha-hora-clima';
+const assetPrefix = `/${repo}/`;
+const basePath = `/${repo}`;
+
 const nextConfig: NextConfig = {
   /* config options here */
   output: 'export',
+  assetPrefix: assetPrefix,
+  basePath: basePath,
   typescript: {
     ignoreBuildErrors: true,
   },
@@ -10,6 +16,7 @@ const nextConfig: NextConfig = {
     ignoreDuringBuilds: true,
   },
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',

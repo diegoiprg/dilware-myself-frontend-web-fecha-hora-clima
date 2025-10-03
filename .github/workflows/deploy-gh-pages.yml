@@ -64,19 +64,7 @@ jobs:
                   mkdir -p out
                   touch out/.nojekyll
 
-            - name: Fix asset paths for GitHub Pages
-              run: |
-                  # Replace repo-prefixed _next URLs with relative paths so GitHub Pages serves assets correctly
-                  REPO_PREFIX="/${{ github.repository }}/_next"
-                  REPLACE="./_next"
-                  # Also fix plain '/_next/' occurrences to './_next/'
-                  for f in out/index.html out/404.html; do
-                    [ -f "$f" ] || continue
-                    sed -i -e "s|${REPO_PREFIX}|${REPLACE}|g" "$f" || true
-                    sed -i -e "s|/_next/|./_next/|g" "$f" || true
-                    perl -0777 -pe "s|${REPO_PREFIX}|${REPLACE}|g" -i "$f" || true
-                    perl -0777 -pe "s|/_next/|./_next/|g" -i "$f" || true
-                  done
+
 
             - name: Deploy to GitHub Pages
               uses: peaceiris/actions-gh-pages@v4
