@@ -50,12 +50,11 @@ export default function ChronosViewPage() {
   }, []);
 
   const handleFullscreen = () => {
-    if (!containerRef.current) return;
-
+    const mainContainer = document.documentElement;
     if (document.fullscreenElement) {
       document.exitFullscreen();
     } else {
-      containerRef.current.requestFullscreen().catch(() => {});
+      mainContainer.requestFullscreen().catch(() => {});
     }
   };
 
@@ -85,4 +84,4 @@ export default function ChronosViewPage() {
       />
     </div>
   );
-
+}
