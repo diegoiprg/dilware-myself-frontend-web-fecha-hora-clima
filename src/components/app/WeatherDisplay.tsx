@@ -88,36 +88,38 @@ export const WeatherDisplay = ({ weather, loading, error }: Props) => {
 
   return (
     <div className="w-full text-3xl sm:text-4xl md:text-5xl lg:text-6xl overflow-hidden">
-      <div className="flex flex-col items-center landscape:items-end gap-1 sm:gap-2 md:gap-3">
-        <div className="flex items-center gap-2 sm:gap-3 font-bold">
-          {weatherIcon}
-          <span>{formatTemp(weather.temperature, tempUnit)}</span>
-        </div>
-        <div className="flex items-center gap-1 sm:gap-2 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-muted-foreground">
-          <div className="flex items-center gap-1 sm:gap-2">
-            <Thermometer className="size-4 sm:size-5 md:size-6 lg:size-7" />
+      <div className="rounded-3xl bg-white/70 backdrop-blur-xl p-6 shadow-lg border border-white/20">
+        <div className="flex flex-col items-center gap-1 sm:gap-2 md:gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 font-bold">
+            <div className="bg-blue-500/10 rounded-full p-2">{weatherIcon}</div>
+            <span>{formatTemp(weather.temperature, tempUnit)}</span>
           </div>
-          <div className="flex items-center gap-1 sm:gap-2">
-            <span className="font-bold">MIN:</span>
-            <span>{formatTemp(weather.minTemperature, tempUnit)}</span>
+          <div className="flex items-center gap-1 sm:gap-2 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-muted-foreground">
+            <div className="flex items-center gap-1 sm:gap-2">
+              <Thermometer className="size-4 sm:size-5 md:size-6 lg:size-7" />
+            </div>
+            <div className="flex items-center gap-1 sm:gap-2">
+              <span className="font-bold">MIN:</span>
+              <span>{formatTemp(weather.minTemperature, tempUnit)}</span>
+            </div>
+            |
+            <div className="flex items-center gap-1 sm:gap-2">
+              <span className="font-bold">MAX:</span>
+              <span>{formatTemp(weather.maxTemperature, tempUnit)}</span>
+            </div>
           </div>
-          |
-          <div className="flex items-center gap-1 sm:gap-2">
-            <span className="font-bold">MAX:</span>
-            <span>{formatTemp(weather.maxTemperature, tempUnit)}</span>
-          </div>
-        </div>
-        <div className="flex items-center gap-1 sm:gap-2 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-muted-foreground">
-          <div className="flex items-center gap-1 sm:gap-2">
-            <Droplets className="size-4 sm:size-5 md:size-6 lg:size-7" />
-            <span className="font-bold">HUM:</span>
-            <span>{Math.round(weather.humidity)}%</span>
-          </div>
-          |
-          <div className="flex items-center gap-1 sm:gap-2">
-            <Sun className="size-4 sm:size-5 md:size-6 lg:size-7" />
-            <span className="font-bold">IUV:</span>
-            <span>{Math.round(weather.uvIndex)}</span>
+          <div className="flex items-center gap-1 sm:gap-2 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-muted-foreground">
+            <div className="flex items-center gap-1 sm:gap-2">
+              <Droplets className="size-4 sm:size-5 md:size-6 lg:size-7" />
+              <span className="font-bold">HUM:</span>
+              <span>{Math.round(weather.humidity)}%</span>
+            </div>
+            |
+            <div className="flex items-center gap-1 sm:gap-2">
+              <Sun className="size-4 sm:size-5 md:size-6 lg:size-7" />
+              <span className="font-bold">IUV:</span>
+              <span>{Math.round(weather.uvIndex)}</span>
+            </div>
           </div>
         </div>
       </div>
