@@ -119,12 +119,77 @@ type Weather = {
   weatherCode: number;
 };
 
-export default function WebFechaHoraClimaPage() {
+// Helper for making network requests with XMLHttpRequest for older browser compatibility
+const makeRequest = (
+  url: string,
+  onSuccess: (data: any) => void,
+  onError: () => void
+) => {
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', url, true);
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4) {
+      if (xhr.status === 200) {
+        try {
+          const data = JSON.parse(xhr.responseText);
+          onSuccess(data);
+        } catch (e) {
+          onError();
+        }
+      } else {
+        onError();
+      }
+    }
+  };
+  xhr.onerror = function () {
+    onError();
+  };
+  xhr.send();
+};
+
+export default function ChronosViewPage() {
   const [currentTime, setCurrentTime] = useState<Date | null>(null);
   const [weather, setWeather] = useState<Weather | null>(null);
   const [location, setLocation] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const wakeLockRef = useRef<WakeLockSentinel | null>(null);
+
+  // Screen Wake Lock
+  useEffect(() => {
+    const requestWakeLock = async () => {
+      if ('wakeLock' in navigator) {
+        try {
+          wakeLockRef.current = await navigator.wakeLock.request('screen');
+          console.log('Screen Wake Lock is active.');
+          wakeLockRef.current.addEventListener('release', () => {
+            console.log('Screen Wake Lock was released.');
+          });
+        } catch (err: any) {
+          console.error(`${err.name}, ${err.message}`);
+        }
+      } else {
+        console.warn('Screen Wake Lock API not supported.');
+      }
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        requestWakeLock();
+      }
+    };
+
+    requestWakeLock();
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      if (wakeLockRef.current) {
+        wakeLockRef.current.release();
+        wakeLockRef.current = null;
+      }
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, []);
 
   useEffect(() => {
     setCurrentTime(new Date());
@@ -137,100 +202,91 @@ export default function WebFechaHoraClimaPage() {
   }, []);
 
   useEffect(() => {
-    const fetchWeather = async (lat: number, lon: number) => {
-      try {
-        const response = await fetch(
-          `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,uv_index,weather_code&daily=temperature_2m_max,temperature_2m_min&timezone=auto`
-        );
-        if (!response.ok) throw new Error('Weather response not OK');
-        const data = await response.json();
-
-        if (data?.current && data?.daily) {
-          setWeather({
-            temperature: `${Math.round(data.current.temperature_2m)}°C`,
-            minTemperature: `${Math.round(data.daily.temperature_2m_min[0])}°`,
-            maxTemperature: `${Math.round(data.daily.temperature_2m_max[0])}°`,
-            humidity: `${data.current.relative_humidity_2m}%`,
-            uvIndex: `${Math.round(data.current.uv_index)}`,
-            weatherCode: data.current.weather_code,
-          });
-        } else {
-          setError('Temp. N/A');
-        }
-      } catch {
-        setError('Temp. N/A');
-      }
+    const fetchWeather = (lat: number, lon: number) => {
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,uv_index,weather_code&daily=temperature_2m_max,temperature_2m_min&timezone=auto`;
+      makeRequest(
+        url,
+        (data) => {
+          if (data && data.current && data.daily) {
+            setWeather({
+              temperature: `${Math.round(data.current.temperature_2m)}°C`,
+              minTemperature: `${Math.round(
+                data.daily.temperature_2m_min[0]
+              )}°`,
+              maxTemperature: `${Math.round(
+                data.daily.temperature_2m_max[0]
+              )}°`,
+              humidity: `${data.current.relative_humidity_2m}%`,
+              uvIndex: `${Math.round(data.current.uv_index)}`,
+              weatherCode: data.current.weather_code,
+            });
+          } else {
+            setError('Temp. N/A');
+          }
+        },
+        () => setError('Temp. N/A')
+      );
     };
 
-    const fetchLocationName = async (lat: number, lon: number) => {
-      try {
-        const response = await fetch(
-          `https://geocoding-api.open-meteo.com/v1/reverse?latitude=${lat}&longitude=${lon}`
-        );
-        if (!response.ok) throw new Error('Reverse geocode response not OK');
-        const data = await response.json();
-
-        // Prioritize more specific location names if available
-        const locationParts = [
-          data.results?.[0]?.admin3, // Usually district/suburb
-          data.results?.[0]?.admin2, // Usually city
-          data.results?.[0]?.country,
-        ].filter(Boolean);
-
-        if (locationParts.length > 0) {
-          setLocation(locationParts.join(', '));
-        } else {
-          throw new Error('No location parts found');
-        }
-      } catch {
-        // Fallback to ipapi.co if the primary service fails
-        try {
-          const response = await fetch('https://ipapi.co/json/');
-          if (!response.ok) throw new Error('IP API response not OK');
-          const data = await response.json();
+    const fetchLocationName = (
+      lat: number,
+      lon: number,
+      fallback: () => void
+    ) => {
+      const url = `https://geocoding-api.open-meteo.com/v1/reverse?latitude=${lat}&longitude=${lon}`;
+      makeRequest(
+        url,
+        (data) => {
           const locationParts = [
-            data.city,
-            data.region,
-            data.country_name,
+            data.results?.[0]?.admin3,
+            data.results?.[0]?.admin2,
+            data.results?.[0]?.country,
           ].filter(Boolean);
-          setLocation(locationParts.join(', ') || 'Ubicación desconocida');
-        } catch {
-          setLocation('Ubicación desconocida');
-        }
-      }
+
+          if (locationParts.length > 0) {
+            setLocation(locationParts.join(', '));
+            fetchWeather(lat, lon); // Fetch weather after getting location name
+          } else {
+            fallback(); // Fallback if reverse geocoding gives no results
+          }
+        },
+        fallback
+      );
     };
 
-    const fetchFromIp = async () => {
-      try {
-        const response = await fetch('https://ipapi.co/json/');
-        if (!response.ok) throw new Error('IP API response not OK');
-        const data = await response.json();
-        if (data.latitude && data.longitude) {
-          fetchWeather(data.latitude, data.longitude);
-          const locationParts = [
-            data.city,
-            data.region,
-            data.country_name,
-          ].filter(Boolean);
-          setLocation(locationParts.join(', ') || 'Ubicación desconocida');
-        } else {
+    const fetchFromIp = () => {
+      const url = 'https://ipapi.co/json/';
+      makeRequest(
+        url,
+        (data) => {
+          if (data.latitude && data.longitude) {
+            fetchWeather(data.latitude, data.longitude);
+            const locationParts = [
+              data.city,
+              data.region,
+              data.country_name,
+            ].filter(Boolean);
+            setLocation(locationParts.join(', ') || 'Ubicación desconocida');
+          } else {
+            setError('Location N/A');
+            setLocation('Ubicación desconocida');
+          }
+        },
+        () => {
           setError('Location N/A');
           setLocation('Ubicación desconocida');
         }
-      } catch {
-        setError('Location N/A');
-        setLocation('Ubicación desconocida');
-      }
+      );
     };
 
     const getLocationAndFetchData = () => {
       if ('geolocation' in navigator) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
-            fetchWeather(position.coords.latitude, position.coords.longitude);
             fetchLocationName(
               position.coords.latitude,
-              position.coords.longitude
+              position.coords.longitude,
+              fetchFromIp
             );
           },
           fetchFromIp,
@@ -249,8 +305,17 @@ export default function WebFechaHoraClimaPage() {
   const handleFullscreen = () => {
     if (!containerRef.current) return;
 
+    const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent);
+
+    if (isIos) {
+      // iOS doesn't support true fullscreen from a web app.
+      // We scroll to the top to hide the address bar as much as possible.
+      window.scrollTo(0, 0);
+      return;
+    }
+
     if (document.fullscreenElement) {
-      document.exitFullscreen();
+      document.exitFullscreen().catch(() => {});
     } else {
       containerRef.current.requestFullscreen().catch(() => {});
     }
@@ -273,62 +338,54 @@ export default function WebFechaHoraClimaPage() {
       ref={containerRef}
       onClick={handleFullscreen}
       className="bg-background text-foreground h-[100svh] w-screen cursor-pointer select-none overflow-hidden
-                 flex flex-col items-center justify-center p-4 sm:p-6 md:p-8 relative"
+                 flex flex-col items-center justify-between p-4 sm:p-6 md:p-8"
       aria-label="Clock and weather display. Click to toggle fullscreen."
       role="button"
       tabIndex={0}
     >
-      <div className="absolute top-4 sm:top-6 md:top-8 left-4 sm:left-6 md:left-8 right-4 sm:right-6 md:right-8 flex justify-center landscape:justify-start">
-        <div className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl flex items-center gap-3">
-          <CalendarDays className="size-8 sm:size-10 md:size-12 lg:size-14" />
-          <span className="pt-1">{formattedDate}</span>
-        </div>
+      <div className="w-full text-center landscape:text-left text-xl sm:text-2xl md:text-3xl lg:text-4xl flex items-center justify-center landscape:justify-start gap-2">
+        <CalendarDays className="inline-block size-6 sm:size-7 md:size-8 lg:size-9" />
+        <span className="pt-1">{formattedDate}</span>
       </div>
 
-      <div className="w-[95%] flex flex-col items-center justify-center flex-1">
-        <div className="font-headline font-bold text-center text-[18vw] leading-none sm:text-[15vw] landscape:text-[25vh] whitespace-nowrap">
+      <div className="w-full flex items-center justify-center">
+        <div className="font-headline font-bold text-center text-[18vw] leading-none sm:text-[15vw] landscape:text-[25vh] whitespace-nowrap w-[95%]">
           {formattedTime}
         </div>
       </div>
 
-      <div className="absolute bottom-4 sm:bottom-6 md:bottom-8 left-4 sm:left-6 md:left-8 right-4 sm:right-6 md:right-8 flex flex-col landscape:flex-row justify-between items-center gap-4 landscape:gap-8">
-        {location && (
-          <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-muted-foreground w-full landscape:w-1/2 text-center landscape:text-left">
-            {location}
-          </div>
-        )}
+      <div className="w-full flex flex-col-reverse landscape:flex-row justify-between items-center gap-4 landscape:gap-8">
+        <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-muted-foreground w-full landscape:w-auto text-center landscape:text-left flex-shrink-0 landscape:flex-1">
+          {location ? (
+            <span>{location}</span>
+          ) : (
+            <div className="animate-pulse w-full h-8 bg-muted rounded-md" />
+          )}
+        </div>
 
-        <div className="w-full landscape:w-auto text-4xl sm:text-5xl md:text-6xl">
+        <div className="w-full landscape:w-auto text-3xl sm:text-4xl md:text-5xl landscape:flex-none">
           {weather ? (
-            <div className="flex flex-col items-center landscape:items-end gap-2 sm:gap-3 md:gap-4">
+            <div className="flex flex-col items-center landscape:items-end gap-2 sm:gap-3">
               <div className="flex items-center gap-3 font-bold">
                 {weatherIcon}
                 <span>{weather.temperature}</span>
               </div>
-              <div className="flex items-center gap-4 text-xl sm:text-2xl md:text-3xl lg:text-4xl text-muted-foreground">
+              <div className="flex items-center justify-center landscape:justify-end gap-3 text-lg sm:text-xl md:text-2xl text-muted-foreground w-full">
                 <div className="flex items-center gap-2">
-                  <Thermometer className="size-6 sm:size-7 md:size-8" />
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="font-bold">MIN:</span>
+                  <Thermometer className="size-5 sm:size-6 md:size-7" />
                   <span>{weather.minTemperature}</span>
-                </div>
-                |
-                <div className="flex items-center gap-2">
-                  <span className="font-bold">MAX:</span>
+                  <span className="mx-1">|</span>
                   <span>{weather.maxTemperature}</span>
                 </div>
               </div>
-              <div className="flex items-center gap-4 text-xl sm:text-2xl md:text-3xl lg:text-4xl text-muted-foreground">
+              <div className="flex items-center justify-center landscape:justify-end gap-3 text-lg sm:text-xl md:text-2xl text-muted-foreground w-full">
                 <div className="flex items-center gap-2">
-                  <Droplets className="size-6 sm:size-7 md:size-8" />
-                  <span className="font-bold">HUM:</span>
+                  <Droplets className="size-5 sm:size-6 md:size-7" />
                   <span>{weather.humidity}</span>
                 </div>
-                |
+                <span className="mx-1">|</span>
                 <div className="flex items-center gap-2">
-                  <Sun className="size-6 sm:size-7 md:size-8" />
-                  <span className="font-bold">IUV:</span>
+                  <Sun className="size-5 sm:size-6 md:size-7" />
                   <span>{weather.uvIndex}</span>
                 </div>
               </div>
