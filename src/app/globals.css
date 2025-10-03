@@ -82,11 +82,3 @@
     @apply bg-background text-foreground;
   }
 }
-
-.font-body {
-  font-family: 'Space Grotesk', sans-serif;
-}
-
-.font-code {
-  font-family: 'JetBrains Mono', monospace;
-}
