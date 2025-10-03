@@ -46,7 +46,7 @@ export const Clock = ({
     <main className="w-full flex-1 flex flex-col items-center justify-center">
       <div
         onClick={isFullscreenSupported ? onClick : undefined}
-        className={`font-code font-bold text-center text-8xl sm:text-9xl md:text-[10rem] lg:text-[12rem] xl:text-[15rem] 2xl:text-[18rem] leading-none whitespace-nowrap tabular-nums ${
+        className={`font-code font-bold text-center text-8xl sm:text-9xl md:text-[10rem] lg:text-[12rem] xl:text-[15rem] 2xl:text-[18rem] leading-none whitespace-nowrap tabular-nums overflow-hidden ${
           isFullscreenSupported ? 'cursor-pointer' : 'cursor-default'
         }`}
       >
