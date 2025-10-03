@@ -25,14 +25,14 @@ jobs:
                   path: ~/.npm
                   key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
                   restore-keys: |
-                    ${{ runner.os }}-node-
+                      ${{ runner.os }}-node-
 
             - name: Install dependencies (clean)
               run: npm ci --no-audit --no-fund
 
             - name: Build (increase node memory)
               env:
-                NODE_OPTIONS: --max_old_space_size=4096
+                  NODE_OPTIONS: --max_old_space_size=4096
               run: npm run build
 
             - name: Ensure .nojekyll (so GitHub Pages serves _next/)

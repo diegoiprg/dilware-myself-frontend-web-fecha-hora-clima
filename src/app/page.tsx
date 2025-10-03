@@ -16,6 +16,9 @@ import {
   CloudDrizzle,
 } from 'lucide-react';
 
+// App version
+const APP_VERSION = 'v1.1.0';
+
 // Spanish month abbreviations
 const MONTHS_ES = [
   'ENE',
@@ -246,6 +249,28 @@ export default function ChronosViewPage() {
     }
   }, []);
 
+  // Screen Wake Lock
+  useEffect(() => {
+    let wakeLock: WakeLockSentinel | null = null;
+    const requestWakeLock = async () => {
+      if ('wakeLock' in navigator) {
+        try {
+          wakeLock = await navigator.wakeLock.request('screen');
+        } catch (err) {
+          console.error(`Wake Lock failed: ${err}`);
+        }
+      }
+    };
+
+    requestWakeLock();
+
+    return () => {
+      if (wakeLock) {
+        wakeLock.release();
+      }
+    };
+  }, []);
+
   const handleFullscreen = () => {
     if (!containerRef.current) return;
 
@@ -292,11 +317,11 @@ export default function ChronosViewPage() {
       </div>
 
       <div className="absolute bottom-4 sm:bottom-6 md:bottom-8 left-4 sm:left-6 md:left-8 right-4 sm:right-6 md:right-8 flex flex-col landscape:flex-row justify-between items-center gap-4 landscape:gap-8">
-        {location && (
-          <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-muted-foreground w-full landscape:w-1/2 text-center landscape:text-left">
-            {location}
+        <div className="w-full landscape:w-1/2 flex items-center justify-center landscape:justify-start gap-4">
+          <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-muted-foreground text-center landscape:text-left">
+            {location || '...'}
           </div>
-        )}
+        </div>
 
         <div className="w-full landscape:w-auto text-4xl sm:text-5xl md:text-6xl">
           {weather ? (
@@ -339,6 +364,9 @@ export default function ChronosViewPage() {
             </div>
           )}
         </div>
+      </div>
+      <div className="absolute bottom-2 left-2 text-xs text-muted-foreground/50 font-code">
+        {APP_VERSION}
       </div>
     </main>
   );
