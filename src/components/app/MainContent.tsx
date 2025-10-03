@@ -12,7 +12,7 @@ import { LocationDisplay } from '@/components/app/LocationDisplay';
 import { WeatherDisplay } from '@/components/app/WeatherDisplay';
 
 // App version
-const APP_VERSION = 'v1.3.7';
+const APP_VERSION = 'v1.3.8';
 
 export default function MainContent() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -51,7 +51,7 @@ export default function MainContent() {
           <SettingsPanel appVersion={APP_VERSION} />
         </div>
 
-        <div className="landscape:col-start-1 landscape:row-start-1 landscape:justify-self-start">
+        <div className="justify-self-start landscape:col-start-1 landscape:row-start-1">
           <DateDisplay date={currentTime} />
         </div>
 
