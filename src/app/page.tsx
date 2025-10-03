@@ -17,7 +17,7 @@ import {
 } from 'lucide-react';
 
 // App version
-const APP_VERSION = 'v1.2.2';
+const APP_VERSION = 'v1.2.3';
 
 // Spanish month abbreviations
 const MONTHS_ES = [
@@ -169,36 +169,46 @@ export default function ChronosViewPage() {
     const fetchLocationName = async (lat: number, lon: number) => {
       try {
         const response = await fetch(
-          `https://geocoding-api.open-meteo.com/v1/reverse?latitude=${lat}&longitude=${lon}`
+          `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=es`
         );
         if (!response.ok) throw new Error('Reverse geocode response not OK');
         const data = await response.json();
 
-        if (data && data.results && data.results[0]) {
-          const result = data.results[0];
-          const finalParts: string[] = [];
+        if (data) {
+          const parts: { [key: string]: string } = {};
 
-          const mostSpecific =
-            result.neighbourhood || result.admin4 || result.admin3;
-          const city = result.city || result.admin2;
-          const region = result.admin1;
-          const country = result.country;
+          // Street or most specific administrative level
+          const street = data.localityInfo?.informative?.find(
+            (i: any) => i.description === 'street'
+          )?.name;
+          if (street) parts.street = street;
 
-          if (mostSpecific) {
-            finalParts.push(mostSpecific);
-          }
-          if (city && !finalParts.includes(city)) {
-            finalParts.push(city);
-          }
-          if (region && !finalParts.includes(region)) {
-            finalParts.push(region);
-          }
-          if (country && !finalParts.includes(country)) {
-            finalParts.push(country);
-          }
+          // Locality / Neighbourhood / District
+          if (data.locality) parts.locality = data.locality;
+
+          // City
+          if (data.city) parts.city = data.city;
+
+          // Province / State
+          if (data.principalSubdivision)
+            parts.subdivision = data.principalSubdivision;
+
+          // Country
+          if (data.countryName) parts.country = data.countryName;
+
+          // Construct the final string with unique parts
+          const finalParts = [
+            parts.street,
+            parts.locality,
+            parts.city,
+            parts.subdivision,
+            parts.country,
+          ].filter(
+            (value, index, self) => value && self.indexOf(value) === index
+          );
 
           if (finalParts.length > 0) {
-            setLocation(finalParts.filter(Boolean).join(', '));
+            setLocation(finalParts.join(', '));
           } else {
             throw new Error('No location parts found after processing');
           }
