@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import { SettingsProvider } from '@/context/SettingsContext';
+import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
   title: 'web-fecha-hora-clima',
@@ -25,7 +27,12 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="font-body antialiased">{children}</body>
+      <body className="font-body antialiased">
+        <SettingsProvider>
+          {children}
+          <Toaster />
+        </SettingsProvider>
+      </body>
     </html>
   );
 }
