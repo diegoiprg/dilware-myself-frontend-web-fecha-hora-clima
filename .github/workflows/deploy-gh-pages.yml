@@ -1,86 +1,86 @@
 name: Deploy to GitHub Pages
 
 on:
-  push:
-    branches: [ main ]
+    push:
+        branches: [main]
 
 permissions:
-  contents: write
+    contents: write
 
 jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+    build-and-deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: "20"
 
-      - name: Cache npm
-        uses: actions/cache@v4
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+            - name: Cache npm
+              uses: actions/cache@v4
+              with:
+                  path: ~/.npm
+                  key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+                  restore-keys: |
+                      ${{ runner.os }}-node-
 
-      - name: Install dependencies (npm ci, fallback)
-        run: |
-          set -o pipefail
-          echo "Trying npm ci..." > install.log
-          if npm ci --no-audit --no-fund 2>&1 | tee -a install.log; then
-            echo "npm ci succeeded" >> install.log
-          else
-            echo "npm ci failed, falling back to npm install --legacy-peer-deps" >> install.log
-            npm install --no-audit --no-fund --legacy-peer-deps 2>&1 | tee -a install.log
-          fi
+            - name: Install dependencies (npm ci, fallback)
+              run: |
+                  set -o pipefail
+                  echo "Trying npm ci..." > install.log
+                  if npm ci --no-audit --no-fund 2>&1 | tee -a install.log; then
+                    echo "npm ci succeeded" >> install.log
+                  else
+                    echo "npm ci failed, falling back to npm install --legacy-peer-deps" >> install.log
+                    npm install --no-audit --no-fund --legacy-peer-deps 2>&1 | tee -a install.log
+                  fi
 
-      - name: Upload install log (always)
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: install-log
-          path: install.log
+            - name: Upload install log (always)
+              if: always()
+              uses: actions/upload-artifact@v4
+              with:
+                  name: install-log
+                  path: install.log
 
-      - name: Build (increase Node memory) and save log
-        env:
-          NODE_OPTIONS: --max_old_space_size=4096
-        run: |
-          set -o pipefail
-          npm run build 2>&1 | tee build.log
+            - name: Build (increase Node memory) and save log
+              env:
+                  NODE_OPTIONS: --max_old_space_size=4096
+              run: |
+                  set -o pipefail
+                  npm run build 2>&1 | tee build.log
 
-      - name: Upload build log (always)
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-log
-          path: build.log
+            - name: Upload build log (always)
+              if: always()
+              uses: actions/upload-artifact@v4
+              with:
+                  name: build-log
+                  path: build.log
 
-      - name: Ensure .nojekyll
-        run: |
-          mkdir -p out
-          touch out/.nojekyll
+            - name: Ensure .nojekyll
+              run: |
+                  mkdir -p out
+                  touch out/.nojekyll
 
-      - name: Fix asset paths for GitHub Pages
-        run: |
-          # Replace repo-prefixed _next URLs with relative paths so GitHub Pages serves assets correctly
-          REPO_PREFIX="/${{ github.repository }}/_next"
-          REPLACE="./_next"
-          # Also fix plain '/_next/' occurrences to './_next/'
-          for f in out/index.html out/404.html; do
-            [ -f "$f" ] || continue
-            sed -i -e "s|${REPO_PREFIX}|${REPLACE}|g" "$f" || true
-            sed -i -e "s|/_next/|./_next/|g" "$f" || true
-            perl -0777 -pe "s|${REPO_PREFIX}|${REPLACE}|g" -i "$f" || true
-            perl -0777 -pe "s|/_next/|./_next/|g" -i "$f" || true
-          done
+            - name: Fix asset paths for GitHub Pages
+              run: |
+                  # Replace repo-prefixed _next URLs with relative paths so GitHub Pages serves assets correctly
+                  REPO_PREFIX="/${{ github.repository }}/_next"
+                  REPLACE="./_next"
+                  # Also fix plain '/_next/' occurrences to './_next/'
+                  for f in out/index.html out/404.html; do
+                    [ -f "$f" ] || continue
+                    sed -i -e "s|${REPO_PREFIX}|${REPLACE}|g" "$f" || true
+                    sed -i -e "s|/_next/|./_next/|g" "$f" || true
+                    perl -0777 -pe "s|${REPO_PREFIX}|${REPLACE}|g" -i "$f" || true
+                    perl -0777 -pe "s|/_next/|./_next/|g" -i "$f" || true
+                  done
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./out
-          publish_branch: gh-pages
+            - name: Deploy to GitHub Pages
+              uses: peaceiris/actions-gh-pages@v4
+              with:
+                  github_token: ${{ secrets.GITHUB_TOKEN }}
+                  publish_dir: ./out
+                  publish_branch: gh-pages
