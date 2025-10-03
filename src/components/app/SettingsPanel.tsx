@@ -1,4 +1,15 @@
-import { Fragment } from 'react';
+/**
+ * SettingsPanel Component
+ *
+ * Provides a slide-out panel for user configuration options.
+ * Displays the app version alongside the settings icon in the top-right corner.
+ * Contains controls for:
+ * - Temperature unit (Celsius/Fahrenheit)
+ * - Time format (12h/24h)
+ * - Seconds display toggle
+ * - Weather data refresh interval
+ */
+
 import {
   Sheet,
   SheetContent,
@@ -19,7 +30,12 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Settings } from 'lucide-react';
 import { useSettings } from '@/context/SettingsContext';
 
+/**
+ * SettingsPanel - Configuration panel component
+ * @param appVersion - The current application version string to display
+ */
 export const SettingsPanel = ({ appVersion }: { appVersion: string }) => {
+  // Extract settings state and setters from context
   const {
     tempUnit,
     setTempUnit,
@@ -32,13 +48,20 @@ export const SettingsPanel = ({ appVersion }: { appVersion: string }) => {
   } = useSettings();
 
   return (
-    <Fragment>
+    // Container for version text and settings trigger, aligned horizontally
+    <div className="flex items-center gap-4">
+      {/* Display the current app version */}
       <div className="text-lg text-muted-foreground/50 font-code">
         {appVersion}
       </div>
+      {/* Settings panel trigger button */}
       <Sheet>
         <SheetTrigger asChild>
-          <button className="text-muted-foreground hover:text-foreground transition-colors">
+          <button
+            className="text-muted-foreground hover:text-foreground transition-colors"
+            aria-label="Settings"
+            title="Settings"
+          >
             <Settings className="size-6" />
           </button>
         </SheetTrigger>
@@ -108,6 +131,6 @@ export const SettingsPanel = ({ appVersion }: { appVersion: string }) => {
           </div>
         </SheetContent>
       </Sheet>
-    </Fragment>
+    </div>
   );
 };

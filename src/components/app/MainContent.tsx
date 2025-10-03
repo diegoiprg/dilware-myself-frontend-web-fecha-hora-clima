@@ -1,6 +1,32 @@
+/**
+ * MainContent Component
+ *
+ * This is the main component of the Personal Dashboard application.
+ * It renders a full-screen layout displaying the current time, date, location, and weather.
+ * The layout adapts between portrait and landscape orientations using CSS Grid.
+ *
+ * Key Features:
+ * - Responsive grid layout with 5 rows in portrait, 3 rows in landscape
+ * - Fullscreen mode with screen wake lock to prevent screen timeout
+ * - Real-time updates for time, location, and weather data
+ * - Settings panel for user customization
+ *
+ * Layout Structure (Portrait):
+ * - Row 1: Settings panel (top right)
+ * - Row 2: Date display (left aligned)
+ * - Row 3: Clock (centered, largest element)
+ * - Row 4: Location display (centered)
+ * - Row 5: Weather display (centered)
+ *
+ * Layout Structure (Landscape):
+ * - Row 1: Date (left) and Settings (right)
+ * - Row 2: Clock (spans full width)
+ * - Row 3: Location (left) and Weather (right)
+ */
+
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { useDateTime } from '@/hooks/useDateTime';
 import { useAppLocation } from '@/hooks/useAppLocation';
 import { useWeather } from '@/hooks/useWeather';
@@ -11,12 +37,61 @@ import { DateDisplay } from '@/components/app/DateDisplay';
 import { LocationDisplay } from '@/components/app/LocationDisplay';
 import { WeatherDisplay } from '@/components/app/WeatherDisplay';
 
-// App version
-const APP_VERSION = 'v1.3.8';
+// App version - displayed in the settings panel
+const APP_VERSION = 'v1.3.9';
 
+/**
+ * MainContent - The root component for the dashboard
+ *
+ * Manages the overall layout and state for the application, including:
+ * - Time and date display
+ * - Location and weather data
+ * - Fullscreen mode with wake lock
+ * - Settings panel
+ */
 export default function MainContent() {
+  // Reference to the main container for potential DOM manipulation
   const containerRef = useRef<HTMLDivElement>(null);
+
+  // State for managing screen wake lock in fullscreen mode
+  const [wakeLock, setWakeLock] = useState<WakeLockSentinel | null>(null);
+
+  // Custom hooks for data fetching
   const currentTime = useDateTime();
+
+  // Effect to manage screen wake lock during fullscreen mode
+  // Requests wake lock when entering fullscreen to prevent screen timeout
+  // Releases wake lock when exiting fullscreen
+  useEffect(() => {
+    const handleFullscreenChange = async () => {
+      if (document.fullscreenElement) {
+        // Entered fullscreen, request wake lock to keep screen on
+        try {
+          const wl = await navigator.wakeLock.request('screen');
+          setWakeLock(wl);
+        } catch (err) {
+          console.error('Wake lock request failed', err);
+        }
+      } else {
+        // Exited fullscreen, release wake lock
+        if (wakeLock) {
+          wakeLock.release();
+          setWakeLock(null);
+        }
+      }
+    };
+
+    // Listen for fullscreen changes
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+
+    // Cleanup: remove listener and release wake lock on unmount
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+      if (wakeLock) {
+        wakeLock.release();
+      }
+    };
+  }, [wakeLock]);
   const {
     location,
     error: locationError,
@@ -28,24 +103,33 @@ export default function MainContent() {
     loading: weatherLoading,
   } = useWeather(location?.latitude, location?.longitude);
 
+  /**
+   * Toggles fullscreen mode for the application
+   * When entering fullscreen, the wake lock effect will automatically engage
+   */
   const handleFullscreen = () => {
     const mainContainer = document.documentElement;
     if (document.fullscreenElement) {
+      // Exit fullscreen mode
       document.exitFullscreen();
     } else {
+      // Enter fullscreen mode - wake lock will be requested via the useEffect
       mainContainer.requestFullscreen().catch(() => {});
     }
   };
 
+  // Show loading screen while initial data is being fetched
   if (!currentTime || locationLoading) {
     return <LoadingScreen />;
   }
 
   return (
+    // Main container with fullscreen dimensions and background
     <div
       ref={containerRef}
       className="bg-background text-foreground h-[100svh] w-screen select-none overflow-hidden"
     >
+      {/* Grid container with responsive layout: 5 rows portrait, 3 rows landscape */}
       <div className="h-full w-full max-w-[90%] mx-auto grid grid-rows-[1fr_1fr_3fr_1fr_1fr] landscape:grid-rows-[1fr_3fr_1fr] landscape:grid-cols-2 place-items-center p-4 sm:p-6 md:p-8">
         <div className="w-full flex items-center gap-4 justify-self-end landscape:col-start-2 landscape:row-start-1">
           <SettingsPanel appVersion={APP_VERSION} />
