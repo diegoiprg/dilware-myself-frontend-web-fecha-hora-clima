@@ -16,6 +16,8 @@ import {
   CloudDrizzle,
 } from 'lucide-react';
 
+const APP_VERSION = 'v1.0.0';
+
 // Spanish month abbreviations
 const MONTHS_ES = [
   'ENE',
@@ -64,49 +66,49 @@ const formatTime = (date: Date): string => {
 const getWeatherIcon = (weatherCode: number): React.ReactNode => {
   switch (weatherCode) {
     case 0:
-      return <Sun className="size-12 sm:size-14 md:size-16" />; // Clear sky
+      return <Sun className="size-8 sm:size-10 md:size-12" />; // Clear sky
     case 1:
-      return <SunDim className="size-12 sm:size-14 md:size-16" />; // Mainly clear
+      return <SunDim className="size-8 sm:size-10 md:size-12" />; // Mainly clear
     case 2:
-      return <CloudSun className="size-12 sm:size-14 md:size-16" />; // Partly cloudy
+      return <CloudSun className="size-8 sm:size-10 md:size-12" />; // Partly cloudy
     case 3:
-      return <Cloud className="size-12 sm:size-14 md:size-16" />; // Overcast
+      return <Cloud className="size-8 sm:size-10 md:size-12" />; // Overcast
     case 45:
     case 48:
-      return <CloudFog className="size-12 sm:size-14 md:size-16" />; // Fog
+      return <CloudFog className="size-8 sm:size-10 md:size-12" />; // Fog
     case 51:
     case 53:
     case 55:
-      return <CloudDrizzle className="size-12 sm:size-14 md:size-16" />; // Drizzle
+      return <CloudDrizzle className="size-8 sm:size-10 md:size-12" />; // Drizzle
     case 56:
     case 57:
-      return <CloudDrizzle className="size-12 sm:size-14 md:size-16" />; // Freezing Drizzle
+      return <CloudDrizzle className="size-8 sm:size-10 md:size-12" />; // Freezing Drizzle
     case 61:
     case 63:
     case 65:
-      return <CloudRain className="size-12 sm:size-14 md:size-16" />; // Rain
+      return <CloudRain className="size-8 sm:size-10 md:size-12" />; // Rain
     case 66:
     case 67:
-      return <CloudRain className="size-12 sm:size-14 md:size-16" />; // Freezing Rain
+      return <CloudRain className="size-8 sm:size-10 md:size-12" />; // Freezing Rain
     case 71:
     case 73:
     case 75:
-      return <Snowflake className="size-12 sm:size-14 md:size-16" />; // Snow fall
+      return <Snowflake className="size-8 sm:size-10 md:size-12" />; // Snow fall
     case 77:
-      return <Snowflake className="size-12 sm:size-14 md:size-16" />; // Snow grains
+      return <Snowflake className="size-8 sm:size-10 md:size-12" />; // Snow grains
     case 80:
     case 81:
     case 82:
-      return <CloudRain className="size-12 sm:size-14 md:size-16" />; // Rain showers
+      return <CloudRain className="size-8 sm:size-10 md:size-12" />; // Rain showers
     case 85:
     case 86:
-      return <Snowflake className="size-12 sm:size-14 md:size-16" />; // Snow showers
+      return <Snowflake className="size-8 sm:size-10 md:size-12" />; // Snow showers
     case 95:
     case 96:
     case 99:
-      return <Zap className="size-12 sm:size-14 md:size-16" />; // Thunderstorm
+      return <Zap className="size-8 sm:size-10 md:size-12" />; // Thunderstorm
     default:
-      return <Thermometer className="size-12 sm:size-14 md:size-16" />;
+      return <Thermometer className="size-8 sm:size-10 md:size-12" />;
   }
 };
 
@@ -119,32 +121,46 @@ type Weather = {
   weatherCode: number;
 };
 
-// Helper for making network requests with XMLHttpRequest for older browser compatibility
+// Helper for making network requests. Uses fetch if available, otherwise falls back to XMLHttpRequest.
 const makeRequest = (
   url: string,
   onSuccess: (data: any) => void,
   onError: () => void
 ) => {
-  const xhr = new XMLHttpRequest();
-  xhr.open('GET', url, true);
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4) {
-      if (xhr.status === 200) {
-        try {
-          const data = JSON.parse(xhr.responseText);
-          onSuccess(data);
-        } catch (e) {
+  if (typeof window !== 'undefined' && typeof window.fetch === 'function') {
+    // Modern browsers: use fetch
+    fetch(url)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then((data) => onSuccess(data))
+      .catch(() => onError());
+  } else {
+    // Older browsers: use XMLHttpRequest
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+          try {
+            const data = JSON.parse(xhr.responseText);
+            onSuccess(data);
+          } catch (e) {
+            onError();
+          }
+        } else {
           onError();
         }
-      } else {
-        onError();
       }
-    }
-  };
-  xhr.onerror = function () {
-    onError();
-  };
-  xhr.send();
+    };
+    xhr.onerror = function () {
+      onError();
+    };
+    xhr.send();
+  }
 };
 
 export default function ChronosViewPage() {
@@ -174,7 +190,10 @@ export default function ChronosViewPage() {
     };
 
     const handleVisibilityChange = () => {
-      if (document.visibilityState === 'visible') {
+      if (
+        wakeLockRef.current !== null &&
+        document.visibilityState === 'visible'
+      ) {
         requestWakeLock();
       }
     };
@@ -202,10 +221,10 @@ export default function ChronosViewPage() {
   }, []);
 
   useEffect(() => {
-    const fetchWeather = (lat: number, lon: number) => {
-      const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,uv_index,weather_code&daily=temperature_2m_max,temperature_2m_min&timezone=auto`;
+    const fetchWeatherData = (lat: number, lon: number) => {
+      const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,uv_index,weather_code&daily=temperature_2m_max,temperature_2m_min&timezone=auto`;
       makeRequest(
-        url,
+        weatherUrl,
         (data) => {
           if (data && data.current && data.daily) {
             setWeather({
@@ -226,31 +245,28 @@ export default function ChronosViewPage() {
         },
         () => setError('Temp. N/A')
       );
-    };
 
-    const fetchLocationName = (
-      lat: number,
-      lon: number,
-      fallback: () => void
-    ) => {
-      const url = `https://geocoding-api.open-meteo.com/v1/reverse?latitude=${lat}&longitude=${lon}`;
+      const geocodeUrl = `https://geocoding-api.open-meteo.com/v1/reverse?latitude=${lat}&longitude=${lon}`;
       makeRequest(
-        url,
+        geocodeUrl,
         (data) => {
-          const locationParts = [
-            data.results?.[0]?.admin3,
-            data.results?.[0]?.admin2,
-            data.results?.[0]?.country,
-          ].filter(Boolean);
-
-          if (locationParts.length > 0) {
-            setLocation(locationParts.join(', '));
-            fetchWeather(lat, lon); // Fetch weather after getting location name
+          if (data && data.results && data.results[0]) {
+            const result = data.results[0];
+            const locationParts = [
+              result.admin3,
+              result.admin2,
+              result.country,
+            ].filter(Boolean);
+            setLocation(
+              locationParts.length > 0
+                ? locationParts.join(', ')
+                : 'Ubicación desconocida'
+            );
           } else {
-            fallback(); // Fallback if reverse geocoding gives no results
+            setLocation('Ubicación desconocida');
           }
         },
-        fallback
+        () => setLocation('Ubicación desconocida')
       );
     };
 
@@ -260,13 +276,7 @@ export default function ChronosViewPage() {
         url,
         (data) => {
           if (data.latitude && data.longitude) {
-            fetchWeather(data.latitude, data.longitude);
-            const locationParts = [
-              data.city,
-              data.region,
-              data.country_name,
-            ].filter(Boolean);
-            setLocation(locationParts.join(', ') || 'Ubicación desconocida');
+            fetchWeatherData(data.latitude, data.longitude);
           } else {
             setError('Location N/A');
             setLocation('Ubicación desconocida');
@@ -279,17 +289,19 @@ export default function ChronosViewPage() {
       );
     };
 
-    const getLocationAndFetchData = () => {
+    const getLocation = () => {
       if ('geolocation' in navigator) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
-            fetchLocationName(
+            fetchWeatherData(
               position.coords.latitude,
-              position.coords.longitude,
-              fetchFromIp
+              position.coords.longitude
             );
           },
-          fetchFromIp,
+          (error) => {
+            console.warn(`Geolocation error (${error.code}): ${error.message}`);
+            fetchFromIp();
+          },
           { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
         );
       } else {
@@ -298,17 +310,20 @@ export default function ChronosViewPage() {
     };
 
     if (typeof window !== 'undefined') {
-      getLocationAndFetchData();
+      getLocation();
     }
   }, []);
 
   const handleFullscreen = () => {
     if (!containerRef.current) return;
 
-    const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    const isIos =
+      /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
+    const isIphone =
+      /iPhone/.test(navigator.userAgent) && !(window as any).MSStream;
 
-    if (isIos) {
-      // iOS doesn't support true fullscreen from a web app.
+    if (isIphone) {
+      // iOS on iPhone doesn't support true fullscreen from a web app.
       // We scroll to the top to hide the address bar as much as possible.
       window.scrollTo(0, 0);
       return;
@@ -343,8 +358,8 @@ export default function ChronosViewPage() {
       role="button"
       tabIndex={0}
     >
-      <div className="w-full text-center landscape:text-left text-xl sm:text-2xl md:text-3xl lg:text-4xl flex items-center justify-center landscape:justify-start gap-2">
-        <CalendarDays className="inline-block size-6 sm:size-7 md:size-8 lg:size-9" />
+      <div className="w-full text-center landscape:text-left text-lg sm:text-xl md:text-2xl lg:text-3xl flex items-center justify-center landscape:justify-start gap-2">
+        <CalendarDays className="inline-block size-5 sm:size-6 md:size-7 lg:size-8" />
         <span className="pt-1">{formattedDate}</span>
       </div>
 
@@ -354,44 +369,47 @@ export default function ChronosViewPage() {
         </div>
       </div>
 
-      <div className="w-full flex flex-col-reverse landscape:flex-row justify-between items-center gap-4 landscape:gap-8">
-        <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-muted-foreground w-full landscape:w-auto text-center landscape:text-left flex-shrink-0 landscape:flex-1">
+      <div className="w-full flex flex-col landscape:flex-row justify-between items-center gap-2 landscape:gap-8">
+        <div className="text-base sm:text-lg md:text-xl lg:text-2xl text-muted-foreground w-full landscape:w-auto text-center landscape:text-left flex-shrink-0 landscape:flex-1 relative">
           {location ? (
             <span>{location}</span>
           ) : (
             <div className="animate-pulse w-full h-8 bg-muted rounded-md" />
           )}
+          <span className="absolute left-0 bottom-full landscape:bottom-auto landscape:top-full opacity-50 text-xs">
+            {APP_VERSION}
+          </span>
         </div>
 
         <div className="w-full landscape:w-auto text-3xl sm:text-4xl md:text-5xl landscape:flex-none">
           {weather ? (
-            <div className="flex flex-col items-center landscape:items-end gap-2 sm:gap-3">
-              <div className="flex items-center gap-3 font-bold">
+            <div className="flex flex-col items-center landscape:items-end gap-1 sm:gap-2">
+              <div className="flex items-center gap-3 font-bold text-2xl sm:text-3xl md:text-4xl">
                 {weatherIcon}
                 <span>{weather.temperature}</span>
               </div>
-              <div className="flex items-center justify-center landscape:justify-end gap-3 text-lg sm:text-xl md:text-2xl text-muted-foreground w-full">
-                <div className="flex items-center gap-2">
-                  <Thermometer className="size-5 sm:size-6 md:size-7" />
+              <div className="flex items-center justify-center landscape:justify-end gap-3 text-sm sm:text-base md:text-lg text-muted-foreground w-full">
+                <div className="flex items-center gap-1 sm:gap-2">
+                  <Thermometer className="size-4 sm:size-5 md:size-6" />
                   <span>{weather.minTemperature}</span>
                   <span className="mx-1">|</span>
                   <span>{weather.maxTemperature}</span>
                 </div>
               </div>
-              <div className="flex items-center justify-center landscape:justify-end gap-3 text-lg sm:text-xl md:text-2xl text-muted-foreground w-full">
-                <div className="flex items-center gap-2">
-                  <Droplets className="size-5 sm:size-6 md:size-7" />
+              <div className="flex items-center justify-center landscape:justify-end gap-3 text-sm sm:text-base md:text-lg text-muted-foreground w-full">
+                <div className="flex items-center gap-1 sm:gap-2">
+                  <Droplets className="size-4 sm:size-5 md:size-6" />
                   <span>{weather.humidity}</span>
                 </div>
                 <span className="mx-1">|</span>
-                <div className="flex items-center gap-2">
-                  <Sun className="size-5 sm:size-6 md:size-7" />
+                <div className="flex items-center gap-1 sm:gap-2">
+                  <Sun className="size-4 sm:size-5 md:size-6" />
                   <span>{weather.uvIndex}</span>
                 </div>
               </div>
             </div>
           ) : (
-            <div className="animate-pulse text-center landscape:text-right">
+            <div className="animate-pulse text-center landscape:text-right text-lg sm:text-xl">
               {error || 'Cargando clima...'}
             </div>
           )}
