@@ -38,7 +38,7 @@ import { LocationDisplay } from '@/components/app/LocationDisplay';
 import { WeatherDisplay } from '@/components/app/WeatherDisplay';
 
 // App version - displayed in the settings panel
-const APP_VERSION = 'v1.4.2';
+const APP_VERSION = 'v1.4.3';
 
 /**
  * MainContent - The root component for the dashboard
@@ -141,11 +141,11 @@ export default function MainContent() {
     >
       {/* Grid container with responsive layout: 5 rows portrait, 3 rows landscape */}
       <div className="h-full w-full max-w-none landscape:max-w-[90%] mx-auto grid grid-rows-[1fr_1fr_1fr_1fr_1fr] landscape:grid-rows-[1fr_3fr_1fr] landscape:grid-cols-2 place-items-center p-2 sm:p-4 md:p-6 lg:p-8">
-        <div className="flex items-center gap-4 justify-self-end landscape:col-start-2 landscape:row-start-1">
+        <div className="flex items-center gap-4 justify-self-end landscape:col-start-2 landscape:row-start-1 h-full">
           <SettingsPanel appVersion={APP_VERSION} />
         </div>
 
-        <div className="justify-self-start landscape:col-start-1 landscape:row-start-1 landscape:justify-self-start">
+        <div className="justify-self-start landscape:col-start-1 landscape:row-start-1 landscape:justify-self-start h-full">
           <DateDisplay date={currentTime} />
         </div>
 
@@ -157,11 +157,11 @@ export default function MainContent() {
           />
         </div>
 
-        <div className="landscape:col-start-1 landscape:row-start-3 landscape:justify-self-start landscape:self-end">
+        <div className="landscape:col-start-1 landscape:row-start-3 landscape:justify-self-start landscape:self-end h-full">
           <LocationDisplay displayName={location?.displayName} />
         </div>
 
-        <div className="landscape:col-start-2 landscape:row-start-3 landscape:justify-self-end landscape:self-end">
+        <div className="landscape:col-start-2 landscape:row-start-3 landscape:justify-self-end landscape:self-end h-full">
           <WeatherDisplay
             weather={weather}
             loading={weatherLoading}
