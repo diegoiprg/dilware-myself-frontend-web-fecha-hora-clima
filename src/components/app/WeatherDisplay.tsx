@@ -91,23 +91,15 @@ export const WeatherDisplay = ({ weather, loading, error }: Props) => {
       <div className="flex flex-col items-center gap-1 sm:gap-2 md:gap-3">
         <div className="flex items-center gap-2 sm:gap-3 font-bold">
           <div className="bg-white/20 rounded-full p-2">{weatherIcon}</div>
-          <span>{formatTemp(weather.temperature, tempUnit)}</span>
-        </div>
-        <div className="flex items-center gap-2 sm:gap-3">
-          <div className="flex items-center gap-1">
-            <div className="bg-white/20 rounded-full p-1">
-              <Thermometer className="size-4 sm:size-5 md:size-6 lg:size-7" />
-            </div>
-            <span className="font-bold text-sm">MIN</span>
-            <span>{formatTemp(weather.minTemperature, tempUnit)}</span>
-          </div>
-          <div className="flex items-center gap-1">
-            <div className="bg-white/20 rounded-full p-1">
-              <Thermometer className="size-4 sm:size-5 md:size-6 lg:size-7" />
-            </div>
-            <span className="font-bold text-sm">MAX</span>
-            <span>{formatTemp(weather.maxTemperature, tempUnit)}</span>
-          </div>
+          <span>
+            {formatTemp(weather.temperature, tempUnit)}
+            <sub className="text-xs">
+              {formatTemp(weather.minTemperature, tempUnit)}
+            </sub>
+            <sup className="text-xs">
+              {formatTemp(weather.maxTemperature, tempUnit)}
+            </sup>
+          </span>
         </div>
         <div className="flex items-center gap-2 sm:gap-3">
           <div className="flex items-center gap-1">
