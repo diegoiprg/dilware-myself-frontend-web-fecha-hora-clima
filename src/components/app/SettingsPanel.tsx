@@ -33,9 +33,6 @@ export const SettingsPanel = ({ appVersion }: { appVersion: string }) => {
 
   return (
     <Fragment>
-      <div className="text-lg text-muted-foreground/50 font-code">
-        {appVersion}
-      </div>
       <Sheet>
         <SheetTrigger asChild>
           <button className="text-muted-foreground hover:text-foreground transition-colors">
