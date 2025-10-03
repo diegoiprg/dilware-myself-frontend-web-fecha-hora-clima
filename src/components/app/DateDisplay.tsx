@@ -31,7 +31,7 @@ const formatDate = (date: Date): string => {
 export const DateDisplay = ({ date }: { date: Date }) => {
   const formattedDate = formatDate(date);
   return (
-    <div className="text-2xl sm:text-3xl flex items-center justify-center gap-3 text-center">
+    <div className="text-2xl sm:text-3xl flex items-center gap-3">
       <CalendarDays className="size-8 sm:size-10" />
       <span className="pt-1">{formattedDate}</span>
     </div>
