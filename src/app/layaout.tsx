@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'web-fecha-hora-clima',
+  title: 'ChronosView',
   description: 'A full-screen clock and calendar display.',
 };
 
