@@ -43,11 +43,17 @@ jobs:
             - name: Fix asset paths for GitHub Pages
               # Replace repo-prefixed asset paths like /<repo>/_next/... with relative ./_next/... so Pages resolves them reliably
               run: |
+                  REPO_PREFIX="/dilware-myself-frontend-web-fecha-hora-clima/_next"
+                  REPLACE="./_next"
                   if [ -f out/index.html ]; then
-                    sed -i"" -e 's/\/dilware-myself-frontend-web-fecha-hora-clima\/_next/.\/_next/g' out/index.html || true
+                    # Try POSIX sed first
+                    sed -i -e "s|${REPO_PREFIX}|${REPLACE}|g" out/index.html || true
+                    # If sed failed (rare), fallback to perl in-place
+                    perl -0777 -pe "s|${REPO_PREFIX}|${REPLACE}|g" -i out/index.html || true
                   fi
                   if [ -f out/404.html ]; then
-                    sed -i"" -e 's/\/dilware-myself-frontend-web-fecha-hora-clima\/_next/.\/_next/g' out/404.html || true
+                    sed -i -e "s|${REPO_PREFIX}|${REPLACE}|g" out/404.html || true
+                    perl -0777 -pe "s|${REPO_PREFIX}|${REPLACE}|g" -i out/404.html || true
                   fi
 
             - name: Deploy to GitHub Pages
