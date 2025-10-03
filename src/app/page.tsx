@@ -119,7 +119,7 @@ type Weather = {
   weatherCode: number;
 };
 
-export default function ChronosViewPage() {
+export default function WebFechaHoraClimaPage() {
   const [currentTime, setCurrentTime] = useState<Date | null>(null);
   const [weather, setWeather] = useState<Weather | null>(null);
   const [location, setLocation] = useState<string | null>(null);

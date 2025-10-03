@@ -1,6 +1,8 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
+  // Produce a fully static export (HTML/CSS/JS) so the site can be hosted on any static server.
+  output: 'export',
   /* config options here */
   typescript: {
     ignoreBuildErrors: true,
