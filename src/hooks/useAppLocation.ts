@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useToast } from '@/components/ui/use-toast';
+import { useToast } from '@/hooks/use-toast';
 
 const CACHE_DURATION = 10 * 60 * 1000; // 10 minutes
 

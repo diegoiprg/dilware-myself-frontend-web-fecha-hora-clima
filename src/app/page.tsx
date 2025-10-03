@@ -11,16 +11,21 @@ import { LoadingScreen } from '@/components/app/LoadingScreen';
 import { SettingsPanel } from '@/components/app/SettingsPanel';
 
 // App version
-const APP_VERSION = 'v1.3.0';
+const APP_VERSION = 'v1.3.1';
 
 export default function ChronosViewPage() {
   const containerRef = useRef<HTMLDivElement>(null);
   const currentTime = useDateTime();
-  const { location, error: locationError, loading: locationLoading } = useAppLocation();
-  const { weather, error: weatherError, loading: weatherLoading } = useWeather(
-    location?.latitude,
-    location?.longitude
-  );
+  const {
+    location,
+    error: locationError,
+    loading: locationLoading,
+  } = useAppLocation();
+  const {
+    weather,
+    error: weatherError,
+    loading: weatherLoading,
+  } = useWeather(location?.latitude, location?.longitude);
 
   // Screen Wake Lock
   useEffect(() => {
@@ -78,7 +83,7 @@ export default function ChronosViewPage() {
         weatherError={weatherError}
         locationError={locationError}
       />
-      <div className="absolute bottom-2 left-2 text-sm text-muted-foreground/50 font-code">
+      <div className="absolute bottom-4 left-4 text-base text-muted-foreground/50 font-code">
         {APP_VERSION}
       </div>
     </div>
