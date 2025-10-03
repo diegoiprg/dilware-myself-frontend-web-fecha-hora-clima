@@ -2,7 +2,7 @@
 
 [![Deploy to GitHub Pages](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml/badge.svg?branch=main)](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-v1.6.6-blue.svg)](./package.json)
+[![Version](https://img.shields.io/badge/version-v1.6.7-blue.svg)](./package.json)
 
 A minimalist, full-screen web application that provides a quick and elegant view of the current time, date, user's location, and local weather. It is designed to be used as a browser start page, a personal dashboard, or a display for a wall-mounted screen.
 
@@ -56,6 +56,13 @@ To run the project locally, follow these steps:
     Open [http://localhost:9002](http://localhost:9002) with your browser to see the result.
 
 ## Changelog
+
+### v1.6.7
+
+- Made MIN/MAX icons smaller and temperature values larger for better visual hierarchy
+- Standardized weather icon size in bottom row to match humidity/UV icons
+- Ensured weather description text size matches other bottom row values
+- Added circular background to location icon for consistency
 
 ### v1.6.6
 
