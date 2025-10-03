@@ -16,7 +16,7 @@ import {
   CloudDrizzle,
 } from 'lucide-react';
 
-const APP_VERSION = 'v1.0.1';
+const APP_VERSION = 'v1.0.3';
 
 // Spanish month abbreviations
 const MONTHS_ES = [
@@ -271,6 +271,7 @@ export default function ChronosViewPage() {
     };
 
     const fetchFromIp = () => {
+      console.log('Fallback to IP location.');
       const url = 'https://ipapi.co/json/';
       makeRequest(
         url,
