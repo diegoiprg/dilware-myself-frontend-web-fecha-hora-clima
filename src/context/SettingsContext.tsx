@@ -9,12 +9,14 @@ interface Settings {
   tempUnit: TempUnit;
   timeFormat: TimeFormat;
   showSeconds: boolean;
+  refreshInterval: number; // in minutes
 }
 
 interface SettingsState extends Settings {
   setTempUnit: (unit: TempUnit) => void;
   setTimeFormat: (format: TimeFormat) => void;
   setShowSeconds: (show: boolean) => void;
+  setRefreshInterval: (interval: number) => void;
 }
 
 const SETTINGS_STORAGE_KEY = 'chronos-settings';
@@ -23,23 +25,25 @@ const defaultSettings: Settings = {
   tempUnit: 'C',
   timeFormat: '24h',
   showSeconds: true,
+  refreshInterval: 10, // 10 minutes
 };
 
 const SettingsContext = createContext<SettingsState | undefined>(undefined);
 
 export const SettingsProvider = ({ children }: { children: ReactNode }) => {
-  const [settings, setSettings] = useState<Settings>(() => {
-    if (typeof window === 'undefined') {
-      return defaultSettings;
-    }
+  const [settings, setSettings] = useState<Settings>(defaultSettings);
+
+  useEffect(() => {
     try {
       const storedSettings = window.localStorage.getItem(SETTINGS_STORAGE_KEY);
-      return storedSettings ? JSON.parse(storedSettings) : defaultSettings;
+      if (storedSettings) {
+        const parsed = JSON.parse(storedSettings);
+        setSettings(s => ({ ...s, ...parsed }));
+      }
     } catch (error) {
       console.error('Error reading settings from localStorage', error);
-      return defaultSettings;
     }
-  });
+  }, []);
 
   useEffect(() => {
     try {
@@ -52,6 +56,7 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
   const setTempUnit = (unit: TempUnit) => setSettings(s => ({ ...s, tempUnit: unit }));
   const setTimeFormat = (format: TimeFormat) => setSettings(s => ({ ...s, timeFormat: format }));
   const setShowSeconds = (show: boolean) => setSettings(s => ({ ...s, showSeconds: show }));
+  const setRefreshInterval = (interval: number) => setSettings(s => ({ ...s, refreshInterval: interval }));
 
   return (
     <SettingsContext.Provider
@@ -60,6 +65,7 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
         setTempUnit,
         setTimeFormat,
         setShowSeconds,
+        setRefreshInterval,
       }}
     >
       {children}

@@ -5,6 +5,13 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
@@ -19,6 +26,8 @@ export const SettingsPanel = ({ appVersion }: { appVersion: string }) => {
     setTimeFormat,
     showSeconds,
     setShowSeconds,
+    refreshInterval,
+    setRefreshInterval,
   } = useSettings();
 
   return (
@@ -76,6 +85,24 @@ export const SettingsPanel = ({ appVersion }: { appVersion: string }) => {
                 checked={showSeconds}
                 onCheckedChange={setShowSeconds}
               />
+            </div>
+            <div className="grid gap-3">
+              <Label>Intervalo de Actualización</Label>
+              <Select
+                value={String(refreshInterval)}
+                onValueChange={(value) => setRefreshInterval(Number(value))}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Seleccionar intervalo" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="5">5 minutos</SelectItem>
+                  <SelectItem value="10">10 minutos</SelectItem>
+                  <SelectItem value="15">15 minutos</SelectItem>
+                  <SelectItem value="30">30 minutos</SelectItem>
+                  <SelectItem value="0">Nunca</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </div>
         </SheetContent>
