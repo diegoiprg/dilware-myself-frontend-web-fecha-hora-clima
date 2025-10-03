@@ -17,7 +17,7 @@ import {
 } from 'lucide-react';
 
 // App version
-const APP_VERSION = 'v1.1.0';
+const APP_VERSION = 'v1.2.0';
 
 // Spanish month abbreviations
 const MONTHS_ES = [
@@ -65,51 +65,52 @@ const formatTime = (date: Date): string => {
 };
 
 const getWeatherIcon = (weatherCode: number): React.ReactNode => {
+  const iconSize = 'size-12 sm:size-14 md:size-16';
   switch (weatherCode) {
     case 0:
-      return <Sun className="size-12 sm:size-14 md:size-16" />; // Clear sky
+      return <Sun className={iconSize} />; // Clear sky
     case 1:
-      return <SunDim className="size-12 sm:size-14 md:size-16" />; // Mainly clear
+      return <SunDim className={iconSize} />; // Mainly clear
     case 2:
-      return <CloudSun className="size-12 sm:size-14 md:size-16" />; // Partly cloudy
+      return <CloudSun className={iconSize} />; // Partly cloudy
     case 3:
-      return <Cloud className="size-12 sm:size-14 md:size-16" />; // Overcast
+      return <Cloud className={iconSize} />; // Overcast
     case 45:
     case 48:
-      return <CloudFog className="size-12 sm:size-14 md:size-16" />; // Fog
+      return <CloudFog className={iconSize} />; // Fog
     case 51:
     case 53:
     case 55:
-      return <CloudDrizzle className="size-12 sm:size-14 md:size-16" />; // Drizzle
+      return <CloudDrizzle className={iconSize} />; // Drizzle
     case 56:
     case 57:
-      return <CloudDrizzle className="size-12 sm:size-14 md:size-16" />; // Freezing Drizzle
+      return <CloudDrizzle className={iconSize} />; // Freezing Drizzle
     case 61:
     case 63:
     case 65:
-      return <CloudRain className="size-12 sm:size-14 md:size-16" />; // Rain
+      return <CloudRain className={iconSize} />; // Rain
     case 66:
     case 67:
-      return <CloudRain className="size-12 sm:size-14 md:size-16" />; // Freezing Rain
+      return <CloudRain className={iconSize} />; // Freezing Rain
     case 71:
     case 73:
     case 75:
-      return <Snowflake className="size-12 sm:size-14 md:size-16" />; // Snow fall
+      return <Snowflake className={iconSize} />; // Snow fall
     case 77:
-      return <Snowflake className="size-12 sm:size-14 md:size-16" />; // Snow grains
+      return <Snowflake className={iconSize} />; // Snow grains
     case 80:
     case 81:
     case 82:
-      return <CloudRain className="size-12 sm:size-14 md:size-16" />; // Rain showers
+      return <CloudRain className={iconSize} />; // Rain showers
     case 85:
     case 86:
-      return <Snowflake className="size-12 sm:size-14 md:size-16" />; // Snow showers
+      return <Snowflake className={iconSize} />; // Snow showers
     case 95:
     case 96:
     case 99:
-      return <Zap className="size-12 sm:size-14 md:size-16" />; // Thunderstorm
+      return <Zap className={iconSize} />; // Thunderstorm
     default:
-      return <Thermometer className="size-12 sm:size-14 md:size-16" />;
+      return <Thermometer className={iconSize} />;
   }
 };
 
@@ -294,30 +295,30 @@ export default function ChronosViewPage() {
   const weatherIcon = weather ? getWeatherIcon(weather.weatherCode) : null;
 
   return (
-    <main
+    <div
       ref={containerRef}
       onClick={handleFullscreen}
       className="bg-background text-foreground h-[100svh] w-screen cursor-pointer select-none overflow-hidden
-                 flex flex-col items-center justify-center p-4 sm:p-6 md:p-8 relative"
+                 flex flex-col p-4 sm:p-6 md:p-8"
       aria-label="Clock and weather display. Click to toggle fullscreen."
       role="button"
       tabIndex={0}
     >
-      <div className="absolute top-4 sm:top-6 md:top-8 left-4 sm:left-6 md:left-8 right-4 sm:right-6 md:right-8 flex justify-center landscape:justify-start">
+      <header className="w-full flex justify-center landscape:justify-start">
         <div className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl flex items-center gap-3">
           <CalendarDays className="size-8 sm:size-10 md:size-12 lg:size-14" />
           <span className="pt-1">{formattedDate}</span>
         </div>
-      </div>
+      </header>
 
-      <div className="w-[95%] flex flex-col items-center justify-center flex-1">
-        <div className="font-headline font-bold text-center text-[18vw] leading-none sm:text-[15vw] landscape:text-[25vh] whitespace-nowrap">
+      <main className="w-full flex-1 flex flex-col items-center justify-center">
+        <div className="font-headline font-bold text-center text-8xl sm:text-9xl md:text-[10rem] lg:text-[12rem] xl:text-[15rem] 2xl:text-[18rem] leading-none whitespace-nowrap">
           {formattedTime}
         </div>
-      </div>
+      </main>
 
-      <div className="absolute bottom-4 sm:bottom-6 md:bottom-8 left-4 sm:left-6 md:left-8 right-4 sm:right-6 md:right-8 flex flex-col landscape:flex-row justify-between items-center gap-4 landscape:gap-8">
-        <div className="w-full landscape:w-1/2 flex items-center justify-center landscape:justify-start gap-4">
+      <footer className="w-full flex flex-col landscape:flex-row justify-between items-center gap-4 landscape:gap-8">
+        <div className="w-full landscape:w-1/2 flex items-center justify-center landscape:justify-start">
           <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-muted-foreground text-center landscape:text-left">
             {location || '...'}
           </div>
@@ -364,10 +365,10 @@ export default function ChronosViewPage() {
             </div>
           )}
         </div>
-      </div>
+      </footer>
       <div className="absolute bottom-2 left-2 text-xs text-muted-foreground/50 font-code">
         {APP_VERSION}
       </div>
-    </main>
+    </div>
   );
 }
