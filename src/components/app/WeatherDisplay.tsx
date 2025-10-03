@@ -65,6 +65,55 @@ const getWeatherIcon = (weatherCode: number): React.ReactNode => {
   }
 };
 
+const getWeatherDescription = (weatherCode: number): string => {
+  switch (weatherCode) {
+    case 0:
+      return 'Despejado';
+    case 1:
+      return 'Mayormente despejado';
+    case 2:
+      return 'Parcialmente nublado';
+    case 3:
+      return 'Nublado';
+    case 45:
+    case 48:
+      return 'Niebla';
+    case 51:
+    case 53:
+    case 55:
+      return 'Llovizna';
+    case 56:
+    case 57:
+      return 'Llovizna helada';
+    case 61:
+    case 63:
+    case 65:
+      return 'Lluvia';
+    case 66:
+    case 67:
+      return 'Lluvia helada';
+    case 71:
+    case 73:
+    case 75:
+      return 'Nieve';
+    case 77:
+      return 'Granizo';
+    case 80:
+    case 81:
+    case 82:
+      return 'Lluvia intensa';
+    case 85:
+    case 86:
+      return 'Nieve intensa';
+    case 95:
+    case 96:
+    case 99:
+      return 'Tormenta';
+    default:
+      return 'Desconocido';
+  }
+};
+
 const formatTemp = (temp: number, unit: 'C' | 'F'): string => {
   if (unit === 'F') {
     return `${Math.round(temp * 1.8 + 32)}°`;
@@ -89,31 +138,39 @@ export const WeatherDisplay = ({ weather, loading, error }: Props) => {
   return (
     <div className="w-full text-3xl sm:text-4xl md:text-5xl lg:text-6xl overflow-hidden">
       <div className="flex flex-col items-center gap-1 sm:gap-2 md:gap-3">
-        <div className="flex items-center gap-2 sm:gap-3 font-bold">
+        <div className="flex items-center gap-4 font-bold">
+          <div className="bg-white/20 rounded-full p-2">
+            <Thermometer className="size-12 sm:size-14 md:size-16" />
+          </div>
+          <span>{formatTemp(weather.temperature, tempUnit)}</span>
+          <div className="flex flex-col items-start gap-1">
+            <div className="flex items-center gap-1 text-sm">
+              <span className="font-bold">MAX</span>
+              <span>{formatTemp(weather.maxTemperature, tempUnit)}</span>
+            </div>
+            <div className="flex items-center gap-1 text-sm">
+              <span className="font-bold">MIN</span>
+              <span>{formatTemp(weather.minTemperature, tempUnit)}</span>
+            </div>
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
           <div className="bg-white/20 rounded-full p-2">{weatherIcon}</div>
-          <span>
-            {formatTemp(weather.temperature, tempUnit)}
-            <sub className="text-xs">
-              {formatTemp(weather.minTemperature, tempUnit)}
-            </sub>
-            <sup className="text-xs">
-              {formatTemp(weather.maxTemperature, tempUnit)}
-            </sup>
+          <span className="text-lg sm:text-xl md:text-2xl">
+            {getWeatherDescription(weather.weatherCode)}
           </span>
         </div>
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex items-center gap-4">
           <div className="flex items-center gap-1">
             <div className="bg-white/20 rounded-full p-1">
               <Droplets className="size-4 sm:size-5 md:size-6 lg:size-7" />
             </div>
-            <span className="font-bold text-sm">HUM</span>
             <span>{Math.round(weather.humidity)}%</span>
           </div>
           <div className="flex items-center gap-1">
             <div className="bg-white/20 rounded-full p-1">
               <Sun className="size-4 sm:size-5 md:size-6 lg:size-7" />
             </div>
-            <span className="font-bold text-sm">IUV</span>
             <span>{Math.round(weather.uvIndex)}</span>
           </div>
         </div>
