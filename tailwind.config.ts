@@ -10,9 +10,9 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        body: ['Rajdhani', 'sans-serif'],
-        headline: ['Orbitron', 'sans-serif'],
-        code: ['monospace'],
+        body: ['var(--font-body)', 'sans-serif'],
+        headline: ['var(--font-headline)', 'sans-serif'],
+        code: ['var(--font-roboto-mono)', 'monospace'],
       },
       colors: {
         background: 'hsl(var(--background))',

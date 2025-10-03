@@ -1,7 +1,24 @@
 import type { Metadata } from 'next';
+import { Orbitron, Rajdhani, Roboto_Mono } from 'next/font/google';
 import './globals.css';
 import { SettingsProvider } from '@/context/SettingsContext';
 import { Toaster } from '@/components/ui/toaster';
+
+const fontHeadline = Orbitron({
+  subsets: ['latin'],
+  variable: '--font-headline',
+});
+
+const fontBody = Rajdhani({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+  variable: '--font-body',
+});
+
+const fontRobotoMono = Roboto_Mono({
+  subsets: ['latin'],
+  variable: '--font-roboto-mono',
+});
 
 export const metadata: Metadata = {
   title: 'web-fecha-hora-clima',
@@ -14,19 +31,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Rajdhani:wght@400;700&display=swap"
-          rel="stylesheet"
-        />
-      </head>
+    <html
+      lang="en"
+      className={`${fontHeadline.variable} ${fontBody.variable} ${fontRobotoMono.variable} dark`}
+    >
       <body className="font-body antialiased">
         <SettingsProvider>
           {children}

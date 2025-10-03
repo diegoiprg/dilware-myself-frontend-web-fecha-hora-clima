@@ -8,17 +8,11 @@ interface Props {
   weatherLoading: boolean;
   weatherError: string | null;
   locationError: string | null;
-  appVersion: string;
 }
 
-export const AppFooter = ({ locationDisplayName, weather, weatherLoading, weatherError, locationError, appVersion }: Props) => (
+export const AppFooter = ({ locationDisplayName, weather, weatherLoading, weatherError, locationError }: Props) => (
   <footer className="w-full flex flex-col landscape:flex-row justify-between items-center gap-4 landscape:gap-8">
-    <div className="flex flex-col items-start">
-      <LocationDisplay displayName={locationDisplayName} />
-      <div className="text-lg text-muted-foreground/50 font-code">
-        {appVersion}
-      </div>
-    </div>
+    <LocationDisplay displayName={locationDisplayName} />
     <WeatherDisplay weather={weather} loading={weatherLoading} error={weatherError || locationError} />
   </footer>
 );

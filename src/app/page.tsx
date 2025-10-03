@@ -10,8 +10,7 @@ import { AppFooter } from '@/components/app/AppFooter';
 import { LoadingScreen } from '@/components/app/LoadingScreen';
 import { SettingsPanel } from '@/components/app/SettingsPanel';
 
-// App version
-const APP_VERSION = 'v1.3.2';
+const APP_VERSION = 'v1.3.4';
 
 export default function ChronosViewPage() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -71,7 +70,7 @@ export default function ChronosViewPage() {
       role="button"
       tabIndex={0}
     >
-      <SettingsPanel />
+      <SettingsPanel appVersion={APP_VERSION} />
       <AppHeader date={currentTime} />
       <Clock time={currentTime} onClick={handleFullscreen} />
       <AppFooter
@@ -80,7 +79,6 @@ export default function ChronosViewPage() {
         weatherLoading={weatherLoading}
         weatherError={weatherError}
         locationError={locationError}
-        appVersion={APP_VERSION}
       />
     </div>
   );
