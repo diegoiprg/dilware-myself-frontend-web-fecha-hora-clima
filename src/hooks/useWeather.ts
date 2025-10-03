@@ -26,7 +26,10 @@ export const useWeather = (latitude?: number, longitude?: number) => {
 
     try {
       const response = await fetch(
-        `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,uv_index,weather_code&daily=temperature_2m_max,temperature_2m_min&timezone=auto`
+        `${
+          process.env.NEXT_PUBLIC_WEATHER_API_BASE ||
+          'https://api.open-meteo.com/v1/forecast'
+        }?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,uv_index,weather_code&daily=temperature_2m_max,temperature_2m_min&timezone=auto`
       );
       if (!response.ok) throw new Error('Weather response not OK');
       const data = await response.json();

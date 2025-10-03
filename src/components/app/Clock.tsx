@@ -1,3 +1,4 @@
+import React from 'react';
 import { useSettings } from '@/context/SettingsContext';
 
 const formatTime = (
@@ -34,24 +35,22 @@ interface ClockProps {
   isFullscreenSupported?: boolean;
 }
 
-export const Clock = ({
-  time,
-  onClick,
-  isFullscreenSupported = true,
-}: ClockProps) => {
-  const { timeFormat, showSeconds } = useSettings();
-  const formattedTime = formatTime(time, timeFormat, showSeconds);
+export const Clock = React.memo(
+  ({ time, onClick, isFullscreenSupported = true }: ClockProps) => {
+    const { timeFormat, showSeconds } = useSettings();
+    const formattedTime = formatTime(time, timeFormat, showSeconds);
 
-  return (
-    <main className="w-full flex-1 flex flex-col items-center justify-center">
-      <div
-        onClick={isFullscreenSupported ? onClick : undefined}
-        className={`font-code font-bold text-center text-7xl sm:text-8xl md:text-9xl lg:text-[10rem] xl:text-[12rem] 2xl:text-[15rem] leading-none whitespace-nowrap tabular-nums overflow-hidden ${
-          isFullscreenSupported ? 'cursor-pointer' : 'cursor-default'
-        }`}
-      >
-        {formattedTime}
-      </div>
-    </main>
-  );
-};
+    return (
+      <main className="w-full flex-1 flex flex-col items-center justify-center">
+        <div
+          onClick={isFullscreenSupported ? onClick : undefined}
+          className={`font-code font-bold text-center text-7xl sm:text-8xl md:text-9xl lg:text-[10rem] xl:text-[12rem] 2xl:text-[15rem] leading-none whitespace-nowrap tabular-nums overflow-hidden ${
+            isFullscreenSupported ? 'cursor-pointer' : 'cursor-default'
+          }`}
+        >
+          {formattedTime}
+        </div>
+      </main>
+    );
+  }
+);

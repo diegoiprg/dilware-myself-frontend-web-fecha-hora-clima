@@ -26,19 +26,39 @@
 
 'use client';
 
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, lazy, Suspense } from 'react';
+import { motion } from 'framer-motion';
 import { useDateTime } from '@/hooks/useDateTime';
 import { useAppLocation } from '@/hooks/useAppLocation';
 import { useWeather } from '@/hooks/useWeather';
-import { Clock } from '@/components/app/Clock';
 import { LoadingScreen } from '@/components/app/LoadingScreen';
-import { SettingsPanel } from '@/components/app/SettingsPanel';
-import { DateDisplay } from '@/components/app/DateDisplay';
-import { LocationDisplay } from '@/components/app/LocationDisplay';
-import { WeatherDisplay } from '@/components/app/WeatherDisplay';
+
+const Clock = lazy(() =>
+  import('@/components/app/Clock').then((module) => ({ default: module.Clock }))
+);
+const SettingsPanel = lazy(() =>
+  import('@/components/app/SettingsPanel').then((module) => ({
+    default: module.SettingsPanel,
+  }))
+);
+const DateDisplay = lazy(() =>
+  import('@/components/app/DateDisplay').then((module) => ({
+    default: module.DateDisplay,
+  }))
+);
+const LocationDisplay = lazy(() =>
+  import('@/components/app/LocationDisplay').then((module) => ({
+    default: module.LocationDisplay,
+  }))
+);
+const WeatherDisplay = lazy(() =>
+  import('@/components/app/WeatherDisplay').then((module) => ({
+    default: module.WeatherDisplay,
+  }))
+);
 
 // App version - displayed in the settings panel
-const APP_VERSION = 'v1.4.10';
+const APP_VERSION = 'v1.5.0';
 
 /**
  * MainContent - The root component for the dashboard
@@ -139,50 +159,55 @@ export default function MainContent() {
       ref={containerRef}
       className="bg-background text-foreground h-screen w-screen select-none overflow-hidden pt-[env(safe-area-inset-top)] pl-[env(safe-area-inset-left)] pr-[env(safe-area-inset-right)] pb-[env(safe-area-inset-bottom)]"
     >
-      {/* Grid container with responsive layout: 5 rows portrait, 3 rows landscape */}
-      <div
-        className={`h-full w-full max-w-none mx-auto grid ${
-          weather || weatherLoading
-            ? 'grid-rows-[1fr_1fr_3fr_1fr_1fr]'
-            : 'grid-rows-[1fr_1fr_3fr_2fr]'
-        } landscape:grid-rows-[1fr_3fr_1fr] landscape:grid-cols-2 place-items-center p-2 sm:p-4 md:p-6 lg:p-8`}
-      >
-        <div className="flex items-center gap-4 justify-self-center landscape:col-start-2 landscape:row-start-1 landscape:justify-self-end">
-          <SettingsPanel appVersion={APP_VERSION} />
-        </div>
-
-        <div className="justify-self-center landscape:col-start-1 landscape:row-start-1 landscape:justify-self-start">
-          <DateDisplay date={currentTime} />
-        </div>
-
-        <div className="w-full h-full flex items-center justify-center max-w-[90%] landscape:col-span-2 landscape:row-start-2">
-          <Clock
-            time={currentTime}
-            onClick={handleFullscreen}
-            isFullscreenSupported={isFullscreenSupported}
-          />
-        </div>
-
-        <div
-          className={`landscape:col-start-1 landscape:row-start-3 landscape:self-end ${
-            !(weather || weatherLoading)
-              ? 'landscape:col-span-2 landscape:justify-self-center'
-              : 'landscape:justify-self-start'
-          }`}
+      <Suspense fallback={<LoadingScreen />}>
+        {/* Grid container with responsive layout: 5 rows portrait, 3 rows landscape */}
+        <motion.div
+          className={`h-full w-full max-w-none mx-auto grid ${
+            weather || weatherLoading
+              ? 'grid-rows-[1fr_1fr_3fr_1fr_1fr]'
+              : 'grid-rows-[1fr_1fr_3fr_2fr]'
+          } landscape:grid-rows-[1fr_3fr_1fr] landscape:grid-cols-2 place-items-center p-2 sm:p-4 md:p-6 lg:p-8`}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: 'easeOut' }}
         >
-          <LocationDisplay displayName={location?.displayName} />
-        </div>
+          <div className="flex items-center gap-4 justify-self-center landscape:col-start-2 landscape:row-start-1 landscape:justify-self-end">
+            <SettingsPanel appVersion={APP_VERSION} />
+          </div>
 
-        {(weather || weatherLoading) && (
-          <div className="justify-self-center landscape:col-start-2 landscape:row-start-3 landscape:justify-self-end landscape:self-end">
-            <WeatherDisplay
-              weather={weather}
-              loading={weatherLoading}
-              error={weatherError || locationError}
+          <div className="justify-self-center landscape:col-start-1 landscape:row-start-1 landscape:justify-self-start">
+            <DateDisplay date={currentTime} />
+          </div>
+
+          <div className="w-full h-full flex items-center justify-center max-w-[90%] landscape:col-span-2 landscape:row-start-2">
+            <Clock
+              time={currentTime}
+              onClick={handleFullscreen}
+              isFullscreenSupported={isFullscreenSupported}
             />
           </div>
-        )}
-      </div>
+
+          <div
+            className={`landscape:col-start-1 landscape:row-start-3 landscape:self-end ${
+              !(weather || weatherLoading)
+                ? 'landscape:col-span-2 landscape:justify-self-center'
+                : 'landscape:justify-self-start'
+            }`}
+          >
+            <LocationDisplay displayName={location?.displayName} />
+          </div>
+
+          {(weather || weatherLoading) && (
+            <div className="justify-self-center landscape:col-start-2 landscape:row-start-3 landscape:justify-self-end landscape:self-end">
+              <WeatherDisplay
+                weather={weather}
+                loading={weatherLoading}
+                error={weatherError || locationError}
+              />
+            </div>
+          )}
+        </motion.div>
+      </Suspense>
     </div>
   );
 }
