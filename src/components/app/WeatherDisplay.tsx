@@ -10,6 +10,8 @@ import {
   Zap,
   CloudFog,
   CloudDrizzle,
+  ArrowUp,
+  ArrowDown,
 } from 'lucide-react';
 import type { WeatherData } from '@/hooks/useWeather';
 import { useSettings } from '@/context/SettingsContext';
@@ -144,34 +146,42 @@ export const WeatherDisplay = ({ weather, loading, error }: Props) => {
           </div>
           <span>{formatTemp(weather.temperature, tempUnit)}</span>
           <div className="flex flex-col items-start gap-1">
-            <div className="flex items-center gap-1 text-sm">
-              <span className="font-bold">MAX</span>
+            <div className="flex items-center gap-1 text-base">
+              <div className="bg-white/20 rounded-full p-1">
+                <ArrowUp className="size-4 sm:size-5 md:size-6 lg:size-7" />
+              </div>
               <span>{formatTemp(weather.maxTemperature, tempUnit)}</span>
             </div>
-            <div className="flex items-center gap-1 text-sm">
-              <span className="font-bold">MIN</span>
+            <div className="flex items-center gap-1 text-base">
+              <div className="bg-white/20 rounded-full p-1">
+                <ArrowDown className="size-4 sm:size-5 md:size-6 lg:size-7" />
+              </div>
               <span>{formatTemp(weather.minTemperature, tempUnit)}</span>
             </div>
           </div>
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="bg-white/20 rounded-full p-2">{weatherIcon}</div>
-          <span className="text-lg sm:text-xl md:text-2xl">
-            {getWeatherDescription(weather.weatherCode)}
-          </span>
         </div>
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-1">
             <div className="bg-white/20 rounded-full p-1">
               <Droplets className="size-4 sm:size-5 md:size-6 lg:size-7" />
             </div>
-            <span>{Math.round(weather.humidity)}%</span>
+            <span className="text-lg sm:text-xl md:text-2xl">
+              {Math.round(weather.humidity)}%
+            </span>
           </div>
           <div className="flex items-center gap-1">
             <div className="bg-white/20 rounded-full p-1">
               <Sun className="size-4 sm:size-5 md:size-6 lg:size-7" />
             </div>
-            <span>{Math.round(weather.uvIndex)}</span>
+            <span className="text-lg sm:text-xl md:text-2xl">
+              {Math.round(weather.uvIndex)}
+            </span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="bg-white/20 rounded-full p-2">{weatherIcon}</div>
+            <span className="text-lg sm:text-xl md:text-2xl">
+              {getWeatherDescription(weather.weatherCode)}
+            </span>
           </div>
         </div>
       </div>
