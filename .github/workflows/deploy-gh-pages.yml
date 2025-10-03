@@ -1,64 +1,381 @@
 name: Deploy to GitHub Pages
 
 on:
-    push:
-        branches:
-            - main
+  push:
+    branches: [ main ]
 
 permissions:
-    contents: write
+  contents: write
 
 jobs:
-    build-and-deploy:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v4
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
 
-            - name: Use Node.js 20
-              uses: actions/setup-node@v4
-              with:
-                  node-version: "20"
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
 
-            - name: Cache node modules
-              uses: actions/cache@v4
-              with:
-                  path: ~/.npm
-                  key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-                  restore-keys: |
+      - name: Cache npm
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install dependencies (clean, with fallback)
+        run: |
+          set -o pipefail
+          echo "Trying npm ci..." > install.log
+          if npm ci --no-audit --no-fund 2>&1 | tee -a install.log; then
+            echo "npm ci succeeded" >> install.log
+          else
+            echo "npm ci failed, falling back to npm install --legacy-peer-deps" >> install.log
+            npm install --no-audit --no-fund --legacy-peer-deps 2>&1 | tee -a install.log
+          fi
+
+      - name: Upload install log (always)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: install-log
+          path: install.log
+
+      - name: Debug: environment and files
+        run: |
+          echo "Node version:"; node --version || true
+          echo "NPM version:"; npm --version || true
+          echo "Workspace files:"; ls -la
+          echo "package.json:"; cat package.json || true
+          if [ -f package-lock.json ]; then echo 'package-lock exists'; else echo 'no package-lock.json'; fi
+
+      - name: Build (increase node memory) and save log
+        env:
+          NODE_OPTIONS: --max_old_space_size=4096
+        run: |
+          set -o pipefail
+          name: Deploy to GitHub Pages
+
+          on:
+            push:
+              branches: [ main ]
+
+          permissions:
+            contents: write
+
+          jobs:
+            build-and-deploy:
+              runs-on: ubuntu-latest
+              steps:
+                - uses: actions/checkout@v4
+
+                - name: Use Node.js 20
+                  uses: actions/setup-node@v4
+                  with:
+                    node-version: '20'
+
+                - name: Cache npm
+                  uses: actions/cache@v4
+                  with:
+                    path: ~/.npm
+                    key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+                    restore-keys: |
                       ${{ runner.os }}-node-
 
-            - name: Install dependencies (clean)
-              run: npm ci --no-audit --no-fund
+                - name: Install dependencies (clean, with fallback)
+                  run: |
+                    set -o pipefail
+                    echo "Trying npm ci..." > install.log
+                    if npm ci --no-audit --no-fund 2>&1 | tee -a install.log; then
+                      echo "npm ci succeeded" >> install.log
+                    else
+                      echo "npm ci failed, falling back to npm install --legacy-peer-deps" >> install.log
+                      npm install --no-audit --no-fund --legacy-peer-deps 2>&1 | tee -a install.log
+                    fi
 
-            - name: Build (increase node memory)
-              env:
-                  NODE_OPTIONS: --max_old_space_size=4096
-              run: npm run build
+                - name: Upload install log (always)
+                  if: always()
+                  uses: actions/upload-artifact@v4
+                  with:
+                    name: install-log
+                    path: install.log
 
-            - name: Ensure .nojekyll (so GitHub Pages serves _next/)
-              run: |
-                  mkdir -p out
-                  touch out/.nojekyll
+                - name: Debug: environment and files
+                  run: |
+                    echo "Node version:"; node --version || true
+                    echo "NPM version:"; npm --version || true
+                    echo "Workspace files:"; ls -la
+                    echo "package.json:"; cat package.json || true
+                    if [ -f package-lock.json ]; then echo 'package-lock exists'; else echo 'no package-lock.json'; fi
 
-            - name: Fix asset paths for GitHub Pages
-              # Replace repo-prefixed asset paths like /<repo>/_next/... with relative ./_next/... so Pages resolves them reliably
-              run: |
-                  REPO_PREFIX="/dilware-myself-frontend-web-fecha-hora-clima/_next"
-                  REPLACE="./_next"
-                  if [ -f out/index.html ]; then
-                    # Try POSIX sed first
-                    sed -i -e "s|${REPO_PREFIX}|${REPLACE}|g" out/index.html || true
-                    # If sed failed (rare), fallback to perl in-place
-                    perl -0777 -pe "s|${REPO_PREFIX}|${REPLACE}|g" -i out/index.html || true
-                  fi
-                  if [ -f out/404.html ]; then
-                    sed -i -e "s|${REPO_PREFIX}|${REPLACE}|g" out/404.html || true
-                    perl -0777 -pe "s|${REPO_PREFIX}|${REPLACE}|g" -i out/404.html || true
-                  fi
+                - name: Build (increase node memory) and save log
+                  env:
+                    NODE_OPTIONS: --max_old_space_size=4096
+                  run: |
+                    set -o pipefail
+                    npm run build 2>&1 | tee build.log
 
-            - name: Deploy to GitHub Pages
-              uses: peaceiris/actions-gh-pages@v4
-              with:
-                  github_token: ${{ secrets.GITHUB_TOKEN }}
-                  publish_dir: ./out
-                  publish_branch: gh-pages
+                - name: Upload build log (always)
+                  if: always()
+                  uses: actions/upload-artifact@v4
+                  with:
+                    name: build-log
+                    path: build.log
+
+                - name: Ensure .nojekyll (so GitHub Pages serves _next/)
+                  run: |
+                    mkdir -p out
+                    touch out/.nojekyll
+
+                - name: Fix asset paths for GitHub Pages
+                  run: |
+                    REPO_PREFIX="/dilware-myself-frontend-web-fecha-hora-clima/_next"
+                    REPLACE="./_next"
+                    if [ -f out/index.html ]; then
+                      sed -i -e "s|${REPO_PREFIX}|${REPLACE}|g" out/index.html || true
+                      perl -0777 -pe "s|${REPO_PREFIX}|${REPLACE}|g" -i out/index.html || true
+                    fi
+                    if [ -f out/404.html ]; then
+                      sed -i -e "s|${REPO_PREFIX}|${REPLACE}|g" out/404.html || true
+                      perl -0777 -pe "s|${REPO_PREFIX}|${REPLACE}|g" -i out/404.html || true
+                    fi
+
+                - name: Deploy to GitHub Pages
+                  uses: peaceiris/actions-gh-pages@v4
+                  with:
+                    github_token: ${{ secrets.GITHUB_TOKEN }}
+                    publish_dir: ./out
+                    publish_branch: gh-pages
+                    set -o pipefail
+                    echo "Trying npm ci..." > install.log
+                    if npm ci --no-audit --no-fund 2>&1 | tee -a install.log; then
+                      echo "npm ci succeeded" >> install.log
+                    else
+                      echo "npm ci failed, falling back to npm install --legacy-peer-deps" >> install.log
+                      npm install --no-audit --no-fund --legacy-peer-deps 2>&1 | tee -a install.log
+                    fi
+
+                - name: Upload install log (always)
+                  if: always()
+                  uses: actions/upload-artifact@v4
+                  with:
+                    name: install-log
+                    path: install.log
+
+                - name: Debug: environment and files
+                  run: |
+                    echo "Node version:"; node --version || true
+                    echo "NPM version:"; npm --version || true
+                    echo "Workspace files:"; ls -la
+                    echo "package.json:"; cat package.json || true
+                    if [ -f package-lock.json ]; then echo 'package-lock exists'; else echo 'no package-lock.json'; fi
+
+                - name: Build (increase node memory) and save log
+                  env:
+                    NODE_OPTIONS: --max_old_space_size=4096
+                  run: |
+                    set -o pipefail
+                    name: Deploy to GitHub Pages
+
+                    on:
+                      push:
+                        branches: [ main ]
+
+                    permissions:
+                      contents: write
+
+                    jobs:
+                      build-and-deploy:
+                        runs-on: ubuntu-latest
+                        steps:
+                          - uses: actions/checkout@v4
+
+                          - name: Use Node.js 20
+                            uses: actions/setup-node@v4
+                            with:
+                              node-version: '20'
+
+                          - name: Cache npm
+                            uses: actions/cache@v4
+                            with:
+                              path: ~/.npm
+                              key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+                              restore-keys: |
+                                ${{ runner.os }}-node-
+
+                          - name: Install dependencies (clean, with fallback)
+                            run: |
+                              set -o pipefail
+                              echo "Trying npm ci..." > install.log
+                              if npm ci --no-audit --no-fund 2>&1 | tee -a install.log; then
+                                echo "npm ci succeeded" >> install.log
+                              else
+                                echo "npm ci failed, falling back to npm install --legacy-peer-deps" >> install.log
+                                npm install --no-audit --no-fund --legacy-peer-deps 2>&1 | tee -a install.log
+                              fi
+
+                          - name: Upload install log (always)
+                            if: always()
+                            uses: actions/upload-artifact@v4
+                            with:
+                              name: install-log
+                              path: install.log
+
+                          - name: Debug: environment and files
+                            run: |
+                              echo "Node version:"; node --version || true
+                              echo "NPM version:"; npm --version || true
+                              echo "Workspace files:"; ls -la
+                              echo "package.json:"; cat package.json || true
+                              if [ -f package-lock.json ]; then echo 'package-lock exists'; else echo 'no package-lock.json'; fi
+
+                          - name: Build (increase node memory) and save log
+                            env:
+                              NODE_OPTIONS: --max_old_space_size=4096
+                            run: |
+                              set -o pipefail
+                              npm run build 2>&1 | tee build.log
+
+                          - name: Upload build log (always)
+                            if: always()
+                            uses: actions/upload-artifact@v4
+                            with:
+                              name: build-log
+                              path: build.log
+
+                          - name: Ensure .nojekyll (so GitHub Pages serves _next/)
+                            run: |
+                              mkdir -p out
+                              touch out/.nojekyll
+
+                          - name: Fix asset paths for GitHub Pages
+                            run: |
+                              REPO_PREFIX="/dilware-myself-frontend-web-fecha-hora-clima/_next"
+                              REPLACE="./_next"
+                              if [ -f out/index.html ]; then
+                                sed -i -e "s|${REPO_PREFIX}|${REPLACE}|g" out/index.html || true
+                                perl -0777 -pe "s|${REPO_PREFIX}|${REPLACE}|g" -i out/index.html || true
+                              fi
+                              if [ -f out/404.html ]; then
+                                sed -i -e "s|${REPO_PREFIX}|${REPLACE}|g" out/404.html || true
+                                perl -0777 -pe "s|${REPO_PREFIX}|${REPLACE}|g" -i out/404.html || true
+                              fi
+
+                          - name: Deploy to GitHub Pages
+                            uses: peaceiris/actions-gh-pages@v4
+                            with:
+                              github_token: ${{ secrets.GITHUB_TOKEN }}
+                              publish_dir: ./out
+                              publish_branch: gh-pages
+                    name: build-log
+                    path: build.log
+
+                - name: Ensure .nojekyll (so GitHub Pages serves _next/)
+                  run: |
+                    mkdir -p out
+                    touch out/.nojekyll
+
+                - name: Fix asset paths for GitHub Pages
+                  run: |
+                    REPO_PREFIX="/dilware-myself-frontend-web-fecha-hora-clima/_next"
+                    REPLACE="./_next"
+                    if [ -f out/index.html ]; then
+                      sed -i -e "s|${REPO_PREFIX}|${REPLACE}|g" out/index.html || true
+                      perl -0777 -pe "s|${REPO_PREFIX}|${REPLACE}|g" -i out/index.html || true
+                    fi
+                    if [ -f out/404.html ]; then
+                      sed -i -e "s|${REPO_PREFIX}|${REPLACE}|g" out/404.html || true
+                      perl -0777 -pe "s|${REPO_PREFIX}|${REPLACE}|g" -i out/404.html || true
+                    fi
+
+                - name: Deploy to GitHub Pages
+                  uses: peaceiris/actions-gh-pages@v4
+                  with:
+                    github_token: ${{ secrets.GITHUB_TOKEN }}
+                    publish_dir: ./out
+                    publish_branch: gh-pages
+                                                      runs-on: ubuntu-latest
+                                                      steps:
+                                                        - uses: actions/checkout@v4
+
+                                                        - name: Use Node.js 20
+                                                          uses: actions/setup-node@v4
+                                                          with:
+                                                            node-version: '20'
+
+                                                        - name: Cache npm
+                                                          uses: actions/cache@v4
+                                                          with:
+                                                            path: ~/.npm
+                                                            key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+                                                            restore-keys: |
+                                                              ${{ runner.os }}-node-
+
+                                                        - name: Install dependencies (clean, with fallback)
+                                                          run: |
+                                                            set -o pipefail
+                                                            echo "Trying npm ci..." > install.log
+                                                            if npm ci --no-audit --no-fund 2>&1 | tee -a install.log; then
+                                                              echo "npm ci succeeded" >> install.log
+                                                            else
+                                                              echo "npm ci failed, falling back to npm install --legacy-peer-deps" >> install.log
+                                                              npm install --no-audit --no-fund --legacy-peer-deps 2>&1 | tee -a install.log
+                                                            fi
+
+                                                        - name: Upload install log (always)
+                                                          if: always()
+                                                          uses: actions/upload-artifact@v4
+                                                          with:
+                                                            name: install-log
+                                                            path: install.log
+
+                                                        - name: Debug: environment and files
+                                                          run: |
+                                                            echo "Node version:"; node --version || true
+                                                            echo "NPM version:"; npm --version || true
+                                                            echo "Workspace files:"; ls -la
+                                                            echo "package.json:"; cat package.json || true
+                                                            if [ -f package-lock.json ]; then echo 'package-lock exists'; else echo 'no package-lock.json'; fi
+
+                                                        - name: Build (increase node memory) and save log
+                                                          env:
+                                                            NODE_OPTIONS: --max_old_space_size=4096
+                                                          run: |
+                                                            set -o pipefail
+                                                            npm run build 2>&1 | tee build.log
+
+                                                        - name: Upload build log (always)
+                                                          if: always()
+                                                          uses: actions/upload-artifact@v4
+                                                          with:
+                                                            name: build-log
+                                                            path: build.log
+
+                                                        - name: Ensure .nojekyll (so GitHub Pages serves _next/)
+                                                          run: |
+                                                            mkdir -p out
+                                                            touch out/.nojekyll
+
+                                                        - name: Fix asset paths for GitHub Pages
+                                                          run: |
+                                                            REPO_PREFIX="/dilware-myself-frontend-web-fecha-hora-clima/_next"
+                                                            REPLACE="./_next"
+                                                            if [ -f out/index.html ]; then
+                                                              sed -i -e "s|${REPO_PREFIX}|${REPLACE}|g" out/index.html || true
+                                                              perl -0777 -pe "s|${REPO_PREFIX}|${REPLACE}|g" -i out/index.html || true
+                                                            fi
+                                                            if [ -f out/404.html ]; then
+                                                              sed -i -e "s|${REPO_PREFIX}|${REPLACE}|g" out/404.html || true
+                                                              perl -0777 -pe "s|${REPO_PREFIX}|${REPLACE}|g" -i out/404.html || true
+                                                            fi
+
+                                                        - name: Deploy to GitHub Pages
+                                                          uses: peaceiris/actions-gh-pages@v4
+                                                          with:
+                                                            github_token: ${{ secrets.GITHUB_TOKEN }}
+                                                            publish_dir: ./out
+                                                            publish_branch: gh-pages
+
