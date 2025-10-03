@@ -17,7 +17,7 @@ import {
 } from 'lucide-react';
 
 // App version
-const APP_VERSION = 'v1.2.3';
+const APP_VERSION = 'v1.2.4';
 
 // Spanish month abbreviations
 const MONTHS_ES = [
@@ -161,8 +161,12 @@ export default function ChronosViewPage() {
         } else {
           setError('Temp. N/A');
         }
-      } catch {
-        setError('Temp. N/A');
+      } catch (err) {
+        let errorMessage = 'Temp. N/A';
+        if (err instanceof Error) {
+          errorMessage = `${errorMessage}: ${err.message}`;
+        }
+        setError(errorMessage);
       }
     };
 
@@ -355,29 +359,29 @@ export default function ChronosViewPage() {
                 {weatherIcon}
                 <span>{weather.temperature}</span>
               </div>
-              <div className="flex items-center gap-4 text-xl sm:text-2xl md:text-3xl lg:text-4xl text-muted-foreground">
-                <div className="flex items-center gap-2">
-                  <Thermometer className="size-6 sm:size-7 md:size-8" />
+              <div className="flex items-center gap-2 text-lg sm:gap-4 sm:text-xl md:text-2xl lg:text-3xl text-muted-foreground">
+                <div className="flex items-center gap-1 sm:gap-2">
+                  <Thermometer className="size-5 sm:size-6 md:size-7" />
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1 sm:gap-2">
                   <span className="font-bold">MIN:</span>
                   <span>{weather.minTemperature}</span>
                 </div>
                 |
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1 sm:gap-2">
                   <span className="font-bold">MAX:</span>
                   <span>{weather.maxTemperature}</span>
                 </div>
               </div>
-              <div className="flex items-center gap-4 text-xl sm:text-2xl md:text-3xl lg:text-4xl text-muted-foreground">
-                <div className="flex items-center gap-2">
-                  <Droplets className="size-6 sm:size-7 md:size-8" />
+              <div className="flex items-center gap-2 text-lg sm:gap-4 sm:text-xl md:text-2xl lg:text-3xl text-muted-foreground">
+                <div className="flex items-center gap-1 sm:gap-2">
+                  <Droplets className="size-5 sm:size-6 md:size-7" />
                   <span className="font-bold">HUM:</span>
                   <span>{weather.humidity}</span>
                 </div>
                 |
-                <div className="flex items-center gap-2">
-                  <Sun className="size-6 sm:size-7 md:size-8" />
+                <div className="flex items-center gap-1 sm:gap-2">
+                  <Sun className="size-5 sm:size-6 md:size-7" />
                   <span className="font-bold">IUV:</span>
                   <span>{weather.uvIndex}</span>
                 </div>
@@ -390,7 +394,7 @@ export default function ChronosViewPage() {
           )}
         </div>
       </footer>
-      <div className="absolute bottom-2 left-2 text-xs text-muted-foreground/50 font-code">
+      <div className="absolute bottom-2 left-2 text-sm text-muted-foreground/50 font-code">
         {APP_VERSION}
       </div>
     </div>
