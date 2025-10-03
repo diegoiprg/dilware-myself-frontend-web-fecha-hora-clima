@@ -12,7 +12,7 @@ import { LocationDisplay } from '@/components/app/LocationDisplay';
 import { WeatherDisplay } from '@/components/app/WeatherDisplay';
 
 // App version
-const APP_VERSION = 'v1.3.9';
+const APP_VERSION = 'v1.3.8';
 
 export default function MainContent() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -47,11 +47,11 @@ export default function MainContent() {
       className="bg-background text-foreground h-[100svh] w-screen select-none overflow-hidden"
     >
       <div className="h-full w-full max-w-[90%] mx-auto grid grid-rows-[1fr_1fr_3fr_1fr_1fr] landscape:grid-rows-[1fr_3fr_1fr] landscape:grid-cols-2 place-items-center p-4 sm:p-6 md:p-8">
-        <div className="w-full flex items-center gap-4 justify-self-end portrait:row-start-5 landscape:col-start-2 landscape:row-start-1">
+        <div className="w-full flex items-center gap-4 justify-self-end landscape:col-start-2 landscape:row-start-1">
           <SettingsPanel appVersion={APP_VERSION} />
         </div>
 
-        <div className="landscape:col-start-1 landscape:row-start-1 landscape:justify-self-start">
+        <div className="justify-self-start landscape:col-start-1 landscape:row-start-1 landscape:justify-self-start">
           <DateDisplay date={currentTime} />
         </div>
 
@@ -63,18 +63,12 @@ export default function MainContent() {
           <LocationDisplay displayName={location?.displayName} />
         </div>
 
-        <div className="portrait:justify-self-start landscape:col-start-2 landscape:row-start-3 landscape:justify-self-end landscape:self-end">
+        <div className="landscape:col-start-2 landscape:row-start-3 landscape:justify-self-end landscape:self-end">
           <WeatherDisplay
             weather={weather}
             loading={weatherLoading}
             error={weatherError || locationError}
           />
-        </div>
-
-        <div className="portrait:row-start-5 portrait:justify-self-end">
-          <div className="text-lg text-muted-foreground/50 font-code">
-            {APP_VERSION}
-          </div>
         </div>
       </div>
     </div>
