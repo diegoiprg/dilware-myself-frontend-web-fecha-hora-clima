@@ -2,8 +2,6 @@ import { useState, useEffect, useCallback } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { useSettings } from '@/context/SettingsContext';
 
-const CACHE_DURATION = 10 * 60 * 1000; // 10 minutes
-
 export interface WeatherData {
   temperature: number;
   minTemperature: number;
@@ -13,11 +11,6 @@ export interface WeatherData {
   weatherCode: number;
 }
 
-interface WeatherCache {
-  timestamp: number;
-  data: WeatherData;
-}
-
 export const useWeather = (latitude?: number, longitude?: number) => {
   const [weather, setWeather] = useState<WeatherData | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -25,26 +18,13 @@ export const useWeather = (latitude?: number, longitude?: number) => {
   const { toast } = useToast();
   const { refreshInterval } = useSettings();
 
-  const fetchWeather = useCallback(async (force = false) => {
+  const fetchWeather = useCallback(async () => {
     if (!latitude || !longitude) return;
 
     setLoading(true);
     setError(null);
 
-    const cacheKey = `weather-${latitude.toFixed(3)}-${longitude.toFixed(3)}`;
     try {
-      if (!force) {
-        const cached = localStorage.getItem(cacheKey);
-        if (cached) {
-          const { timestamp, data } = JSON.parse(cached) as WeatherCache;
-          if (Date.now() - timestamp < CACHE_DURATION) {
-            setWeather(data);
-            setLoading(false);
-            return;
-          }
-        }
-      }
-
       const response = await fetch(
         `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,uv_index,weather_code&daily=temperature_2m_max,temperature_2m_min&timezone=auto`
       );
@@ -61,10 +41,6 @@ export const useWeather = (latitude?: number, longitude?: number) => {
           weatherCode: data.current.weather_code,
         };
         setWeather(newWeather);
-        localStorage.setItem(
-          cacheKey,
-          JSON.stringify({ timestamp: Date.now(), data: newWeather })
-        );
       } else {
         throw new Error('Invalid weather data structure');
       }
@@ -91,7 +67,7 @@ export const useWeather = (latitude?: number, longitude?: number) => {
   useEffect(() => {
     if (refreshInterval > 0) {
       const intervalId = setInterval(() => {
-        fetchWeather(true); // Force refresh, ignoring cache
+        fetchWeather(); // Refresh from API
       }, refreshInterval * 60 * 1000);
 
       return () => clearInterval(intervalId);

@@ -38,7 +38,7 @@ import { LocationDisplay } from '@/components/app/LocationDisplay';
 import { WeatherDisplay } from '@/components/app/WeatherDisplay';
 
 // App version - displayed in the settings panel
-const APP_VERSION = 'v1.4.8';
+const APP_VERSION = 'v1.4.9';
 
 /**
  * MainContent - The root component for the dashboard
@@ -141,7 +141,7 @@ export default function MainContent() {
     >
       {/* Grid container with responsive layout: 5 rows portrait, 3 rows landscape */}
       <div
-        className={`h-full w-full max-w-none landscape:max-w-[90%] mx-auto grid ${
+        className={`h-full w-full max-w-none mx-auto grid ${
           weather || weatherLoading
             ? 'grid-rows-[1fr_1fr_3fr_1fr_1fr]'
             : 'grid-rows-[1fr_1fr_3fr_2fr]'
