@@ -17,7 +17,7 @@ import {
 } from 'lucide-react';
 
 // App version
-const APP_VERSION = 'v1.2.0';
+const APP_VERSION = 'v1.2.1';
 
 // Spanish month abbreviations
 const MONTHS_ES = [
@@ -174,17 +174,30 @@ export default function ChronosViewPage() {
         if (!response.ok) throw new Error('Reverse geocode response not OK');
         const data = await response.json();
 
-        // Prioritize more specific location names if available
-        const locationParts = [
-          data.results?.[0]?.admin3, // Usually district/suburb
-          data.results?.[0]?.admin2, // Usually city
-          data.results?.[0]?.country,
-        ].filter(Boolean);
+        if (data && data.results && data.results[0]) {
+          const result = data.results[0];
+          // Collect all available administrative parts
+          const locationParts = [
+            result.neighbourhood,
+            result.admin4,
+            result.admin3,
+            result.admin2,
+            result.admin1,
+            result.city,
+            result.country,
+          ].filter(Boolean); // Filter out any null/undefined parts
 
-        if (locationParts.length > 0) {
-          setLocation(locationParts.join(', '));
+          // Remove duplicates to avoid "Lima, Lima, Peru"
+          const uniqueLocationParts = [...new Set(locationParts)];
+
+          // Re-join the unique parts, this naturally puts the most specific parts first if available
+          if (uniqueLocationParts.length > 0) {
+            setLocation(uniqueLocationParts.join(', '));
+          } else {
+            throw new Error('No location parts found');
+          }
         } else {
-          throw new Error('No location parts found');
+          throw new Error('No location name data in response');
         }
       } catch {
         // Fallback to ipapi.co if the primary service fails
@@ -238,7 +251,7 @@ export default function ChronosViewPage() {
             );
           },
           fetchFromIp,
-          { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+          { enableHighAccuracy: true, timeout: 20000, maximumAge: 0 }
         );
       } else {
         fetchFromIp();
