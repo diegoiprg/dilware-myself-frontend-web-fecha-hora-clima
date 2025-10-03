@@ -12,7 +12,7 @@ import { LocationDisplay } from '@/components/app/LocationDisplay';
 import { WeatherDisplay } from '@/components/app/WeatherDisplay';
 
 // App version
-const APP_VERSION = 'v1.3.6';
+const APP_VERSION = 'v1.3.7';
 
 export default function MainContent() {
   const containerRef = useRef<HTMLDivElement>(null);

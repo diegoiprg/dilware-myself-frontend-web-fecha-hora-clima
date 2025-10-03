@@ -2,7 +2,7 @@
 
 [![Deploy to GitHub Pages](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml/badge.svg?branch=main)](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-v1.3.5-blue.svg)](./package.json)
+[![Version](https://img.shields.io/badge/version-v1.3.7-blue.svg)](./package.json)
 
 A minimalist, full-screen web application that provides a quick and elegant view of the current time, date, user's location, and local weather. It is designed to be used as a browser start page, a personal dashboard, or a display for a wall-mounted screen.
 
@@ -35,17 +35,20 @@ This project is built with a modern web stack:
 To run the project locally, follow these steps:
 
 1.  **Clone the repository:**
+
     ```bash
     git clone https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima.git
     cd dilware-myself-frontend-web-fecha-hora-clima
     ```
 
 2.  **Install dependencies:**
+
     ```bash
     npm install
     ```
 
 3.  **Run the development server:**
+
     ```bash
     npm run dev
     ```
