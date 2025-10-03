@@ -94,14 +94,14 @@ export const WeatherDisplay = ({ weather, loading, error }: Props) => {
           <span>{formatTemp(weather.temperature, tempUnit)}</span>
         </div>
         <div className="flex items-center gap-2 sm:gap-3">
-          <div className="bg-gray-100/50 rounded-full px-3 py-1 flex items-center gap-1">
+          <div className="flex items-center gap-1">
             <div className="bg-white/20 rounded-full p-1">
               <Thermometer className="size-4 sm:size-5 md:size-6 lg:size-7" />
             </div>
             <span className="font-bold text-sm">MIN</span>
             <span>{formatTemp(weather.minTemperature, tempUnit)}</span>
           </div>
-          <div className="bg-gray-100/50 rounded-full px-3 py-1 flex items-center gap-1">
+          <div className="flex items-center gap-1">
             <div className="bg-white/20 rounded-full p-1">
               <Thermometer className="size-4 sm:size-5 md:size-6 lg:size-7" />
             </div>
@@ -110,14 +110,14 @@ export const WeatherDisplay = ({ weather, loading, error }: Props) => {
           </div>
         </div>
         <div className="flex items-center gap-2 sm:gap-3">
-          <div className="bg-blue-100/50 rounded-full px-3 py-1 flex items-center gap-1">
+          <div className="flex items-center gap-1">
             <div className="bg-white/20 rounded-full p-1">
               <Droplets className="size-4 sm:size-5 md:size-6 lg:size-7" />
             </div>
             <span className="font-bold text-sm">HUM</span>
             <span>{Math.round(weather.humidity)}%</span>
           </div>
-          <div className="bg-yellow-100/50 rounded-full px-3 py-1 flex items-center gap-1">
+          <div className="flex items-center gap-1">
             <div className="bg-white/20 rounded-full p-1">
               <Sun className="size-4 sm:size-5 md:size-6 lg:size-7" />
             </div>
