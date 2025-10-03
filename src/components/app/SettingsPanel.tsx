@@ -51,7 +51,7 @@ export const SettingsPanel = ({ appVersion }: { appVersion: string }) => {
     // Container for version text and settings trigger, aligned horizontally
     <div className="flex items-center gap-2 sm:gap-4">
       {/* Display the current app version */}
-      <div className="text-lg text-muted-foreground/50 font-code">
+      <div className="text-xl text-muted-foreground/50 font-code">
         {appVersion}
       </div>
       {/* Settings panel trigger button */}

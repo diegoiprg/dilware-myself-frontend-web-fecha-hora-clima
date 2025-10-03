@@ -38,7 +38,7 @@ import { LocationDisplay } from '@/components/app/LocationDisplay';
 import { WeatherDisplay } from '@/components/app/WeatherDisplay';
 
 // App version - displayed in the settings panel
-const APP_VERSION = 'v1.4.7';
+const APP_VERSION = 'v1.4.8';
 
 /**
  * MainContent - The root component for the dashboard
@@ -137,7 +137,7 @@ export default function MainContent() {
     // Main container with fullscreen dimensions and background
     <div
       ref={containerRef}
-      className="bg-background text-foreground h-screen w-screen select-none overflow-hidden pt-[env(safe-area-inset-top)]"
+      className="bg-background text-foreground h-screen w-screen select-none overflow-hidden pt-[env(safe-area-inset-top)] pl-[env(safe-area-inset-left)] pr-[env(safe-area-inset-right)] pb-[env(safe-area-inset-bottom)]"
     >
       {/* Grid container with responsive layout: 5 rows portrait, 3 rows landscape */}
       <div
@@ -145,7 +145,7 @@ export default function MainContent() {
           weather || weatherLoading
             ? 'grid-rows-[1fr_1fr_3fr_1fr_1fr]'
             : 'grid-rows-[1fr_1fr_3fr_2fr]'
-        } landscape:grid-rows-[1fr_3fr_1fr] landscape:grid-cols-2 place-items-center p-4 sm:p-6 md:p-8 lg:p-10`}
+        } landscape:grid-rows-[1fr_3fr_1fr] landscape:grid-cols-2 place-items-center p-2 sm:p-4 md:p-6 lg:p-8`}
       >
         <div className="flex items-center gap-4 justify-self-center landscape:col-start-2 landscape:row-start-1 landscape:justify-self-end">
           <SettingsPanel appVersion={APP_VERSION} />
@@ -164,8 +164,10 @@ export default function MainContent() {
         </div>
 
         <div
-          className={`landscape:col-start-1 landscape:row-start-3 landscape:justify-self-start landscape:self-end ${
-            !(weather || weatherLoading) ? 'landscape:col-span-2' : ''
+          className={`landscape:col-start-1 landscape:row-start-3 landscape:self-end ${
+            !(weather || weatherLoading)
+              ? 'landscape:col-span-2 landscape:justify-self-center'
+              : 'landscape:justify-self-start'
           }`}
         >
           <LocationDisplay displayName={location?.displayName} />
