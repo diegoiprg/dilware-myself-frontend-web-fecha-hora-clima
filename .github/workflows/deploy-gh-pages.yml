@@ -27,18 +27,18 @@ jobs:
 
             - name: Ensure .nojekyll (so GitHub Pages serves _next/)
               run: |
-                mkdir -p out
-                touch out/.nojekyll
+                  mkdir -p out
+                  touch out/.nojekyll
 
             - name: Fix asset paths for GitHub Pages
               # Replace repo-prefixed asset paths like /<repo>/_next/... with relative ./_next/... so Pages resolves them reliably
               run: |
-                if [ -f out/index.html ]; then
-                  sed -i"" -e 's/\/dilware-myself-frontend-web-fecha-hora-clima\/_next/.\/_next/g' out/index.html || true
-                fi
-                if [ -f out/404.html ]; then
-                  sed -i"" -e 's/\/dilware-myself-frontend-web-fecha-hora-clima\/_next/.\/_next/g' out/404.html || true
-                fi
+                  if [ -f out/index.html ]; then
+                    sed -i"" -e 's/\/dilware-myself-frontend-web-fecha-hora-clima\/_next/.\/_next/g' out/index.html || true
+                  fi
+                  if [ -f out/404.html ]; then
+                    sed -i"" -e 's/\/dilware-myself-frontend-web-fecha-hora-clima\/_next/.\/_next/g' out/404.html || true
+                  fi
 
             - name: Deploy to GitHub Pages
               uses: peaceiris/actions-gh-pages@v4

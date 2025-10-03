@@ -16,7 +16,7 @@ import {
   CloudDrizzle,
 } from 'lucide-react';
 
-const APP_VERSION = 'v1.0.0';
+const APP_VERSION = 'v1.0.1';
 
 // Spanish month abbreviations
 const MONTHS_ES = [
@@ -317,8 +317,6 @@ export default function ChronosViewPage() {
   const handleFullscreen = () => {
     if (!containerRef.current) return;
 
-    const isIos =
-      /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
     const isIphone =
       /iPhone/.test(navigator.userAgent) && !(window as any).MSStream;
 
