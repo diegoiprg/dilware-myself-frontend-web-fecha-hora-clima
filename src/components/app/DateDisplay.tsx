@@ -32,7 +32,9 @@ export const DateDisplay = ({ date }: { date: Date }) => {
   const formattedDate = formatDate(date);
   return (
     <div className="text-2xl sm:text-3xl flex items-center gap-3">
-      <CalendarDays className="size-8 sm:size-10" />
+      <div className="bg-white/20 rounded-full p-2">
+        <CalendarDays className="size-6 sm:size-8" />
+      </div>
       <span className="pt-1">{formattedDate}</span>
     </div>
   );
