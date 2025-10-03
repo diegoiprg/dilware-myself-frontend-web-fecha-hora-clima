@@ -11,7 +11,7 @@ import { LoadingScreen } from '@/components/app/LoadingScreen';
 import { SettingsPanel } from '@/components/app/SettingsPanel';
 
 // App version
-const APP_VERSION = 'v1.3.1';
+const APP_VERSION = 'v1.3.2';
 
 export default function ChronosViewPage() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -66,26 +66,23 @@ export default function ChronosViewPage() {
   return (
     <div
       ref={containerRef}
-      onClick={handleFullscreen}
-      className="bg-background text-foreground h-[100svh] w-screen cursor-pointer select-none overflow-hidden
+      className="bg-background text-foreground h-[100svh] w-screen select-none overflow-hidden
                  flex flex-col p-4 sm:p-6 md:p-8"
-      aria-label="Clock and weather display. Click to toggle fullscreen."
+      aria-label="Clock and weather display"
       role="button"
       tabIndex={0}
     >
       <SettingsPanel />
       <AppHeader date={currentTime} />
-      <Clock time={currentTime} />
+      <Clock time={currentTime} onClick={handleFullscreen} />
       <AppFooter
         locationDisplayName={location?.displayName}
         weather={weather}
         weatherLoading={weatherLoading}
         weatherError={weatherError}
         locationError={locationError}
+        appVersion={APP_VERSION}
       />
-      <div className="absolute bottom-4 left-4 text-base text-muted-foreground/50 font-code">
-        {APP_VERSION}
-      </div>
     </div>
   );
-}
+

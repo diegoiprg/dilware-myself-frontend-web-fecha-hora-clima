@@ -28,13 +28,21 @@ const formatTime = (
   return timeString;
 };
 
-export const Clock = ({ time }: { time: Date }) => {
+interface ClockProps {
+  time: Date;
+  onClick?: () => void;
+}
+
+export const Clock = ({ time, onClick }: ClockProps) => {
   const { timeFormat, showSeconds } = useSettings();
   const formattedTime = formatTime(time, timeFormat, showSeconds);
 
   return (
-    <main className="w-full flex-1 flex flex-col items-center justify-center">
-      <div className="font-headline font-bold text-center text-8xl sm:text-9xl md:text-[10rem] lg:text-[12rem] xl:text-[15rem] 2xl:text-[18rem] leading-none whitespace-nowrap tabular-nums">
+    <main
+      onClick={onClick}
+      className="w-full flex-1 flex flex-col items-center justify-center cursor-pointer"
+    >
+      <div className="font-mono font-bold text-center text-8xl sm:text-9xl md:text-[10rem] lg:text-[12rem] xl:text-[15rem] 2xl:text-[18rem] leading-none whitespace-nowrap tabular-nums">
         {formattedTime}
       </div>
     </main>
