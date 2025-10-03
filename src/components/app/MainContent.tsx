@@ -38,7 +38,7 @@ import { LocationDisplay } from '@/components/app/LocationDisplay';
 import { WeatherDisplay } from '@/components/app/WeatherDisplay';
 
 // App version - displayed in the settings panel
-const APP_VERSION = 'v1.3.10';
+const APP_VERSION = 'v1.4.0';
 
 /**
  * MainContent - The root component for the dashboard
@@ -56,13 +56,20 @@ export default function MainContent() {
   // State for managing screen wake lock in fullscreen mode
   const [wakeLock, setWakeLock] = useState<WakeLockSentinel | null>(null);
 
+  // Check for API support
+  const isFullscreenSupported =
+    typeof document !== 'undefined' && !!document.fullscreenEnabled;
+  const isWakeLockSupported =
+    typeof navigator !== 'undefined' && 'wakeLock' in navigator;
+
   // Custom hooks for data fetching
   const currentTime = useDateTime();
 
   // Effect to manage screen wake lock during fullscreen mode
-  // Requests wake lock when entering fullscreen to prevent screen timeout
-  // Releases wake lock when exiting fullscreen
+  // Only active if Wake Lock API is supported
   useEffect(() => {
+    if (!isWakeLockSupported) return;
+
     const handleFullscreenChange = async () => {
       if (document.fullscreenElement) {
         // Entered fullscreen, request wake lock to keep screen on
@@ -91,7 +98,7 @@ export default function MainContent() {
         wakeLock.release();
       }
     };
-  }, [wakeLock]);
+  }, [wakeLock, isWakeLockSupported]);
   const {
     location,
     error: locationError,
@@ -105,9 +112,12 @@ export default function MainContent() {
 
   /**
    * Toggles fullscreen mode for the application
-   * When entering fullscreen, the wake lock effect will automatically engage
+   * Only works if Fullscreen API is supported
+   * When entering fullscreen, the wake lock effect will automatically engage if supported
    */
   const handleFullscreen = () => {
+    if (!isFullscreenSupported) return;
+
     const mainContainer = document.documentElement;
     if (document.fullscreenElement) {
       // Exit fullscreen mode
@@ -140,7 +150,11 @@ export default function MainContent() {
         </div>
 
         <div className="w-full h-full flex items-center justify-center max-w-[90%] landscape:col-span-2 landscape:row-start-2">
-          <Clock time={currentTime} onClick={handleFullscreen} />
+          <Clock
+            time={currentTime}
+            onClick={handleFullscreen}
+            isFullscreenSupported={isFullscreenSupported}
+          />
         </div>
 
         <div className="landscape:col-start-1 landscape:row-start-3 landscape:justify-self-start landscape:self-end">
