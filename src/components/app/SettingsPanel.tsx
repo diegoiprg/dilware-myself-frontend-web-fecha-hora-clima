@@ -58,7 +58,7 @@ export const SettingsPanel = ({ appVersion }: { appVersion: string }) => {
       <Sheet>
         <SheetTrigger asChild>
           <button
-            className="text-muted-foreground hover:text-foreground transition-colors"
+            className="text-muted-foreground hover:text-foreground transition-colors bg-white/10 rounded-full p-2 hover:bg-white/20"
             aria-label="Settings"
             title="Settings"
           >

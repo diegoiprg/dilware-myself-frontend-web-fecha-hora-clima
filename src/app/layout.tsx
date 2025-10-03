@@ -1,6 +1,10 @@
 import type { Metadata } from 'next';
-import { Orbitron, Rajdhani, Roboto_Mono } from 'next/font/google';
+import { Orbitron } from 'next/font/google';
 import Script from 'next/script';
+// @ts-ignore
+import '@fontsource/space-grotesk';
+// @ts-ignore
+import '@fontsource/jetbrains-mono';
 import './globals.css';
 import { SettingsProvider } from '@/context/SettingsContext';
 import { Toaster } from '@/components/ui/toaster';
@@ -8,17 +12,6 @@ import { Toaster } from '@/components/ui/toaster';
 const fontHeadline = Orbitron({
   subsets: ['latin'],
   variable: '--font-headline',
-});
-
-const fontBody = Rajdhani({
-  subsets: ['latin'],
-  weight: ['400', '700'],
-  variable: '--font-body',
-});
-
-const fontRobotoMono = Roboto_Mono({
-  subsets: ['latin'],
-  variable: '--font-roboto-mono',
 });
 
 export const metadata: Metadata = {
@@ -32,10 +25,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${fontHeadline.variable} ${fontBody.variable} ${fontRobotoMono.variable} dark`}
-    >
+    <html lang="en" className={`${fontHeadline.variable} dark`}>
       <head>
         <Script
           async

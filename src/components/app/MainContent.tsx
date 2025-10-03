@@ -58,7 +58,7 @@ const WeatherDisplay = lazy(() =>
 );
 
 // App version - displayed in the settings panel
-const APP_VERSION = 'v1.5.0';
+const APP_VERSION = 'v1.6.0';
 
 /**
  * MainContent - The root component for the dashboard
@@ -171,15 +171,15 @@ export default function MainContent() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: 'easeOut' }}
         >
-          <div className="flex items-center gap-4 justify-self-center landscape:col-start-2 landscape:row-start-1 landscape:justify-self-end">
+          <div className="flex items-center gap-4 justify-self-center landscape:col-start-2 landscape:row-start-1 landscape:justify-self-end shadow-lg rounded-lg p-2 bg-white/5 backdrop-blur-sm">
             <SettingsPanel appVersion={APP_VERSION} />
           </div>
 
-          <div className="justify-self-center landscape:col-start-1 landscape:row-start-1 landscape:justify-self-start">
+          <div className="justify-self-center landscape:col-start-1 landscape:row-start-1 landscape:justify-self-start shadow-lg rounded-lg p-2 bg-white/5 backdrop-blur-sm">
             <DateDisplay date={currentTime} />
           </div>
 
-          <div className="w-full h-full flex items-center justify-center max-w-[90%] landscape:col-span-2 landscape:row-start-2">
+          <div className="w-full h-full flex items-center justify-center max-w-[90%] landscape:col-span-2 landscape:row-start-2 shadow-2xl rounded-lg p-4 bg-gradient-to-r from-transparent to-white/5">
             <Clock
               time={currentTime}
               onClick={handleFullscreen}
@@ -188,7 +188,7 @@ export default function MainContent() {
           </div>
 
           <div
-            className={`landscape:col-start-1 landscape:row-start-3 landscape:self-end ${
+            className={`landscape:col-start-1 landscape:row-start-3 landscape:self-end shadow-lg rounded-lg p-2 bg-white/5 backdrop-blur-sm ${
               !(weather || weatherLoading)
                 ? 'landscape:col-span-2 landscape:justify-self-center'
                 : 'landscape:justify-self-start'
