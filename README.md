@@ -3,7 +3,7 @@
 [![Deploy to GitHub Pages](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml/badge.svg?branch=main)](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml)
 [![Build Status](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml/badge.svg)](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-v1.8.7-blue.svg)](./package.json)
+[![Version](https://img.shields.io/badge/version-v1.8.8-blue.svg)](./package.json)
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org/)
 [![Next.js](https://img.shields.io/badge/Next.js-15.3.3-black)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue)](https://www.typescriptlang.org/)
@@ -211,7 +211,18 @@ The app provides extensive customization options through the comprehensively org
 
 - **Separador de Fecha**: Choose between space (default), dot (.), slash (/), or dash (-) separators
 - **Abreviar Día**: Toggle to show day names in 3 characters (e.g., "Sáb" instead of "Sábado")
-- **Formato del Mes**: Select full names, 3-character abbreviations, or 2-digit numeric format
+- **Formato del Mes**: Select 3-character abbreviations (default) or complete month names
+
+**Date Format Examples:**
+
+- `Sábado, 04 OCT 2025` (day full, month short, space separator)
+- `Sábado, 04.OCT.2025` (day full, month short, dot separator)
+- `Sábado, 04-OCT-2025` (day full, month short, dash separator)
+- `Sábado, 04/OCT/2025` (day full, month short, slash separator)
+- `Sab, 04 OCT 2025` (day abbreviated, month short, space separator)
+- `Sab, 04.OCT.2025` (day abbreviated, month short, dot separator)
+- `Sab, 04-OCT-2025` (day abbreviated, month short, dash separator)
+- `Sab, 04/OCTUBRE/2025` (day abbreviated, month full, slash separator)
 
 ### Hora (Time Settings)
 
@@ -305,6 +316,15 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 5. Open a Pull Request
 
 ## Changelog
+
+### v1.8.8
+
+- **Enhanced Date Formatting Options**: Added comprehensive date formatting with all requested combinations - day abbreviation (3 chars), month format (short/complete), and separators (space, dot, slash, dash)
+- **Circular Update Icon Background**: Added circular background to update status icon matching the settings icon style for visual consistency
+- **Aggressive Cache-Busting for Version Detection**: Implemented more robust cache-busting with multiple headers (`Cache-Control: no-cache, no-store, must-revalidate`, `Pragma: no-cache`, `Expires: 0`) and random parameters to ensure version detection works across different browsers and cached deployments
+- **Improved Version Detection Logging**: Added detailed console logging for debugging version detection issues, including cache-busting parameters and response headers
+- **Uppercase Month Names**: Changed month names to uppercase (ENE, FEB, MAR, etc.) to match the requested format examples
+- **Default Month Format**: Changed default month format from 'full' to 'short' (3 characters) for better space utilization
 
 ### v1.8.7
 

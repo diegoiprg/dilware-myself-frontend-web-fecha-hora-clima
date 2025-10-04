@@ -26,7 +26,7 @@ export type DateSeparator = 'space' | 'dot' | 'slash' | 'dash';
 /**
  * Month format type
  */
-export type MonthFormat = 'full' | 'short' | 'numeric';
+export type MonthFormat = 'full' | 'short';
 
 /**
  * Theme type
@@ -89,7 +89,7 @@ const defaultSettings: Settings = {
   // Date settings
   dateSeparator: 'space',
   abbreviateDay: false,
-  monthFormat: 'full',
+  monthFormat: 'short',
 
   // Time settings
   timeFormat: '24h',

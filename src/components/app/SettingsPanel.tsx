@@ -105,20 +105,29 @@ export const SettingsPanel = ({ appVersion }: { appVersion: string }) => {
   // Get the appropriate icon based on version status
   const getVersionIcon = () => {
     if (versionCheck.isChecking) {
-      return <RefreshCw className="size-6 animate-spin text-blue-500" />;
+      return (
+        <div className="bg-white/20 rounded-full p-1">
+          <RefreshCw className="size-4 animate-spin text-blue-500" />
+        </div>
+      );
     }
     if (versionCheck.hasUpdate) {
       return (
-        <div title="Click to update to the latest version">
-          <AlertCircle
-            className="size-6 text-orange-500 cursor-pointer hover:text-orange-600 transition-colors"
-            onClick={handleUpdateIconClick}
-          />
+        <div
+          className="bg-white/20 rounded-full p-1 cursor-pointer hover:bg-white/30 transition-colors"
+          title="Click to update to the latest version"
+          onClick={handleUpdateIconClick}
+        >
+          <AlertCircle className="size-4 text-orange-500 hover:text-orange-600 transition-colors" />
         </div>
       );
     }
     if (versionCheck.latestVersion && !versionCheck.hasUpdate) {
-      return <CheckCircle className="size-6 text-green-500" />;
+      return (
+        <div className="bg-white/20 rounded-full p-1">
+          <CheckCircle className="size-4 text-green-500" />
+        </div>
+      );
     }
     return null;
   };
@@ -216,16 +225,12 @@ export const SettingsPanel = ({ appVersion }: { appVersion: string }) => {
                   }}
                 >
                   <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="full" id="full" />
-                    <Label htmlFor="full">Completo (por defecto)</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
                     <RadioGroupItem value="short" id="short" />
-                    <Label htmlFor="short">3 caracteres</Label>
+                    <Label htmlFor="short">3 caracteres (por defecto)</Label>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="numeric" id="numeric" />
-                    <Label htmlFor="numeric">Numérico (2 dígitos)</Label>
+                    <RadioGroupItem value="full" id="full" />
+                    <Label htmlFor="full">Completo</Label>
                   </div>
                 </RadioGroup>
               </div>

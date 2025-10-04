@@ -120,29 +120,43 @@ export function useVersionCheck(
       console.warn('Failed to check for updates:', err);
       setError(err instanceof Error ? err.message : 'Unknown error');
 
-      // Fallback: try to get version from package.json on the deployed site with cache-busting
+      // Fallback: try to get version from package.json on the deployed site with aggressive cache-busting
       try {
         console.log(
-          'Attempting fallback version check from /package.json with cache busting'
+          'Attempting fallback version check from /package.json with aggressive cache busting'
         );
-        const cacheBustParam = `?t=${Date.now()}`; // Cache busting parameter
+        const cacheBustParam = `?t=${Date.now()}&v=${Math.random()
+          .toString(36)
+          .substring(2, 15)}`; // More aggressive cache busting
         const packageResponse = await fetch(`/package.json${cacheBustParam}`, {
           signal: AbortSignal.timeout(3000), // 3 second timeout for fallback
           headers: {
-            'Cache-Control': 'no-cache',
+            'Cache-Control': 'no-cache, no-store, must-revalidate',
             Pragma: 'no-cache',
+            Expires: '0',
           },
+          cache: 'no-store', // Force no caching
         });
         if (packageResponse.ok) {
           const packageData = await packageResponse.json();
           const packageVersion = packageData.version;
-          console.log('Fallback version check successful:', packageVersion);
+          console.log('Fallback version check successful:', {
+            packageVersion,
+            currentVersion: APP_VERSION.replace(/^v/, ''),
+            hasUpdate: isNewerVersion(
+              packageVersion,
+              APP_VERSION.replace(/^v/, '')
+            ),
+            cacheBustParam,
+          });
           setLatestVersion(packageVersion);
           setLastChecked(new Date());
         } else {
           console.warn(
             'Fallback package.json request failed with status:',
-            packageResponse.status
+            packageResponse.status,
+            'Response headers:',
+            Object.fromEntries(packageResponse.headers.entries())
           );
           // If we can't get the deployed version, assume current version for now
           // This will be re-checked on next interval
