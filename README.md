@@ -3,7 +3,7 @@
 [![Deploy to GitHub Pages](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml/badge.svg?branch=main)](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml)
 [![Build Status](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml/badge.svg)](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-v1.8.9-blue.svg)](./package.json)
+[![Version](https://img.shields.io/badge/version-v1.8.10-blue.svg)](./package.json)
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org/)
 [![Next.js](https://img.shields.io/badge/Next.js-15.3.3-black)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue)](https://www.typescriptlang.org/)
@@ -210,7 +210,7 @@ The app provides extensive customization options through the comprehensively org
 ### Fecha (Date Settings)
 
 - **Separador de Fecha**: Choose between space (default), dot (.), slash (/), or dash (-) separators between day/month/year
-- **Formato del Día**: Select complete day names (default) or 3-character abbreviations
+- **Formato del Día**: Select 3-character abbreviations (default) or complete day names
 - **Formato del Mes**: Select 3-character abbreviations (default) or complete month names
 
 **Date Format Examples:**
@@ -226,8 +226,8 @@ The app provides extensive customization options through the comprehensively org
 
 ### Hora (Time Settings)
 
-- **Formato de Hora**: Choose between 24-hour (default) or 12-hour (AM/PM) format - 12h automatically disables seconds to prevent overflow
-- **Mostrar Segundos**: Toggle visibility of seconds in the clock display (disabled when 12h format is selected)
+- **Formato de Hora**: Choose between 24-hour (default) or 12-hour (AM/PM) format - 24h enables seconds automatically, 12h disables them to prevent text overflow
+- **Mostrar Segundos**: Toggle visibility of seconds in the clock display (automatically managed based on time format)
 - **Separadores Parpadeantes**: Toggle blinking effect for time separators (:) every second
 
 ### Clima (Weather Settings)
@@ -317,6 +317,14 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 5. Open a Pull Request
 
 ## Changelog
+
+### v1.8.10
+
+- **Scrollable Settings Panel**: Added vertical scroll to settings panel for better usability on small screens and mobile devices
+- **Default Format Preferences**: Changed default day and month formats to abbreviated (3 characters) as first option in settings
+- **Smart Seconds Logic**: Improved time format logic - 24h format automatically enables seconds, 12h format disables them to prevent text overflow
+- **Elegant Dark Mode**: Completely redesigned dark mode color palette with sophisticated, professional tones matching the elegance of light mode
+- **Enhanced User Experience**: Better visual hierarchy and improved accessibility across all interface elements
 
 ### v1.8.9
 

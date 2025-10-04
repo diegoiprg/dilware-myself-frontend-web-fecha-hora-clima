@@ -167,7 +167,7 @@ export const SettingsPanel = ({ appVersion }: { appVersion: string }) => {
             <Settings className="size-6" />
           </button>
         </SheetTrigger>
-        <SheetContent>
+        <SheetContent className="max-h-screen overflow-y-auto">
           <SheetHeader>
             <SheetTitle>Configuración</SheetTitle>
           </SheetHeader>
@@ -214,12 +214,12 @@ export const SettingsPanel = ({ appVersion }: { appVersion: string }) => {
                   }}
                 >
                   <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="full" id="full-day" />
-                    <Label htmlFor="full-day">Completo (por defecto)</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
                     <RadioGroupItem value="short" id="short-day" />
                     <Label htmlFor="short-day">Abreviado (3 caracteres)</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="full" id="full-day" />
+                    <Label htmlFor="full-day">Completo</Label>
                   </div>
                 </RadioGroup>
               </div>
@@ -234,7 +234,7 @@ export const SettingsPanel = ({ appVersion }: { appVersion: string }) => {
                 >
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="short" id="short" />
-                    <Label htmlFor="short">3 caracteres (por defecto)</Label>
+                    <Label htmlFor="short">Abreviado (3 caracteres)</Label>
                   </div>
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="full" id="full" />
@@ -258,8 +258,10 @@ export const SettingsPanel = ({ appVersion }: { appVersion: string }) => {
                   value={timeFormat}
                   onValueChange={(value) => {
                     setTimeFormat(value as any);
-                    // Auto-disable seconds when switching to 12h format
-                    if (value === '12h') {
+                    // Auto-manage seconds based on format
+                    if (value === '24h') {
+                      setShowSeconds(true);
+                    } else if (value === '12h') {
                       setShowSeconds(false);
                     }
                     trackUserInteraction.timeFormatChange(
