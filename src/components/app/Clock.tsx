@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSettings } from '@/context/SettingsContext';
+import { useIsAndroidTablet } from '@/hooks/useIsAndroidTablet';
 
 /**
  * Formats a Date object into a time string based on format preferences
@@ -52,12 +53,14 @@ interface ClockProps {
 export const Clock = React.memo(
   ({ time, onClick, isFullscreenSupported = true }: ClockProps) => {
     const { timeFormat, showSeconds } = useSettings();
+    const isAndroidTablet = useIsAndroidTablet();
     const formattedTime = formatTime(time, timeFormat, showSeconds);
 
     return (
       <main className="w-full flex-1 flex flex-col items-center justify-center">
         <div
           onClick={isFullscreenSupported ? onClick : undefined}
+          style={isAndroidTablet ? { fontSize: 'calc(1em + 2px)' } : undefined}
           className={`bg-white/10 backdrop-blur-xl rounded-3xl p-8 font-code font-bold text-center text-7xl sm:text-8xl md:text-9xl lg:text-[10rem] xl:text-[12rem] 2xl:text-[15rem] leading-none whitespace-nowrap tabular-nums overflow-hidden ${
             isFullscreenSupported ? 'cursor-pointer' : 'cursor-default'
           }`}
