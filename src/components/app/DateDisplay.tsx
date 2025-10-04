@@ -47,7 +47,8 @@ const formatDate = (
   date: Date,
   dateSeparator: string,
   dayFormat: string,
-  monthFormat: string
+  monthFormat: string,
+  yearFormat: string
 ): string => {
   // Get day name
   const dayName = new Intl.DateTimeFormat('es-ES', { weekday: 'long' }).format(
@@ -61,7 +62,9 @@ const formatDate = (
   // Get day, month, year
   const day = String(date.getDate()).padStart(2, '0');
   const monthIndex = date.getMonth();
-  const year = date.getFullYear();
+  const fullYear = date.getFullYear();
+  const year =
+    yearFormat === 'short' ? String(fullYear).slice(-2) : String(fullYear);
 
   // Get month based on format
   const monthValue =
@@ -93,8 +96,14 @@ const formatDate = (
  * @param date - Date object to display
  */
 export const DateDisplay = ({ date }: { date: Date }) => {
-  const { dateSeparator, dayFormat, monthFormat } = useSettings();
-  const formattedDate = formatDate(date, dateSeparator, dayFormat, monthFormat);
+  const { dateSeparator, dayFormat, monthFormat, yearFormat } = useSettings();
+  const formattedDate = formatDate(
+    date,
+    dateSeparator,
+    dayFormat,
+    monthFormat,
+    yearFormat
+  );
 
   return (
     <div className="text-3xl sm:text-4xl flex items-center gap-3">

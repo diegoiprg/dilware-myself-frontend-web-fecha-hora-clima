@@ -34,6 +34,11 @@ export type DayFormat = 'full' | 'short';
 export type MonthFormat = 'full' | 'short';
 
 /**
+ * Year format type
+ */
+export type YearFormat = 'full' | 'short';
+
+/**
  * Theme type
  */
 export type Theme = 'light' | 'dark';
@@ -46,6 +51,7 @@ interface Settings {
   dateSeparator: DateSeparator;
   dayFormat: DayFormat;
   monthFormat: MonthFormat;
+  yearFormat: YearFormat;
 
   // Time settings
   timeFormat: TimeFormat;
@@ -69,6 +75,7 @@ interface SettingsState extends Settings {
   setDateSeparator: (separator: DateSeparator) => void;
   setDayFormat: (format: DayFormat) => void;
   setMonthFormat: (format: MonthFormat) => void;
+  setYearFormat: (format: YearFormat) => void;
 
   // Time setters
   setTimeFormat: (format: TimeFormat) => void;
@@ -97,6 +104,7 @@ const defaultSettings: Settings = {
   dateSeparator: 'space',
   dayFormat: 'full',
   monthFormat: 'full',
+  yearFormat: 'full',
 
   // Time settings
   timeFormat: '24h',
@@ -155,6 +163,8 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
     setSettings((s) => ({ ...s, dayFormat: format }));
   const setMonthFormat = (format: MonthFormat) =>
     setSettings((s) => ({ ...s, monthFormat: format }));
+  const setYearFormat = (format: YearFormat) =>
+    setSettings((s) => ({ ...s, yearFormat: format }));
 
   // Time setters
   const setTimeFormat = (format: TimeFormat) =>
@@ -184,6 +194,7 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
         setDateSeparator,
         setDayFormat,
         setMonthFormat,
+        setYearFormat,
         // Time setters
         setTimeFormat,
         setShowSeconds,

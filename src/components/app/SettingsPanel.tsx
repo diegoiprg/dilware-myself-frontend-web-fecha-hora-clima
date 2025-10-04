@@ -47,6 +47,8 @@ export const SettingsPanel = ({ appVersion }: { appVersion: string }) => {
     setDayFormat,
     monthFormat,
     setMonthFormat,
+    yearFormat,
+    setYearFormat,
     // Time settings
     timeFormat,
     setTimeFormat,
@@ -154,6 +156,25 @@ export const SettingsPanel = ({ appVersion }: { appVersion: string }) => {
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="short" id="short" />
                   <Label htmlFor="short">Abreviado</Label>
+                </div>
+              </RadioGroup>
+            </div>
+            <div className="grid gap-3">
+              <Label>Formato del Año</Label>
+              <RadioGroup
+                value={yearFormat}
+                onValueChange={(value) => {
+                  setYearFormat(value as any);
+                  // Note: No specific tracking for year format yet
+                }}
+              >
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="full" id="full-year" />
+                  <Label htmlFor="full-year">Completo (por defecto)</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="short" id="short-year" />
+                  <Label htmlFor="short-year">Abreviado (2 caracteres)</Label>
                 </div>
               </RadioGroup>
             </div>
