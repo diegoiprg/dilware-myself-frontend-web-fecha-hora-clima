@@ -1,8 +1,18 @@
 # Personal Dashboard - Time, Date, and Weather
 
 [![Deploy to GitHub Pages](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml/badge.svg?branch=main)](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml)
+[![Build Status](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml/badge.svg)](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-v1.6.7-blue.svg)](./package.json)
+[![Version](https://img.shields.io/badge/version-v1.6.8-blue.svg)](./package.json)
+[![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-15.3.3-black)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.0+-38B2AC)](https://tailwindcss.com/)
+[![GitHub stars](https://img.shields.io/github/stars/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima?style=social)](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima)
+[![GitHub forks](https://img.shields.io/github/forks/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima?style=social)](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima)
+[![GitHub last commit](https://img.shields.io/github/last-commit/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima)](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima)
+[![GitHub issues](https://img.shields.io/github/issues/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima)](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/issues)
+[![GitHub pull requests](https://img.shields.io/github/issues-pr/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima)](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/pulls)
 
 A minimalist, full-screen web application that provides a quick and elegant view of the current time, date, user's location, and local weather. It is designed to be used as a browser start page, a personal dashboard, or a display for a wall-mounted screen.
 
@@ -56,6 +66,12 @@ To run the project locally, follow these steps:
     Open [http://localhost:9002](http://localhost:9002) with your browser to see the result.
 
 ## Changelog
+
+### v1.6.8
+
+- Rearranged weather display: weather description on left, temperature in center, weather icon on right in top row
+- Removed thermometer icon from temperature display
+- Reorganized bottom row: min temp, max temp, humidity, UV index with uniform icon and text sizing
 
 ### v1.6.7
 

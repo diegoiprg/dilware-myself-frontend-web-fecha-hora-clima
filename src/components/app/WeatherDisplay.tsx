@@ -146,27 +146,32 @@ export const WeatherDisplay = ({ weather, loading, error }: Props) => {
   return (
     <div className="w-full text-3xl sm:text-4xl md:text-5xl lg:text-6xl overflow-hidden">
       <div className="flex flex-col items-center gap-1 sm:gap-2 md:gap-3">
-        <div className="flex items-center gap-4 font-bold">
-          <div className="bg-white/20 rounded-full p-2">
-            <Thermometer className="size-12 sm:size-14 md:size-16" />
-          </div>
-          <span>{formatTemp(weather.temperature, tempUnit)}</span>
-          <div className="flex flex-col items-start gap-1">
-            <div className="flex items-center gap-1 text-lg sm:text-xl md:text-2xl lg:text-3xl">
-              <div className="bg-white/20 rounded-full p-1">
-                <ArrowUp className="size-3 sm:size-4 md:size-5 lg:size-6" />
-              </div>
-              <span>{formatTemp(weather.maxTemperature, tempUnit)}</span>
-            </div>
-            <div className="flex items-center gap-1 text-lg sm:text-xl md:text-2xl lg:text-3xl">
-              <div className="bg-white/20 rounded-full p-1">
-                <ArrowDown className="size-3 sm:size-4 md:size-5 lg:size-6" />
-              </div>
-              <span>{formatTemp(weather.minTemperature, tempUnit)}</span>
-            </div>
-          </div>
+        <div className="flex items-center justify-center gap-4 font-bold">
+          <span className="text-lg sm:text-xl md:text-2xl">
+            {getWeatherDescription(weather.weatherCode)}
+          </span>
+          <span className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl">
+            {formatTemp(weather.temperature, tempUnit)}
+          </span>
+          <div className="bg-white/20 rounded-full p-1">{smallWeatherIcon}</div>
         </div>
         <div className="flex items-center gap-4">
+          <div className="flex items-center gap-1">
+            <div className="bg-white/20 rounded-full p-1">
+              <ArrowDown className="size-4 sm:size-5 md:size-6 lg:size-7" />
+            </div>
+            <span className="text-lg sm:text-xl md:text-2xl">
+              {formatTemp(weather.minTemperature, tempUnit)}
+            </span>
+          </div>
+          <div className="flex items-center gap-1">
+            <div className="bg-white/20 rounded-full p-1">
+              <ArrowUp className="size-4 sm:size-5 md:size-6 lg:size-7" />
+            </div>
+            <span className="text-lg sm:text-xl md:text-2xl">
+              {formatTemp(weather.maxTemperature, tempUnit)}
+            </span>
+          </div>
           <div className="flex items-center gap-1">
             <div className="bg-white/20 rounded-full p-1">
               <Droplets className="size-4 sm:size-5 md:size-6 lg:size-7" />
@@ -181,14 +186,6 @@ export const WeatherDisplay = ({ weather, loading, error }: Props) => {
             </div>
             <span className="text-lg sm:text-xl md:text-2xl">
               {Math.round(weather.uvIndex)}
-            </span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="bg-white/20 rounded-full p-1">
-              {smallWeatherIcon}
-            </div>
-            <span className="text-lg sm:text-xl md:text-2xl">
-              {getWeatherDescription(weather.weatherCode)}
             </span>
           </div>
         </div>
