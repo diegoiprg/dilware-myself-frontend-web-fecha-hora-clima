@@ -232,7 +232,9 @@ export const WeatherDisplay = ({ weather, loading, error, onRetry }: Props) => {
           <span className="text-xl sm:text-2xl md:text-3xl lg:text-4xl">
             {getWeatherDescription(weather.weatherCode)}
           </span>
-          <div className="bg-white/20 rounded-full p-1">{weatherIcon}</div>
+          <div className="bg-white/20 dark:bg-transparent rounded-full p-1 dark:p-0">
+            {weatherIcon}
+          </div>
           <span className="text-xl sm:text-2xl md:text-3xl lg:text-4xl">
             {formatTemp(weather.temperature, tempUnit)}
           </span>

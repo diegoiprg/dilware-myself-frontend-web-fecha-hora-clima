@@ -1,5 +1,11 @@
 import type { Metadata } from 'next';
-import { Orbitron, Rajdhani, Roboto_Mono } from 'next/font/google';
+import {
+  Orbitron,
+  Rajdhani,
+  Roboto_Mono,
+  Inter,
+  JetBrains_Mono,
+} from 'next/font/google';
 import Script from 'next/script';
 import './globals.css';
 import { SettingsProvider } from '@/context/SettingsContext';
@@ -12,15 +18,33 @@ const fontHeadline = Orbitron({
   variable: '--font-headline',
 });
 
+const fontHeadlineDark = Inter({
+  subsets: ['latin'],
+  weight: ['600', '700'],
+  variable: '--font-headline-dark',
+});
+
 const fontBody = Rajdhani({
   subsets: ['latin'],
   weight: ['400', '700'],
   variable: '--font-body',
 });
 
+const fontBodyDark = Inter({
+  subsets: ['latin'],
+  weight: ['400', '500'],
+  variable: '--font-body-dark',
+});
+
 const fontRobotoMono = Roboto_Mono({
   subsets: ['latin'],
   variable: '--font-roboto-mono',
+});
+
+const fontCodeDark = JetBrains_Mono({
+  subsets: ['latin'],
+  weight: ['400', '500'],
+  variable: '--font-code-dark',
 });
 
 export const metadata: Metadata = {
@@ -36,7 +60,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${fontHeadline.variable} ${fontBody.variable} ${fontRobotoMono.variable}`}
+      className={`${fontHeadline.variable} ${fontHeadlineDark.variable} ${fontBody.variable} ${fontBodyDark.variable} ${fontRobotoMono.variable} ${fontCodeDark.variable}`}
     >
       <head>
         <Script
