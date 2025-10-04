@@ -133,6 +133,11 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 
 ## Changelog
 
+### v1.6.11
+
+- Standardized weather description and temperature text size to match date and location display sizes
+- Restructured location display layout: first line shows address and district, second line shows province, department and country, utilizing maximum cell width
+
 ### v1.6.10
 
 - Made weather icon and temperature display two points smaller for better visual balance

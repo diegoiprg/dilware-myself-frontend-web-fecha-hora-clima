@@ -7,8 +7,8 @@ import { MapPin } from 'lucide-react';
 export const LocationDisplay = ({ displayName }: { displayName?: string }) => {
   if (!displayName) {
     return (
-      <div className="w-full landscape:w-1/2 flex items-center justify-center landscape:justify-start">
-        <div className="flex items-center gap-3 text-xl sm:text-2xl md:text-3xl lg:text-4xl text-muted-foreground text-center landscape:text-left whitespace-nowrap">
+      <div className="w-full landscape:w-full flex flex-col justify-center landscape:justify-start">
+        <div className="flex items-center gap-3 text-xl sm:text-2xl md:text-3xl lg:text-4xl text-muted-foreground text-center landscape:text-left">
           <div className="bg-white/20 rounded-full p-2">
             <MapPin className="size-5 sm:size-6 md:size-7 lg:size-8" />
           </div>
@@ -18,22 +18,23 @@ export const LocationDisplay = ({ displayName }: { displayName?: string }) => {
     );
   }
 
-  // Split displayName into parts: assuming format "City, Region, Country"
+  // Split displayName into parts: assuming format "Street, District, City, Region, Country"
   const parts = displayName.split(', ');
-  const city = parts[0] || '';
-  const regionCountry = parts.slice(1).join(', ') || '';
+  const addressDistrict = parts.slice(0, 2).filter(Boolean).join(', ') || '';
+  const provinceDepartmentCountry =
+    parts.slice(2).filter(Boolean).join(', ') || '';
 
   return (
-    <div className="w-full landscape:w-1/2 flex flex-col items-center justify-center landscape:justify-start landscape:items-start">
-      <div className="flex items-center gap-3 text-xl sm:text-2xl md:text-3xl lg:text-4xl text-muted-foreground text-center landscape:text-left whitespace-nowrap">
+    <div className="w-full landscape:w-full flex flex-col justify-center landscape:justify-start">
+      <div className="flex items-center gap-3 text-xl sm:text-2xl md:text-3xl lg:text-4xl text-muted-foreground text-center landscape:text-left">
         <div className="bg-white/20 rounded-full p-2">
           <MapPin className="size-5 sm:size-6 md:size-7 lg:size-8" />
         </div>
-        <span>{city}</span>
+        <span className="whitespace-normal">{addressDistrict}</span>
       </div>
-      {regionCountry && (
-        <div className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-muted-foreground text-center landscape:text-left mt-1">
-          {regionCountry}
+      {provinceDepartmentCountry && (
+        <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-muted-foreground text-center landscape:text-left mt-1">
+          {provinceDepartmentCountry}
         </div>
       )}
     </div>

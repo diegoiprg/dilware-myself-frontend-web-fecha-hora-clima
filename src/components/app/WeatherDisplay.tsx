@@ -171,11 +171,11 @@ export const WeatherDisplay = ({ weather, loading, error }: Props) => {
     <div className="w-full text-3xl sm:text-4xl md:text-5xl lg:text-6xl overflow-hidden">
       <div className="flex flex-col items-center gap-1 sm:gap-2 md:gap-3">
         <div className="flex items-center justify-center gap-4 font-bold">
-          <span className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl">
+          <span className="text-xl sm:text-2xl md:text-3xl lg:text-4xl">
             {getWeatherDescription(weather.weatherCode)}
           </span>
           <div className="bg-white/20 rounded-full p-1">{weatherIcon}</div>
-          <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
+          <span className="text-xl sm:text-2xl md:text-3xl lg:text-4xl">
             {formatTemp(weather.temperature, tempUnit)}
           </span>
         </div>
