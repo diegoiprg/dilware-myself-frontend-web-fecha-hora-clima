@@ -46,16 +46,17 @@ const MONTHS_ES = {
 const formatDate = (
   date: Date,
   dateSeparator: string,
-  abbreviateDay: boolean,
+  dayFormat: string,
   monthFormat: string
 ): string => {
   // Get day name
   const dayName = new Intl.DateTimeFormat('es-ES', { weekday: 'long' }).format(
     date
   );
-  const formattedDayName = abbreviateDay
-    ? dayName.charAt(0).toUpperCase() + dayName.slice(1, 4)
-    : dayName.charAt(0).toUpperCase() + dayName.slice(1);
+  const formattedDayName =
+    dayFormat === 'short'
+      ? dayName.charAt(0).toUpperCase() + dayName.slice(1, 3) // Exactly 3 characters
+      : dayName.charAt(0).toUpperCase() + dayName.slice(1);
 
   // Get day, month, year
   const day = String(date.getDate()).padStart(2, '0');
@@ -84,7 +85,7 @@ const formatDate = (
       break;
   }
 
-  return `${formattedDayName}${separator}${day}${separator}${monthValue}${separator}${year}`;
+  return `${formattedDayName}, ${day}${separator}${monthValue}${separator}${year}`;
 };
 
 /**
@@ -92,20 +93,18 @@ const formatDate = (
  * @param date - Date object to display
  */
 export const DateDisplay = ({ date }: { date: Date }) => {
-  const { dateSeparator, abbreviateDay, monthFormat } = useSettings();
-  const formattedDate = formatDate(
-    date,
-    dateSeparator,
-    abbreviateDay,
-    monthFormat
-  );
+  const { dateSeparator, dayFormat, monthFormat } = useSettings();
+  const formattedDate = formatDate(date, dateSeparator, dayFormat, monthFormat);
 
   return (
     <div className="text-3xl sm:text-4xl flex items-center gap-3">
       <div className="bg-white/20 rounded-full p-2">
         <CalendarDays className="size-6 sm:size-8" />
       </div>
-      <span className="pt-1 font-bold">{formattedDate}</span>
+      <span className="pt-1">
+        <span className="font-bold">{formattedDate.split(',')[0]},</span>
+        {formattedDate.split(',').slice(1).join(',')}
+      </span>
     </div>
   );
 };

@@ -76,6 +76,9 @@ export const trackUserInteraction = {
   secondsToggle: (enabled: boolean) =>
     trackEvent('seconds_toggle', { enabled }),
 
+  blinkingColonsToggle: (enabled: boolean) =>
+    trackEvent('blinking_colons_toggle', { enabled }),
+
   refreshIntervalChange: (interval: number) =>
     trackEvent('refresh_interval_change', { interval_minutes: interval }),
 
@@ -92,8 +95,8 @@ export const trackUserInteraction = {
   dateSeparatorChange: (separator: string) =>
     trackEvent('date_separator_change', { separator }),
 
-  abbreviateDayToggle: (enabled: boolean) =>
-    trackEvent('abbreviate_day_toggle', { enabled }),
+  dayFormatChange: (format: string) =>
+    trackEvent('day_format_change', { format }),
 
   monthFormatChange: (format: string) =>
     trackEvent('month_format_change', { format }),

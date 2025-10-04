@@ -48,8 +48,8 @@ export const SettingsPanel = ({ appVersion }: { appVersion: string }) => {
     // Date settings
     dateSeparator,
     setDateSeparator,
-    abbreviateDay,
-    setAbbreviateDay,
+    dayFormat,
+    setDayFormat,
     monthFormat,
     setMonthFormat,
     // Time settings
@@ -57,6 +57,8 @@ export const SettingsPanel = ({ appVersion }: { appVersion: string }) => {
     setTimeFormat,
     showSeconds,
     setShowSeconds,
+    blinkingColons,
+    setBlinkingColons,
     // Weather settings
     tempUnit,
     setTempUnit,
@@ -202,18 +204,24 @@ export const SettingsPanel = ({ appVersion }: { appVersion: string }) => {
                   </div>
                 </RadioGroup>
               </div>
-              <div className="flex items-center justify-between">
-                <Label htmlFor="abbreviate-day">
-                  Abreviar Día (3 caracteres)
-                </Label>
-                <Switch
-                  id="abbreviate-day"
-                  checked={abbreviateDay}
-                  onCheckedChange={(checked) => {
-                    setAbbreviateDay(checked);
-                    trackUserInteraction.abbreviateDayToggle(checked);
+              <div className="grid gap-3">
+                <Label>Formato del Día</Label>
+                <RadioGroup
+                  value={dayFormat}
+                  onValueChange={(value) => {
+                    setDayFormat(value as any);
+                    trackUserInteraction.dayFormatChange(value as any);
                   }}
-                />
+                >
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="full" id="full-day" />
+                    <Label htmlFor="full-day">Completo (por defecto)</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="short" id="short-day" />
+                    <Label htmlFor="short-day">Abreviado (3 caracteres)</Label>
+                  </div>
+                </RadioGroup>
               </div>
               <div className="grid gap-3">
                 <Label>Formato del Mes</Label>
@@ -236,6 +244,9 @@ export const SettingsPanel = ({ appVersion }: { appVersion: string }) => {
               </div>
             </div>
 
+            {/* Separator */}
+            <div className="border-t border-border/50 my-4"></div>
+
             {/* Hora (Time) Section */}
             <div className="space-y-4">
               <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
@@ -247,6 +258,10 @@ export const SettingsPanel = ({ appVersion }: { appVersion: string }) => {
                   value={timeFormat}
                   onValueChange={(value) => {
                     setTimeFormat(value as any);
+                    // Auto-disable seconds when switching to 12h format
+                    if (value === '12h') {
+                      setShowSeconds(false);
+                    }
                     trackUserInteraction.timeFormatChange(
                       value as '12h' | '24h'
                     );
@@ -267,13 +282,30 @@ export const SettingsPanel = ({ appVersion }: { appVersion: string }) => {
                 <Switch
                   id="show-seconds"
                   checked={showSeconds}
+                  disabled={timeFormat === '12h'} // Disable when 12h format is selected
                   onCheckedChange={(checked) => {
                     setShowSeconds(checked);
                     trackUserInteraction.secondsToggle(checked);
                   }}
                 />
               </div>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="blinking-colons">
+                  Separadores Parpadeantes
+                </Label>
+                <Switch
+                  id="blinking-colons"
+                  checked={blinkingColons}
+                  onCheckedChange={(checked) => {
+                    setBlinkingColons(checked);
+                    trackUserInteraction.blinkingColonsToggle(checked);
+                  }}
+                />
+              </div>
             </div>
+
+            {/* Separator */}
+            <div className="border-t border-border/50 my-4"></div>
 
             {/* Clima (Weather) Section */}
             <div className="space-y-4">
@@ -315,7 +347,8 @@ export const SettingsPanel = ({ appVersion }: { appVersion: string }) => {
                     <SelectValue placeholder="Seleccionar intervalo" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="5">5 minutos (por defecto)</SelectItem>
+                    <SelectItem value="1">1 minuto (por defecto)</SelectItem>
+                    <SelectItem value="5">5 minutos</SelectItem>
                     <SelectItem value="10">10 minutos</SelectItem>
                     <SelectItem value="15">15 minutos</SelectItem>
                     <SelectItem value="30">30 minutos</SelectItem>
@@ -324,6 +357,9 @@ export const SettingsPanel = ({ appVersion }: { appVersion: string }) => {
                 </Select>
               </div>
             </div>
+
+            {/* Separator */}
+            <div className="border-t border-border/50 my-4"></div>
 
             {/* General Section */}
             <div className="space-y-4">
@@ -363,9 +399,10 @@ export const SettingsPanel = ({ appVersion }: { appVersion: string }) => {
                     <SelectValue placeholder="Seleccionar intervalo" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="5">
-                      Cada 5 minutos (por defecto)
+                    <SelectItem value="1">
+                      Cada 1 minuto (por defecto)
                     </SelectItem>
+                    <SelectItem value="5">Cada 5 minutos</SelectItem>
                     <SelectItem value="15">Cada 15 minutos</SelectItem>
                     <SelectItem value="30">Cada 30 minutos</SelectItem>
                     <SelectItem value="60">Cada hora</SelectItem>

@@ -24,6 +24,11 @@ export type TimeFormat = '12h' | '24h';
 export type DateSeparator = 'space' | 'dot' | 'slash' | 'dash';
 
 /**
+ * Day format type
+ */
+export type DayFormat = 'full' | 'short';
+
+/**
  * Month format type
  */
 export type MonthFormat = 'full' | 'short';
@@ -39,12 +44,13 @@ export type Theme = 'light' | 'dark';
 interface Settings {
   // Date settings
   dateSeparator: DateSeparator;
-  abbreviateDay: boolean;
+  dayFormat: DayFormat;
   monthFormat: MonthFormat;
 
   // Time settings
   timeFormat: TimeFormat;
   showSeconds: boolean;
+  blinkingColons: boolean;
 
   // Weather settings
   tempUnit: TempUnit;
@@ -61,12 +67,13 @@ interface Settings {
 interface SettingsState extends Settings {
   // Date setters
   setDateSeparator: (separator: DateSeparator) => void;
-  setAbbreviateDay: (abbreviate: boolean) => void;
+  setDayFormat: (format: DayFormat) => void;
   setMonthFormat: (format: MonthFormat) => void;
 
   // Time setters
   setTimeFormat: (format: TimeFormat) => void;
   setShowSeconds: (show: boolean) => void;
+  setBlinkingColons: (blinking: boolean) => void;
 
   // Weather setters
   setTempUnit: (unit: TempUnit) => void;
@@ -88,20 +95,21 @@ const SETTINGS_STORAGE_KEY = 'chronos-settings';
 const defaultSettings: Settings = {
   // Date settings
   dateSeparator: 'space',
-  abbreviateDay: false,
+  dayFormat: 'full',
   monthFormat: 'short',
 
   // Time settings
   timeFormat: '24h',
   showSeconds: true,
+  blinkingColons: false,
 
   // Weather settings
   tempUnit: 'C',
-  refreshInterval: 5, // weather refresh interval in minutes (5 min default)
+  refreshInterval: 1, // weather refresh interval in minutes (1 min default)
 
   // General settings
   theme: 'dark',
-  updateCheckInterval: 5, // version update check interval in minutes (5 min default)
+  updateCheckInterval: 1, // version update check interval in minutes (1 min default)
 };
 
 /**
@@ -143,8 +151,8 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
   // Date setters
   const setDateSeparator = (separator: DateSeparator) =>
     setSettings((s) => ({ ...s, dateSeparator: separator }));
-  const setAbbreviateDay = (abbreviate: boolean) =>
-    setSettings((s) => ({ ...s, abbreviateDay: abbreviate }));
+  const setDayFormat = (format: DayFormat) =>
+    setSettings((s) => ({ ...s, dayFormat: format }));
   const setMonthFormat = (format: MonthFormat) =>
     setSettings((s) => ({ ...s, monthFormat: format }));
 
@@ -153,6 +161,8 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
     setSettings((s) => ({ ...s, timeFormat: format }));
   const setShowSeconds = (show: boolean) =>
     setSettings((s) => ({ ...s, showSeconds: show }));
+  const setBlinkingColons = (blinking: boolean) =>
+    setSettings((s) => ({ ...s, blinkingColons: blinking }));
 
   // Weather setters
   const setTempUnit = (unit: TempUnit) =>
@@ -172,11 +182,12 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
         ...settings,
         // Date setters
         setDateSeparator,
-        setAbbreviateDay,
+        setDayFormat,
         setMonthFormat,
         // Time setters
         setTimeFormat,
         setShowSeconds,
+        setBlinkingColons,
         // Weather setters
         setTempUnit,
         setRefreshInterval,

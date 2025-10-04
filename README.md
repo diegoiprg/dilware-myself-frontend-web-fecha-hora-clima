@@ -3,7 +3,7 @@
 [![Deploy to GitHub Pages](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml/badge.svg?branch=main)](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml)
 [![Build Status](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml/badge.svg)](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-v1.8.8-blue.svg)](./package.json)
+[![Version](https://img.shields.io/badge/version-v1.8.9-blue.svg)](./package.json)
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org/)
 [![Next.js](https://img.shields.io/badge/Next.js-15.3.3-black)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue)](https://www.typescriptlang.org/)
@@ -209,8 +209,8 @@ The app provides extensive customization options through the comprehensively org
 
 ### Fecha (Date Settings)
 
-- **Separador de Fecha**: Choose between space (default), dot (.), slash (/), or dash (-) separators
-- **Abreviar Día**: Toggle to show day names in 3 characters (e.g., "Sáb" instead of "Sábado")
+- **Separador de Fecha**: Choose between space (default), dot (.), slash (/), or dash (-) separators between day/month/year
+- **Formato del Día**: Select complete day names (default) or 3-character abbreviations
 - **Formato del Mes**: Select 3-character abbreviations (default) or complete month names
 
 **Date Format Examples:**
@@ -219,25 +219,26 @@ The app provides extensive customization options through the comprehensively org
 - `Sábado, 04.OCT.2025` (day full, month short, dot separator)
 - `Sábado, 04-OCT-2025` (day full, month short, dash separator)
 - `Sábado, 04/OCT/2025` (day full, month short, slash separator)
-- `Sab, 04 OCT 2025` (day abbreviated, month short, space separator)
-- `Sab, 04.OCT.2025` (day abbreviated, month short, dot separator)
-- `Sab, 04-OCT-2025` (day abbreviated, month short, dash separator)
-- `Sab, 04/OCTUBRE/2025` (day abbreviated, month full, slash separator)
+- `Sáb, 04 OCT 2025` (day abbreviated, month short, space separator)
+- `Sáb, 04.OCT.2025` (day abbreviated, month short, dot separator)
+- `Sáb, 04-OCT-2025` (day abbreviated, month short, dash separator)
+- `Sáb, 04/OCTUBRE/2025` (day abbreviated, month full, slash separator)
 
 ### Hora (Time Settings)
 
-- **Formato de Hora**: Choose between 24-hour (default) or 12-hour (AM/PM) format
-- **Mostrar Segundos**: Toggle visibility of seconds in the clock display
+- **Formato de Hora**: Choose between 24-hour (default) or 12-hour (AM/PM) format - 12h automatically disables seconds to prevent overflow
+- **Mostrar Segundos**: Toggle visibility of seconds in the clock display (disabled when 12h format is selected)
+- **Separadores Parpadeantes**: Toggle blinking effect for time separators (:) every second
 
 ### Clima (Weather Settings)
 
-- **Unidad de Temperatura**: Choose between Celsius (°C, default) or Fahrenheit (°F)
-- **Intervalo de Actualización**: Configure how often weather data updates (5 minutes default, up to 30 minutes)
+- **Unidad de Temperatura**: Choose between Celsius (°C, default) or Fahrenheit (°F) - displays unit abbreviation in temperature
+- **Intervalo de Actualización**: Configure how often weather data updates (1 minute default, up to 30 minutes)
 
 ### General (General Settings)
 
-- **Modo de Tema**: Select between dark (default) or light theme
-- **Intervalo de Verificación de Actualizaciones**: Set how frequently the app checks for new versions (5 minutes default, up to 12 hours)
+- **Modo de Tema**: Select between dark (default) or light theme - fully functional with complete color inversion
+- **Intervalo de Verificación de Actualizaciones**: Set how frequently the app checks for new versions (1 minute default, up to 12 hours)
 
 ### Data Persistence
 
@@ -316,6 +317,19 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 5. Open a Pull Request
 
 ## Changelog
+
+### v1.8.9
+
+- **Enhanced Date Formatting**: Fixed date display to show only day name in bold, always include comma after day, and apply separators only between day/month/year values
+- **Precise Day Abbreviation**: Fixed day abbreviation to show exactly 3 characters (e.g., "Sáb" instead of "Sá")
+- **Visual Section Separators**: Added subtle border separators between settings sections for better visual organization
+- **Smart 12h Format**: Automatically disables seconds display when 12h format is selected to prevent text overflow
+- **Blinking Colon Feature**: Added option to make time separators (:) blink every second for classic clock appearance
+- **Temperature Unit Display**: Now shows °C/°F abbreviations in temperature values for clear unit identification
+- **Functional Light Mode**: Implemented complete light theme functionality that properly inverts colors throughout the application
+- **Optimized Default Intervals**: Changed default intervals to 1 minute for both weather updates and version checks for more responsive experience
+- **Consistent Icon Sizing**: Update status icons now match the size of the settings icon for visual consistency
+- **Enhanced Version Detection**: Improved cache-busting and notification system for reliable version update alerts
 
 ### v1.8.8
 

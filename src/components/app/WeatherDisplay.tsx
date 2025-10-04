@@ -138,13 +138,13 @@ const getWeatherDescription = (weatherCode: number): string => {
  * Formats temperature value with the specified unit
  * @param temp - Temperature value in Celsius
  * @param unit - Temperature unit ('C' or 'F')
- * @returns Formatted temperature string with degree symbol
+ * @returns Formatted temperature string with degree symbol and unit
  */
 const formatTemp = (temp: number, unit: 'C' | 'F'): string => {
   if (unit === 'F') {
-    return `${Math.round(temp * 1.8 + 32)}°`;
+    return `${Math.round(temp * 1.8 + 32)}°F`;
   }
-  return `${Math.round(temp)}°`;
+  return `${Math.round(temp)}°C`;
 };
 
 interface Props {

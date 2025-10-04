@@ -1,30 +1,31 @@
 1:"$Sreact.fragment"
-2:I[9243,["426","static/chunks/426-b6038676105ca37e.js","436","static/chunks/436-75a67da30d55fa5f.js","177","static/chunks/app/layout-bf006262f9967faa.js"],""]
-3:I[7475,["426","static/chunks/426-b6038676105ca37e.js","436","static/chunks/436-75a67da30d55fa5f.js","177","static/chunks/app/layout-bf006262f9967faa.js"],"SettingsProvider"]
-4:I[2096,["426","static/chunks/426-b6038676105ca37e.js","436","static/chunks/436-75a67da30d55fa5f.js","177","static/chunks/app/layout-bf006262f9967faa.js"],"Analytics"]
-5:I[7555,[],""]
-6:I[1295,[],""]
-7:I[2558,["426","static/chunks/426-b6038676105ca37e.js","436","static/chunks/436-75a67da30d55fa5f.js","177","static/chunks/app/layout-bf006262f9967faa.js"],"Toaster"]
-8:I[894,[],"ClientPageRoot"]
-9:I[1724,["974","static/chunks/app/page-d3722656f3b2c3f8.js"],"default"]
-c:I[9665,[],"MetadataBoundary"]
-e:I[9665,[],"OutletBoundary"]
-11:I[4911,[],"AsyncMetadataOutlet"]
-13:I[9665,[],"ViewportBoundary"]
-15:I[6614,[],""]
+2:I[9243,["426","static/chunks/426-b6038676105ca37e.js","436","static/chunks/436-75a67da30d55fa5f.js","177","static/chunks/app/layout-14c2fa3df9fb7877.js"],""]
+3:I[7475,["426","static/chunks/426-b6038676105ca37e.js","436","static/chunks/436-75a67da30d55fa5f.js","177","static/chunks/app/layout-14c2fa3df9fb7877.js"],"SettingsProvider"]
+4:I[7280,["426","static/chunks/426-b6038676105ca37e.js","436","static/chunks/436-75a67da30d55fa5f.js","177","static/chunks/app/layout-14c2fa3df9fb7877.js"],"ThemeProvider"]
+5:I[2096,["426","static/chunks/426-b6038676105ca37e.js","436","static/chunks/436-75a67da30d55fa5f.js","177","static/chunks/app/layout-14c2fa3df9fb7877.js"],"Analytics"]
+6:I[7555,[],""]
+7:I[1295,[],""]
+8:I[2558,["426","static/chunks/426-b6038676105ca37e.js","436","static/chunks/436-75a67da30d55fa5f.js","177","static/chunks/app/layout-14c2fa3df9fb7877.js"],"Toaster"]
+9:I[894,[],"ClientPageRoot"]
+a:I[1724,["974","static/chunks/app/page-d3722656f3b2c3f8.js"],"default"]
+d:I[9665,[],"MetadataBoundary"]
+f:I[9665,[],"OutletBoundary"]
+12:I[4911,[],"AsyncMetadataOutlet"]
+14:I[9665,[],"ViewportBoundary"]
+16:I[6614,[],""]
 :HL["/dilware-myself-frontend-web-fecha-hora-clima/_next/static/media/4b657decd6407698-s.p.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/dilware-myself-frontend-web-fecha-hora-clima/_next/static/media/739c2d8941231bb4-s.p.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/dilware-myself-frontend-web-fecha-hora-clima/_next/static/media/9a4ee768fed045da-s.p.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/dilware-myself-frontend-web-fecha-hora-clima/_next/static/media/ab2e3a11646b0499-s.p.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
-:HL["/dilware-myself-frontend-web-fecha-hora-clima/_next/static/css/c86a560f0955cf2b.css","style"]
-0:{"P":null,"b":"dQYrrVF_1xCjXUWDPGQrE","p":"/dilware-myself-frontend-web-fecha-hora-clima","c":["",""],"i":false,"f":[[["",{"children":["__PAGE__",{}]},"$undefined","$undefined",true],["",["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/dilware-myself-frontend-web-fecha-hora-clima/_next/static/css/c86a560f0955cf2b.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}]],["$","html",null,{"lang":"en","className":"__variable_3bd056 __variable_dd4ee8 __variable_7a8d2c dark","children":[["$","head",null,{"children":[["$","$L2",null,{"async":true,"src":"https://www.googletagmanager.com/gtag/js?id=G-FF81FMV5GT"}],["$","$L2",null,{"id":"google-analytics","strategy":"afterInteractive","children":"\n            window.dataLayer = window.dataLayer || [];\n            function gtag(){dataLayer.push(arguments);}\n            gtag('js', new Date());\n            gtag('config', 'G-FF81FMV5GT');\n          "}]]}],["$","body",null,{"className":"font-body antialiased","children":["$","$L3",null,{"children":[["$","$L4",null,{}],["$","$L5",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L6",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":[["$","div",null,{"className":"flex flex-col items-center justify-center min-h-screen bg-background text-foreground","children":[["$","h1",null,{"className":"text-4xl font-bold mb-4","children":"404 - Page Not Found"}],["$","p",null,{"className":"text-lg","children":"The page you are looking for does not exist."}]]}],[]],"forbidden":"$undefined","unauthorized":"$undefined"}],["$","$L7",null,{}]]}]}]]}]]}],{"children":["__PAGE__",["$","$1","c",{"children":[["$","$L8",null,{"Component":"$9","searchParams":{},"params":{},"promises":["$@a","$@b"]}],["$","$Lc",null,{"children":"$Ld"}],null,["$","$Le",null,{"children":["$Lf","$L10",["$","$L11",null,{"promise":"$@12"}]]}]]}],{},null,false]},null,false],["$","$1","h",{"children":[null,["$","$1","5nyaqPE1m7nb9njvMDecI",{"children":[["$","$L13",null,{"children":"$L14"}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}],null]}],false]],"m":"$undefined","G":["$15","$undefined"],"s":false,"S":true}
-16:"$Sreact.suspense"
-17:I[4911,[],"AsyncMetadata"]
-a:{}
+:HL["/dilware-myself-frontend-web-fecha-hora-clima/_next/static/css/5a2eb7cd6b7109bb.css","style"]
+0:{"P":null,"b":"XzwVUv1gbxCcY7EgnnjSt","p":"/dilware-myself-frontend-web-fecha-hora-clima","c":["",""],"i":false,"f":[[["",{"children":["__PAGE__",{}]},"$undefined","$undefined",true],["",["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/dilware-myself-frontend-web-fecha-hora-clima/_next/static/css/5a2eb7cd6b7109bb.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}]],["$","html",null,{"lang":"en","className":"__variable_3bd056 __variable_dd4ee8 __variable_7a8d2c","children":[["$","head",null,{"children":[["$","$L2",null,{"async":true,"src":"https://www.googletagmanager.com/gtag/js?id=G-FF81FMV5GT"}],["$","$L2",null,{"id":"google-analytics","strategy":"afterInteractive","children":"\n            window.dataLayer = window.dataLayer || [];\n            function gtag(){dataLayer.push(arguments);}\n            gtag('js', new Date());\n            gtag('config', 'G-FF81FMV5GT');\n          "}]]}],["$","body",null,{"className":"font-body antialiased","children":["$","$L3",null,{"children":["$","$L4",null,{"children":[["$","$L5",null,{}],["$","$L6",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L7",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":[["$","div",null,{"className":"flex flex-col items-center justify-center min-h-screen bg-background text-foreground","children":[["$","h1",null,{"className":"text-4xl font-bold mb-4","children":"404 - Page Not Found"}],["$","p",null,{"className":"text-lg","children":"The page you are looking for does not exist."}]]}],[]],"forbidden":"$undefined","unauthorized":"$undefined"}],["$","$L8",null,{}]]}]}]}]]}]]}],{"children":["__PAGE__",["$","$1","c",{"children":[["$","$L9",null,{"Component":"$a","searchParams":{},"params":{},"promises":["$@b","$@c"]}],["$","$Ld",null,{"children":"$Le"}],null,["$","$Lf",null,{"children":["$L10","$L11",["$","$L12",null,{"promise":"$@13"}]]}]]}],{},null,false]},null,false],["$","$1","h",{"children":[null,["$","$1","6VIpDpKu5oldo3BYKzR7W",{"children":[["$","$L14",null,{"children":"$L15"}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}],null]}],false]],"m":"$undefined","G":["$16","$undefined"],"s":false,"S":true}
+17:"$Sreact.suspense"
+18:I[4911,[],"AsyncMetadata"]
 b:{}
-d:["$","$16",null,{"fallback":null,"children":["$","$L17",null,{"promise":"$@18"}]}]
+c:{}
+e:["$","$17",null,{"fallback":null,"children":["$","$L18",null,{"promise":"$@19"}]}]
+11:null
+15:[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]
 10:null
-14:[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]
-f:null
-18:{"metadata":[["$","title","0",{"children":"web-fecha-hora-clima"}],["$","meta","1",{"name":"description","content":"A full-screen clock and calendar display."}]],"error":null,"digest":"$undefined"}
-12:{"metadata":"$18:metadata","error":null,"digest":"$undefined"}
+19:{"metadata":[["$","title","0",{"children":"web-fecha-hora-clima"}],["$","meta","1",{"name":"description","content":"A full-screen clock and calendar display."}]],"error":null,"digest":"$undefined"}
+13:{"metadata":"$19:metadata","error":null,"digest":"$undefined"}

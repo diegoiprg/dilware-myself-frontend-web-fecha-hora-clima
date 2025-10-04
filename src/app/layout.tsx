@@ -5,6 +5,7 @@ import './globals.css';
 import { SettingsProvider } from '@/context/SettingsContext';
 import { Toaster } from '@/components/ui/toaster';
 import { Analytics } from '@/components/Analytics';
+import { ThemeProvider } from '@/components/ThemeProvider';
 
 const fontHeadline = Orbitron({
   subsets: ['latin'],
@@ -35,7 +36,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${fontHeadline.variable} ${fontBody.variable} ${fontRobotoMono.variable} dark`}
+      className={`${fontHeadline.variable} ${fontBody.variable} ${fontRobotoMono.variable}`}
     >
       <head>
         <Script
@@ -53,9 +54,11 @@ export default function RootLayout({
       </head>
       <body className="font-body antialiased">
         <SettingsProvider>
-          <Analytics />
-          {children}
-          <Toaster />
+          <ThemeProvider>
+            <Analytics />
+            {children}
+            <Toaster />
+          </ThemeProvider>
         </SettingsProvider>
       </body>
     </html>
