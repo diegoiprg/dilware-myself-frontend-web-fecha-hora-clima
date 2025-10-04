@@ -1,6 +1,13 @@
 import React from 'react';
 import { useSettings } from '@/context/SettingsContext';
 
+/**
+ * Formats a Date object into a time string based on format preferences
+ * @param date - Date object to format
+ * @param format - Time format ('12h' or '24h')
+ * @param showSeconds - Whether to include seconds in the display
+ * @returns Formatted time string
+ */
 const formatTime = (
   date: Date,
   format: '12h' | '24h',
@@ -35,6 +42,13 @@ interface ClockProps {
   isFullscreenSupported?: boolean;
 }
 
+/**
+ * Clock component - Displays the current time in large, responsive text
+ * Clicking toggles fullscreen mode if supported
+ * @param time - Current time Date object
+ * @param onClick - Handler for click events (fullscreen toggle)
+ * @param isFullscreenSupported - Whether fullscreen API is available
+ */
 export const Clock = React.memo(
   ({ time, onClick, isFullscreenSupported = true }: ClockProps) => {
     const { timeFormat, showSeconds } = useSettings();

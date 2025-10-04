@@ -29,6 +29,12 @@ A minimalist, full-screen web application that provides a quick and elegant view
 - **Customizable Settings**: A settings panel allows users to toggle features like the clock format and seconds display.
 - **Responsive Design**: The layout adapts gracefully to different screen sizes, from mobile devices to large desktop monitors.
 
+## Screenshots
+
+![Personal Dashboard Screenshot](https://via.placeholder.com/800x600/000000/FFFFFF?text=Personal+Dashboard+Screenshot)
+
+_Note: Add actual screenshots of the application in light and dark modes, and different screen sizes._
+
 ## Technologies Used
 
 This project is built with a modern web stack:
@@ -65,7 +71,73 @@ To run the project locally, follow these steps:
 
     Open [http://localhost:9002](http://localhost:9002) with your browser to see the result.
 
+## Configuration
+
+The application includes a settings panel (accessible via the gear icon in the top-right corner) where users can customize:
+
+- **Temperature Unit**: Choose between Celsius (°C) or Fahrenheit (°F)
+- **Time Format**: Select 12-hour or 24-hour clock format
+- **Seconds Display**: Toggle visibility of seconds in the clock
+- **Refresh Interval**: Set how often weather and location data should be updated (5-30 minutes or never)
+
+Settings are automatically saved to your browser's local storage.
+
+### Environment Variables
+
+Create a `.env.local` file in the project root for custom API endpoints:
+
+```env
+NEXT_PUBLIC_WEATHER_API_BASE=https://api.open-meteo.com/v1/forecast
+```
+
+## Data Sources
+
+- **Weather Data**: [Open-Meteo API](https://open-meteo.com/) - Free weather API providing current conditions and forecasts
+- **Geolocation**: Browser Geolocation API with fallback to IP-based location via [IP-API](https://ipapi.co/)
+- **Reverse Geocoding**: [BigDataCloud API](https://www.bigdatacloud.com/) for converting coordinates to human-readable addresses
+
+## Browser Compatibility
+
+- Modern browsers with ES6+ support
+- Geolocation API support recommended for accurate location detection
+- Fullscreen API support for immersive mode
+- Wake Lock API support for keeping screen active (optional)
+
+## Troubleshooting
+
+### Weather data not loading
+
+- Check your internet connection
+- Ensure location permissions are granted in your browser
+- Try refreshing the page
+
+### Location detection issues
+
+- Grant location permissions when prompted
+- The app will fall back to IP-based location if geolocation fails
+
+### Screen not staying awake
+
+- Wake Lock API may not be supported in your browser
+- Consider using a different browser or device
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
+
+1. Fork the project
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
 ## Changelog
+
+### v1.6.9
+
+- Fixed weather display layout: weather description, weather icon, and temperature now have consistent sizing and proper order (description - icon - temperature)
+- Improved source code documentation with comprehensive JSDoc comments across all components, hooks, and utilities
+- Enhanced README with additional sections for better project documentation
 
 ### v1.6.8
 
@@ -150,6 +222,13 @@ To run the project locally, follow these steps:
 - Hide weather cell completely when data doesn't load
 - Make location cell expand to 100% width in landscape when weather is hidden
 - Enhanced clock prominence with larger text sizes
+
+## Acknowledgments
+
+- Icons provided by [Lucide React](https://lucide.dev/)
+- UI components built with [shadcn/ui](https://ui.shadcn.com/)
+- Weather data courtesy of [Open-Meteo](https://open-meteo.com/)
+- Font inspiration from Apple's design system
 
 ## License
 

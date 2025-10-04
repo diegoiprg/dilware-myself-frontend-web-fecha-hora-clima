@@ -1,5 +1,9 @@
 import { useState, useEffect } from 'react';
 
+/**
+ * Custom hook that provides the current date and time, updating every second
+ * @returns Current Date object
+ */
 export const useDateTime = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
 

@@ -1,5 +1,9 @@
 import { MapPin } from 'lucide-react';
 
+/**
+ * LocationDisplay component - Shows the current location with map pin icon
+ * @param displayName - Human-readable location name
+ */
 export const LocationDisplay = ({ displayName }: { displayName?: string }) => (
   <div className="w-full landscape:w-1/2 flex items-center justify-center landscape:justify-start">
     <div className="flex items-center gap-3 text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-muted-foreground text-center landscape:text-left whitespace-nowrap">

@@ -2,6 +2,9 @@ import { useState, useEffect, useCallback } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { useSettings } from '@/context/SettingsContext';
 
+/**
+ * Interface for weather data structure
+ */
 export interface WeatherData {
   temperature: number;
   minTemperature: number;
@@ -11,6 +14,12 @@ export interface WeatherData {
   weatherCode: number;
 }
 
+/**
+ * Custom hook to fetch and manage weather data
+ * @param latitude - User's latitude
+ * @param longitude - User's longitude
+ * @returns Object with weather data, loading state, and error
+ */
 export const useWeather = (latitude?: number, longitude?: number) => {
   const [weather, setWeather] = useState<WeatherData | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -18,6 +27,9 @@ export const useWeather = (latitude?: number, longitude?: number) => {
   const { toast } = useToast();
   const { refreshInterval } = useSettings();
 
+  /**
+   * Fetches weather data from the Open-Meteo API
+   */
   const fetchWeather = useCallback(async () => {
     if (!latitude || !longitude) return;
 

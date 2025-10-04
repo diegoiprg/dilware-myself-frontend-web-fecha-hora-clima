@@ -2,6 +2,9 @@
 
 import { CalendarDays } from 'lucide-react';
 
+/**
+ * Spanish month abbreviations for date formatting
+ */
 const MONTHS_ES = [
   'ENE',
   'FEB',
@@ -17,6 +20,11 @@ const MONTHS_ES = [
   'DIC',
 ];
 
+/**
+ * Formats a Date object into a localized Spanish date string
+ * @param date - Date object to format
+ * @returns Formatted date string in Spanish
+ */
 const formatDate = (date: Date): string => {
   const dayName = new Intl.DateTimeFormat('es-ES', { weekday: 'long' }).format(
     date
@@ -28,6 +36,10 @@ const formatDate = (date: Date): string => {
   return `${capitalizedDayName}, ${day} ${monthAbbr} ${year}`;
 };
 
+/**
+ * DateDisplay component - Shows the current date with calendar icon
+ * @param date - Date object to display
+ */
 export const DateDisplay = ({ date }: { date: Date }) => {
   const formattedDate = formatDate(date);
   return (

@@ -17,6 +17,12 @@ import type { WeatherData } from '@/hooks/useWeather';
 import { useSettings } from '@/context/SettingsContext';
 import { WeatherSkeleton } from './WeatherSkeleton';
 
+/**
+ * Returns the appropriate weather icon based on the weather code
+ * @param weatherCode - The weather code from the API
+ * @param large - Whether to use the large icon size
+ * @returns React node with the weather icon
+ */
 const getWeatherIcon = (
   weatherCode: number,
   large = false
@@ -72,6 +78,11 @@ const getWeatherIcon = (
   }
 };
 
+/**
+ * Returns the localized weather description based on the weather code
+ * @param weatherCode - The weather code from the API
+ * @returns String description of the weather condition
+ */
 const getWeatherDescription = (weatherCode: number): string => {
   switch (weatherCode) {
     case 0:
@@ -121,6 +132,12 @@ const getWeatherDescription = (weatherCode: number): string => {
   }
 };
 
+/**
+ * Formats temperature value with the specified unit
+ * @param temp - Temperature value in Celsius
+ * @param unit - Temperature unit ('C' or 'F')
+ * @returns Formatted temperature string with degree symbol
+ */
 const formatTemp = (temp: number, unit: 'C' | 'F'): string => {
   if (unit === 'F') {
     return `${Math.round(temp * 1.8 + 32)}°`;
@@ -134,6 +151,13 @@ interface Props {
   error: string | null;
 }
 
+/**
+ * WeatherDisplay component - Shows current weather information
+ * Displays weather description, icon, temperature, and additional metrics
+ * @param weather - Current weather data
+ * @param loading - Whether weather data is loading
+ * @param error - Error message if weather fetch failed
+ */
 export const WeatherDisplay = ({ weather, loading, error }: Props) => {
   const { tempUnit } = useSettings();
 
@@ -147,13 +171,13 @@ export const WeatherDisplay = ({ weather, loading, error }: Props) => {
     <div className="w-full text-3xl sm:text-4xl md:text-5xl lg:text-6xl overflow-hidden">
       <div className="flex flex-col items-center gap-1 sm:gap-2 md:gap-3">
         <div className="flex items-center justify-center gap-4 font-bold">
-          <span className="text-lg sm:text-xl md:text-2xl">
+          <span className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl">
             {getWeatherDescription(weather.weatherCode)}
           </span>
+          <div className="bg-white/20 rounded-full p-1">{weatherIcon}</div>
           <span className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl">
             {formatTemp(weather.temperature, tempUnit)}
           </span>
-          <div className="bg-white/20 rounded-full p-1">{smallWeatherIcon}</div>
         </div>
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-1">

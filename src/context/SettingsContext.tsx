@@ -1,10 +1,26 @@
 'use client';
 
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from 'react';
 
+/**
+ * Temperature unit type
+ */
 export type TempUnit = 'C' | 'F';
+
+/**
+ * Time format type
+ */
 export type TimeFormat = '12h' | '24h';
 
+/**
+ * Settings interface for user preferences
+ */
 interface Settings {
   tempUnit: TempUnit;
   timeFormat: TimeFormat;
@@ -12,6 +28,9 @@ interface Settings {
   refreshInterval: number; // in minutes
 }
 
+/**
+ * Settings context state including setters
+ */
 interface SettingsState extends Settings {
   setTempUnit: (unit: TempUnit) => void;
   setTimeFormat: (format: TimeFormat) => void;
@@ -19,8 +38,14 @@ interface SettingsState extends Settings {
   setRefreshInterval: (interval: number) => void;
 }
 
+/**
+ * Local storage key for settings persistence
+ */
 const SETTINGS_STORAGE_KEY = 'chronos-settings';
 
+/**
+ * Default settings values
+ */
 const defaultSettings: Settings = {
   tempUnit: 'C',
   timeFormat: '24h',
@@ -28,8 +53,16 @@ const defaultSettings: Settings = {
   refreshInterval: 10, // 10 minutes
 };
 
+/**
+ * React context for settings state management
+ */
 const SettingsContext = createContext<SettingsState | undefined>(undefined);
 
+/**
+ * SettingsProvider component - Provides settings context to the app
+ * Manages persistence to localStorage
+ * @param children - Child components
+ */
 export const SettingsProvider = ({ children }: { children: ReactNode }) => {
   const [settings, setSettings] = useState<Settings>(defaultSettings);
 
@@ -38,7 +71,7 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
       const storedSettings = window.localStorage.getItem(SETTINGS_STORAGE_KEY);
       if (storedSettings) {
         const parsed = JSON.parse(storedSettings);
-        setSettings(s => ({ ...s, ...parsed }));
+        setSettings((s) => ({ ...s, ...parsed }));
       }
     } catch (error) {
       console.error('Error reading settings from localStorage', error);
@@ -47,16 +80,23 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     try {
-      window.localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(settings));
+      window.localStorage.setItem(
+        SETTINGS_STORAGE_KEY,
+        JSON.stringify(settings)
+      );
     } catch (error) {
       console.error('Error saving settings to localStorage', error);
     }
   }, [settings]);
 
-  const setTempUnit = (unit: TempUnit) => setSettings(s => ({ ...s, tempUnit: unit }));
-  const setTimeFormat = (format: TimeFormat) => setSettings(s => ({ ...s, timeFormat: format }));
-  const setShowSeconds = (show: boolean) => setSettings(s => ({ ...s, showSeconds: show }));
-  const setRefreshInterval = (interval: number) => setSettings(s => ({ ...s, refreshInterval: interval }));
+  const setTempUnit = (unit: TempUnit) =>
+    setSettings((s) => ({ ...s, tempUnit: unit }));
+  const setTimeFormat = (format: TimeFormat) =>
+    setSettings((s) => ({ ...s, timeFormat: format }));
+  const setShowSeconds = (show: boolean) =>
+    setSettings((s) => ({ ...s, showSeconds: show }));
+  const setRefreshInterval = (interval: number) =>
+    setSettings((s) => ({ ...s, refreshInterval: interval }));
 
   return (
     <SettingsContext.Provider
@@ -73,6 +113,11 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
+/**
+ * Custom hook to access settings context
+ * Must be used within a SettingsProvider
+ * @returns Settings state and setters
+ */
 export const useSettings = () => {
   const context = useContext(SettingsContext);
   if (context === undefined) {
