@@ -133,6 +133,11 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 
 ## Changelog
 
+### v1.6.12
+
+- Restructured location display: province, department and country on bottom line, all other location information on top line
+- Repositioned location icon between the top and bottom lines, vertically centered beside the location value
+
 ### v1.6.11
 
 - Standardized weather description and temperature text size to match date and location display sizes
