@@ -14,8 +14,10 @@ import {
   ArrowDown,
 } from 'lucide-react';
 import type { WeatherData } from '@/hooks/useWeather';
+import { useEffect } from 'react';
 import { useSettings } from '@/context/SettingsContext';
 import { WeatherSkeleton } from './WeatherSkeleton';
+import { trackWeatherLocation } from '@/lib/analytics';
 
 /**
  * Returns the appropriate weather icon based on the weather code
@@ -161,6 +163,13 @@ interface Props {
  */
 export const WeatherDisplay = ({ weather, loading, error, onRetry }: Props) => {
   const { tempUnit } = useSettings();
+
+  // Track successful weather data load
+  useEffect(() => {
+    if (weather && !loading && !error) {
+      trackWeatherLocation.weatherDataLoad(true);
+    }
+  }, [weather, loading, error]);
 
   if (loading && !weather)
     return <WeatherSkeleton error={error} onRetry={onRetry} />;

@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { useSettings } from '@/context/SettingsContext';
+import { trackWeatherLocation } from '@/lib/analytics';
 
 const CACHE_DURATION = 10 * 60 * 1000; // 10 minutes
 
@@ -118,6 +119,7 @@ export const useAppLocation = () => {
           const { latitude, longitude } = position.coords;
           const displayName = await fetchLocationName(latitude, longitude);
           newLocation = { latitude, longitude, displayName };
+          trackWeatherLocation.locationGeolocationSuccess();
         } catch (geoError) {
           toast({
             title: 'No se pudo usar la geolocalización.',
@@ -139,6 +141,7 @@ export const useAppLocation = () => {
             longitude: data.longitude,
             displayName,
           };
+          trackWeatherLocation.locationIPFallback();
         }
 
         setLocation(newLocation);
@@ -150,6 +153,7 @@ export const useAppLocation = () => {
         let errorMessage = 'Location N/A';
         if (err instanceof Error) {
           errorMessage = err.message;
+          trackWeatherLocation.locationError(errorMessage);
         }
         setError(errorMessage);
         toast({

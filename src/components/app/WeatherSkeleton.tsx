@@ -16,7 +16,13 @@ export const WeatherSkeleton = ({
         <div>{error}</div>
         {onRetry && (
           <button
-            onClick={onRetry}
+            onClick={() => {
+              onRetry();
+              // Track retry attempt
+              import('@/lib/analytics').then(({ trackWeatherLocation }) => {
+                trackWeatherLocation.weatherDataLoad(false);
+              });
+            }}
             className="px-3 py-1 bg-white/20 rounded-md text-sm hover:bg-white/30 transition-colors"
             aria-label="Reintentar cargar clima"
           >

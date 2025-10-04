@@ -37,6 +37,11 @@ import { DateDisplay } from '@/components/app/DateDisplay';
 import { LocationDisplay } from '@/components/app/LocationDisplay';
 import { WeatherDisplay } from '@/components/app/WeatherDisplay';
 import { APP_VERSION } from '@/lib/version';
+import {
+  trackUserInteraction,
+  trackWeatherLocation,
+  trackAppUsage,
+} from '@/lib/analytics';
 
 /**
  * MainContent - The root component for the dashboard
@@ -121,9 +126,11 @@ export default function MainContent() {
     if (document.fullscreenElement) {
       // Exit fullscreen mode
       document.exitFullscreen();
+      trackUserInteraction.fullscreenToggle('exit');
     } else {
       // Enter fullscreen mode - wake lock will be requested via the useEffect
       mainContainer.requestFullscreen().catch(() => {});
+      trackUserInteraction.fullscreenToggle('enter');
     }
   };
 

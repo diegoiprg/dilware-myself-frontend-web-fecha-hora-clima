@@ -15,6 +15,9 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  experimental: {
+    optimizePackageImports: [],
+  },
   images: {
     unoptimized: true,
     remotePatterns: [

@@ -4,6 +4,7 @@ import Script from 'next/script';
 import './globals.css';
 import { SettingsProvider } from '@/context/SettingsContext';
 import { Toaster } from '@/components/ui/toaster';
+import { Analytics } from '@/components/Analytics';
 
 const fontHeadline = Orbitron({
   subsets: ['latin'],
@@ -52,6 +53,7 @@ export default function RootLayout({
       </head>
       <body className="font-body antialiased">
         <SettingsProvider>
+          <Analytics />
           {children}
           <Toaster />
         </SettingsProvider>

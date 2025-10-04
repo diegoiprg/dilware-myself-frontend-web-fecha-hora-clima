@@ -29,6 +29,7 @@ import { Switch } from '@/components/ui/switch';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Settings } from 'lucide-react';
 import { useSettings } from '@/context/SettingsContext';
+import { trackUserInteraction } from '@/lib/analytics';
 
 /**
  * SettingsPanel - Configuration panel component
@@ -47,6 +48,11 @@ export const SettingsPanel = ({ appVersion }: { appVersion: string }) => {
     setRefreshInterval,
   } = useSettings();
 
+  // Track settings panel open
+  const handleSettingsOpen = () => {
+    trackUserInteraction.settingsPanelOpen();
+  };
+
   return (
     // Container for version text and settings trigger, aligned horizontally
     <div className="flex items-center gap-2 sm:gap-4">
@@ -63,6 +69,7 @@ export const SettingsPanel = ({ appVersion }: { appVersion: string }) => {
       <Sheet>
         <SheetTrigger asChild>
           <button
+            onClick={handleSettingsOpen}
             className="text-muted-foreground hover:text-foreground transition-colors bg-white/20 rounded-full p-2"
             aria-label="Settings"
             title="Settings"
@@ -79,7 +86,12 @@ export const SettingsPanel = ({ appVersion }: { appVersion: string }) => {
               <Label>Unidad de Temperatura</Label>
               <RadioGroup
                 value={tempUnit}
-                onValueChange={(value) => setTempUnit(value as any)}
+                onValueChange={(value) => {
+                  setTempUnit(value as any);
+                  trackUserInteraction.temperatureUnitChange(
+                    value as 'C' | 'F'
+                  );
+                }}
               >
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="C" id="celsius" />
@@ -95,7 +107,10 @@ export const SettingsPanel = ({ appVersion }: { appVersion: string }) => {
               <Label>Formato de Hora</Label>
               <RadioGroup
                 value={timeFormat}
-                onValueChange={(value) => setTimeFormat(value as any)}
+                onValueChange={(value) => {
+                  setTimeFormat(value as any);
+                  trackUserInteraction.timeFormatChange(value as '12h' | '24h');
+                }}
               >
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="24h" id="24h" />
@@ -112,14 +127,21 @@ export const SettingsPanel = ({ appVersion }: { appVersion: string }) => {
               <Switch
                 id="show-seconds"
                 checked={showSeconds}
-                onCheckedChange={setShowSeconds}
+                onCheckedChange={(checked) => {
+                  setShowSeconds(checked);
+                  trackUserInteraction.secondsToggle(checked);
+                }}
               />
             </div>
             <div className="grid gap-3">
               <Label>Intervalo de Actualización</Label>
               <Select
                 value={String(refreshInterval)}
-                onValueChange={(value) => setRefreshInterval(Number(value))}
+                onValueChange={(value) => {
+                  const numValue = Number(value);
+                  setRefreshInterval(numValue);
+                  trackUserInteraction.refreshIntervalChange(numValue);
+                }}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Seleccionar intervalo" />

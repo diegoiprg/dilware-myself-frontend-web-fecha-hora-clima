@@ -3,7 +3,7 @@
 [![Deploy to GitHub Pages](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml/badge.svg?branch=main)](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml)
 [![Build Status](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml/badge.svg)](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-v1.7.0-blue.svg)](./package.json)
+[![Version](https://img.shields.io/badge/version-v1.8.0-blue.svg)](./package.json)
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org/)
 [![Next.js](https://img.shields.io/badge/Next.js-15.3.3-black)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue)](https://www.typescriptlang.org/)
@@ -24,10 +24,49 @@ Minimalist and full-screen web application developed with a vibecoding approach 
 - **Date Display**: Shows the current day of the week, month, and day.
 - **Geolocation**: Automatically detects and displays the user's city and country.
 - **Live Weather**: Provides real-time weather information, including temperature and a descriptive icon for the current conditions.
-- **Fullscreen Mode**: Click on the time to enter an immersive, distraction-free fullscreen view.
-- **Screen Wake Lock**: The application keeps the screen on, making it ideal for continuous display.
+- **Fullscreen Mode**: Click on the time to enter an immersive, distraction-free fullscreen view with automatic screen wake lock to prevent sleep.
+- **Screen Wake Lock**: Keeps the screen awake during fullscreen mode (compatibility varies by device and OS).
 - **Customizable Settings**: A settings panel allows users to toggle features like the clock format and seconds display.
 - **Responsive Design**: The layout adapts gracefully to different screen sizes, from mobile devices to large desktop monitors.
+
+## Usage
+
+### Getting Started
+
+1. **Load the Application**: Open your web browser and navigate to the dashboard URL
+2. **Automatic Setup**: The application will automatically detect your location and display current weather information
+3. **Optional Fullscreen**: Click on the displayed clock to enter fullscreen mode for an immersive experience with automatic screen wake lock
+4. **Access Settings**: Click the settings icon (⚙️) in the top-right corner to customize the application
+
+### Interface Overview
+
+- **Clock Display**: Large, prominent time display in the center
+- **Date Information**: Current date shown above or beside the clock
+- **Location & Weather**: Real-time weather data with temperature, conditions, and additional metrics
+- **Settings Panel**: Accessible via the gear icon for personalization options
+
+### Fullscreen Mode & Screen Wake Lock
+
+When entering fullscreen mode, the application automatically attempts to prevent screen sleep using the Screen Wake Lock API:
+
+**✅ Compatible Devices:**
+
+- Android tablets with Android 6.0+ (tested and working)
+- Most modern desktop browsers
+- Modern Android smartphones
+
+**❌ Incompatible Devices:**
+
+- iPhone/iOS devices (iOS restrictions prevent wake lock functionality)
+- Android tablets with Android 4.x (screen may still lock, unless device is configured to stay awake while charging)
+
+**Note**: Screen wake lock compatibility depends on device OS version and browser implementation. The feature gracefully fails on unsupported devices without affecting other functionality.
+
+### Recommended Usage
+
+- **Continuous Display**: Ideal for tablets, secondary monitors, or digital signage
+- **Personal Dashboard**: Perfect for home office setups or personal information displays
+- **Device Integration**: Works well on tablets repurposed as smart displays
 
 ## Screenshots
 
@@ -185,6 +224,10 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 5. Open a Pull Request
 
 ## Changelog
+
+### v1.8.0
+
+- Comprehensive Google Analytics 4 implementation with event tracking for user interactions, weather/location events, app usage, custom dimensions, and error monitoring
 
 ### v1.7.0
 
