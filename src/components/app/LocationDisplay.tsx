@@ -15,6 +15,9 @@ export const LocationDisplay = ({ displayName }: { displayName?: string }) => {
           <div className="bg-white/20 rounded-full p-2">
             <MapPin className="size-5 sm:size-6 md:size-7 lg:size-8" />
           </div>
+          <span className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-muted-foreground">
+            ...
+          </span>
         </div>
       </div>
     );
@@ -35,12 +38,12 @@ export const LocationDisplay = ({ displayName }: { displayName?: string }) => {
         <div className="bg-white/20 rounded-full p-2">
           <MapPin className="size-5 sm:size-6 md:size-7 lg:size-8" />
         </div>
+        {provinceDepartmentCountry && (
+          <span className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-muted-foreground whitespace-normal">
+            {provinceDepartmentCountry}
+          </span>
+        )}
       </div>
-      {provinceDepartmentCountry && (
-        <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-muted-foreground text-center landscape:text-left whitespace-normal">
-          {provinceDepartmentCountry}
-        </div>
-      )}
     </div>
   );
 };

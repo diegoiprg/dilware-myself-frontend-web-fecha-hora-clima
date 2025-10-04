@@ -133,6 +133,10 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 
 ## Changelog
 
+### v1.6.13
+
+- Repositioned location icon to the left with location text on the right, creating a horizontal layout between the address information lines
+
 ### v1.6.12
 
 - Restructured location display: province, department and country on bottom line, all other location information on top line
