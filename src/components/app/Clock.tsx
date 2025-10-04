@@ -115,7 +115,7 @@ export const Clock = React.memo(
               : isDesktop
               ? 'lg:text-[20rem] xl:text-[25rem] 2xl:text-[30rem]'
               : ''
-          } leading-none whitespace-nowrap tabular-nums ${
+          } leading-none whitespace-nowrap tabular-nums overflow-hidden ${
             isFullscreenSupported ? 'cursor-pointer' : 'cursor-default'
           }`}
         >

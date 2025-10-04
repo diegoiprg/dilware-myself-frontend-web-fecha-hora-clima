@@ -18,7 +18,7 @@
  * - Row 4: Weather (centered) - auto height
  *
  * Layout Structure (Landscape):
- * - Row 1: Date (left column, centered) and Version/Menu (right column, centered)
+ * - Row 1: Date (centered) and Version/Menu (centered)
  * - Row 2: Clock (spans full width)
  * - Row 3: Location (left) and Weather (right)
  */
@@ -148,15 +148,15 @@ export default function MainContent() {
       <div
         className={`h-full w-full max-w-none mx-auto grid grid-rows-[auto_auto_1fr_auto] landscape:grid-rows-[1fr_1fr_3fr_1fr] landscape:grid-cols-2 place-items-center p-2 sm:p-4 md:p-6 lg:p-8`}
       >
-        {/* Row 1: Date (left) and Version+Menu (right) */}
-        <div className="flex w-full items-center landscape:grid landscape:grid-cols-2 landscape:gap-4">
-          {/* Date - full width centered in portrait, left column centered in landscape */}
-          <div className="w-full text-center landscape:col-start-1 landscape:flex landscape:justify-center">
+        {/* Row 1: Date (centered) and Version/Menu (centered) */}
+        <div className="flex w-full items-center landscape:col-span-2">
+          {/* Date - full width centered in portrait, flex-1 centered in landscape */}
+          <div className="w-full text-center landscape:flex-1 landscape:justify-center">
             <DateDisplay date={currentTime} />
           </div>
 
-          {/* Version + Menu - flex-1 centered in portrait, right column centered in landscape */}
-          <div className="flex-1 flex items-center justify-center gap-2 min-w-0 landscape:col-start-2 landscape:justify-center">
+          {/* Version + Menu - flex-1 centered in portrait and landscape */}
+          <div className="flex-1 flex items-center justify-center gap-2 min-w-0">
             <a
               href="https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima"
               target="_blank"
