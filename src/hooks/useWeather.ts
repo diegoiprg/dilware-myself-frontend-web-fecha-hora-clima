@@ -89,5 +89,9 @@ export const useWeather = (latitude?: number, longitude?: number) => {
     }
   }, [refreshInterval, fetchWeather]);
 
-  return { weather, error, loading };
+  const retry = () => {
+    fetchWeather();
+  };
+
+  return { weather, error, loading, retry };
 };

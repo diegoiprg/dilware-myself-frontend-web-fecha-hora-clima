@@ -149,6 +149,7 @@ interface Props {
   weather: WeatherData | null;
   loading: boolean;
   error: string | null;
+  onRetry?: () => void;
 }
 
 /**
@@ -158,11 +159,12 @@ interface Props {
  * @param loading - Whether weather data is loading
  * @param error - Error message if weather fetch failed
  */
-export const WeatherDisplay = ({ weather, loading, error }: Props) => {
+export const WeatherDisplay = ({ weather, loading, error, onRetry }: Props) => {
   const { tempUnit } = useSettings();
 
-  if (loading && !weather) return <WeatherSkeleton error={error} />;
-  if (!weather) return <WeatherSkeleton error={error} />;
+  if (loading && !weather)
+    return <WeatherSkeleton error={error} onRetry={onRetry} />;
+  if (!weather) return <WeatherSkeleton error={error} onRetry={onRetry} />;
 
   const weatherIcon = getWeatherIcon(weather.weatherCode, true);
   const smallWeatherIcon = getWeatherIcon(weather.weatherCode);

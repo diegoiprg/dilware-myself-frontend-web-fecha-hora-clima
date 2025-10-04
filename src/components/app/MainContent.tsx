@@ -106,6 +106,7 @@ export default function MainContent() {
     weather,
     error: weatherError,
     loading: weatherLoading,
+    retry: retryWeather,
   } = useWeather(location?.latitude, location?.longitude);
 
   /**
@@ -177,6 +178,7 @@ export default function MainContent() {
               weather={weather}
               loading={weatherLoading}
               error={weatherError || locationError}
+              onRetry={retryWeather}
             />
           </div>
         )}
