@@ -3,7 +3,7 @@
 [![Deploy to GitHub Pages](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml/badge.svg?branch=main)](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml)
 [![Build Status](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml/badge.svg)](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-v1.8.4-blue.svg)](./package.json)
+[![Version](https://img.shields.io/badge/version-v1.8.5-blue.svg)](./package.json)
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org/)
 [![Next.js](https://img.shields.io/badge/Next.js-15.3.3-black)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue)](https://www.typescriptlang.org/)
@@ -201,7 +201,7 @@ The application includes comprehensive Google Analytics 4 integration to track u
 - **Weather & Location**: Data loading success/failure, geolocation permissions, location accuracy
 - **User Environment**: Browser name/version, operating system, device type, screen resolution, pixel ratio, touch support, language, timezone
 - **Error Monitoring**: JavaScript errors with context and stack traces
-- **Version Management**: Update availability checks, user update notifications, version status tracking, update check interval preferences
+- **Version Management**: Update availability checks, user update notifications, version status tracking, update check interval preferences, update applications via icon click
 
 ## Configuration Options
 
@@ -228,8 +228,8 @@ The application includes an intelligent update notification system that keeps us
 
 ### Visual Indicators
 
-- **🔄 Checking**: Blue spinning icon when checking for updates
-- **⚠️ Update Available**: Orange warning icon when a new version is detected
+- **🔄 Checking**: Blue spinning icon when checking for updates (positioned before version text)
+- **⚠️ Update Available**: Orange warning icon when a new version is detected - **clickable** to immediately apply update
 - **✅ Up to Date**: Green checkmark icon when the app is current
 
 ### Notification Features
@@ -246,10 +246,11 @@ The application includes an intelligent update notification system that keeps us
 2. **Periodic Checks**: Automatically checks for new versions at user-configurable intervals (1-24 hours, or never)
 3. **API Fallback**: If GitHub API fails, falls back to local package.json version check
 4. **Timeout Protection**: 8-second timeout for API calls, 3-second timeout for fallbacks to prevent hanging
-5. **Visual Feedback**: Shows appropriate icons (loading 🔄, update ⚠️, up-to-date ✅) in settings panel
-6. **Smart Notifications**: Displays toast messages only when updates are actually available
-7. **Analytics Tracking**: Records all version check interactions and interval preferences for usage analysis
-8. **User Control**: Complete customization of update checking frequency through settings panel
+5. **Visual Feedback**: Shows appropriate icons positioned before version text (loading 🔄, update ⚠️, up-to-date ✅)
+6. **One-Click Updates**: Click the orange warning icon (⚠️) to immediately reload and apply the latest version
+7. **Smart Notifications**: Displays toast messages only when updates are actually available
+8. **Analytics Tracking**: Records all version check interactions, interval preferences, and update applications
+9. **User Control**: Complete customization of update checking frequency through settings panel
 
 ### Privacy & Compliance
 
@@ -294,6 +295,14 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 5. Open a Pull Request
 
 ## Changelog
+
+### v1.8.5
+
+- **Enhanced Update Icon UI**: Moved update status icon before version text for better visual hierarchy and consistency
+- **Clickable Update Icon**: Update available icon (⚠️) is now clickable and triggers immediate page reload to apply the latest version
+- **Consistent Icon Sizing**: All update status icons now match the settings icon size (size-6) for visual consistency
+- **Improved User Experience**: Direct action available when updates are detected - no need to manually refresh the page
+- **Better Visual Feedback**: Hover effects and cursor pointer on clickable update icon for clear user interaction cues
 
 ### v1.8.4
 

@@ -84,6 +84,9 @@ export const trackUserInteraction = {
 
   updateCheckIntervalChange: (interval: number) =>
     trackEvent('update_check_interval_change', { interval_hours: interval }),
+
+  updateApplied: (version: string) =>
+    trackEvent('update_applied', { applied_version: version }),
 };
 
 /**

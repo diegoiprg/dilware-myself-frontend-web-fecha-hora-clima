@@ -80,16 +80,33 @@ export const SettingsPanel = ({ appVersion }: { appVersion: string }) => {
     }
   }, [versionCheck.hasUpdate, versionCheck.latestVersion, toast]);
 
+  // Handle update icon click - reload page when update is available
+  const handleUpdateIconClick = () => {
+    if (versionCheck.hasUpdate) {
+      trackUserInteraction.updateApplied(
+        versionCheck.latestVersion || 'unknown'
+      );
+      window.location.reload();
+    }
+  };
+
   // Get the appropriate icon based on version status
   const getVersionIcon = () => {
     if (versionCheck.isChecking) {
-      return <RefreshCw className="size-4 animate-spin text-blue-500" />;
+      return <RefreshCw className="size-6 animate-spin text-blue-500" />;
     }
     if (versionCheck.hasUpdate) {
-      return <AlertCircle className="size-4 text-orange-500" />;
+      return (
+        <div title="Click to update to the latest version">
+          <AlertCircle
+            className="size-6 text-orange-500 cursor-pointer hover:text-orange-600 transition-colors"
+            onClick={handleUpdateIconClick}
+          />
+        </div>
+      );
     }
     if (versionCheck.latestVersion && !versionCheck.hasUpdate) {
-      return <CheckCircle className="size-4 text-green-500" />;
+      return <CheckCircle className="size-6 text-green-500" />;
     }
     return null;
   };
@@ -104,16 +121,16 @@ export const SettingsPanel = ({ appVersion }: { appVersion: string }) => {
     <div className="flex items-center gap-2 sm:gap-4">
       {/* Display the current app version with status icon */}
       <div className="flex items-center gap-1">
+        {getVersionIcon()}
         <a
           href="https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-[1.75rem] text-muted-foreground/50 font-code hover:text-muted-foreground transition-colors flex items-center gap-1"
+          className="text-[1.75rem] text-muted-foreground/50 font-code hover:text-muted-foreground transition-colors"
           title={getVersionTooltip()}
         >
           {appVersion}
         </a>
-        {getVersionIcon()}
       </div>
       {/* Settings panel trigger button */}
       <Sheet>
