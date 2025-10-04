@@ -12,6 +12,8 @@ import {
   CloudDrizzle,
   ArrowUp,
   ArrowDown,
+  CloudRainWind,
+  Leaf,
 } from 'lucide-react';
 import type { WeatherData } from '@/hooks/useWeather';
 import { useEffect } from 'react';
@@ -135,6 +137,30 @@ const getWeatherDescription = (weatherCode: number): string => {
 };
 
 /**
+ * Returns air quality description and color based on EPA index
+ * @param aqi - Air Quality Index (1-6, EPA scale)
+ * @returns Object with description and color
+ */
+const getAirQualityInfo = (aqi: number) => {
+  switch (aqi) {
+    case 1:
+      return { description: 'Buena', color: 'text-green-500' };
+    case 2:
+      return { description: 'Moderada', color: 'text-yellow-500' };
+    case 3:
+      return { description: 'Mala', color: 'text-orange-500' };
+    case 4:
+      return { description: 'Muy mala', color: 'text-red-500' };
+    case 5:
+      return { description: 'Severa', color: 'text-purple-500' };
+    case 6:
+      return { description: 'Peligrosa', color: 'text-red-700' };
+    default:
+      return { description: 'Desconocida', color: 'text-gray-500' };
+  }
+};
+
+/**
  * Formats temperature value with the specified unit
  * @param temp - Temperature value in Celsius
  * @param unit - Temperature unit ('C' or 'F')
@@ -221,6 +247,30 @@ export const WeatherDisplay = ({ weather, loading, error, onRetry }: Props) => {
             </div>
             <span className="text-lg sm:text-xl md:text-2xl">
               {Math.round(weather.uvIndex)}
+            </span>
+          </div>
+          <div className="flex items-center gap-1">
+            <div className="bg-white/20 rounded-full p-1">
+              <CloudRainWind className="size-4 sm:size-5 md:size-6 lg:size-7" />
+            </div>
+            <span className="text-lg sm:text-xl md:text-2xl">
+              {Math.round(weather.rainProbability)}%
+            </span>
+          </div>
+          <div className="flex items-center gap-1">
+            <div className="bg-white/20 rounded-full p-1">
+              <Leaf
+                className={`size-4 sm:size-5 md:size-6 lg:size-7 ${
+                  getAirQualityInfo(weather.airQuality).color
+                }`}
+              />
+            </div>
+            <span
+              className={`text-lg sm:text-xl md:text-2xl ${
+                getAirQualityInfo(weather.airQuality).color
+              }`}
+            >
+              {getAirQualityInfo(weather.airQuality).description}
             </span>
           </div>
         </div>

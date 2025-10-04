@@ -103,7 +103,7 @@ export const Clock = React.memo(
       <main className="w-full flex-1 flex flex-col items-center justify-center">
         <div
           onClick={isFullscreenSupported ? onClick : undefined}
-          className={`bg-white/10 backdrop-blur-xl rounded-3xl p-8 font-code font-bold text-center text-7xl sm:text-8xl md:text-9xl lg:text-[10rem] xl:text-[12rem] 2xl:text-[15rem] ${
+          className={`bg-white/10 backdrop-blur-xl rounded-3xl p-8 font-code font-bold text-center text-7xl sm:text-8xl md:text-9xl lg:text-[10rem] xl:text-[12rem] 2xl:text-[15rem] dark:bg-transparent dark:backdrop-blur-none dark:rounded-none dark:p-0 ${
             isAndroidTablet
               ? isPortrait
                 ? 'md:text-[16rem] lg:text-[18rem] xl:text-[20rem] 2xl:text-[23rem]'

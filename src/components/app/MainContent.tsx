@@ -32,7 +32,7 @@ import { useAppLocation } from '@/hooks/useAppLocation';
 import { useWeather } from '@/hooks/useWeather';
 import { Clock } from '@/components/app/Clock';
 import { LoadingScreen } from '@/components/app/LoadingScreen';
-import { SettingsPanel } from '@/components/app/SettingsPanel';
+import { Header } from '@/components/app/Header';
 import { DateDisplay } from '@/components/app/DateDisplay';
 import { LocationDisplay } from '@/components/app/LocationDisplay';
 import { WeatherDisplay } from '@/components/app/WeatherDisplay';
@@ -145,23 +145,17 @@ export default function MainContent() {
       ref={containerRef}
       className="bg-background text-foreground h-screen w-screen select-none overflow-hidden pt-[env(safe-area-inset-top)] pl-[env(safe-area-inset-left)] pr-[env(safe-area-inset-right)] pb-[env(safe-area-inset-bottom)]"
     >
-      {/* Grid container with responsive layout: 5 rows portrait, 3 rows landscape */}
+      {/* Grid container with responsive layout: 6 rows portrait, 4 rows landscape */}
       <div
-        className={`h-full w-full max-w-none mx-auto grid ${
-          weather || weatherLoading
-            ? 'grid-rows-[1fr_1fr_3fr_1fr_1fr]'
-            : 'grid-rows-[1fr_1fr_3fr_2fr]'
-        } landscape:grid-rows-[1fr_3fr_1fr] landscape:grid-cols-2 place-items-center p-2 sm:p-4 md:p-6 lg:p-8`}
+        className={`h-full w-full max-w-none mx-auto grid grid-rows-[1fr_1fr_1fr_3fr_1fr_1fr] landscape:grid-rows-[1fr_1fr_3fr_1fr] landscape:grid-cols-2 place-items-center p-2 sm:p-4 md:p-6 lg:p-8`}
       >
-        <div className="flex items-center gap-4 justify-self-center landscape:col-start-2 landscape:row-start-1 landscape:justify-self-end -mt-2 sm:-mt-4 md:-mt-6 lg:-mt-8">
-          <SettingsPanel appVersion={APP_VERSION} />
-        </div>
+        <Header appVersion={APP_VERSION} />
 
-        <div className="justify-self-center landscape:col-start-1 landscape:row-start-1 landscape:justify-self-start">
+        <div className="justify-self-center landscape:col-start-1 landscape:row-start-2 landscape:justify-self-start landscape:text-left landscape:w-full">
           <DateDisplay date={currentTime} />
         </div>
 
-        <div className="w-full h-full flex items-center justify-center max-w-[90%] landscape:col-span-2 landscape:row-start-2">
+        <div className="w-full h-full flex items-center justify-center max-w-[90%] landscape:col-span-2 landscape:row-start-3">
           <Clock
             time={currentTime}
             onClick={handleFullscreen}
@@ -169,18 +163,12 @@ export default function MainContent() {
           />
         </div>
 
-        <div
-          className={`landscape:col-start-1 landscape:row-start-3 landscape:self-end landscape:mb-4 ${
-            !(weather || weatherLoading)
-              ? 'landscape:col-span-2 landscape:justify-self-center'
-              : 'landscape:justify-self-start'
-          }`}
-        >
+        <div className="justify-self-center landscape:col-start-1 landscape:row-start-4 landscape:justify-self-start landscape:text-left landscape:w-full">
           <LocationDisplay displayName={location?.displayName} />
         </div>
 
         {(weather || weatherLoading) && (
-          <div className="justify-self-center landscape:col-start-2 landscape:row-start-3 landscape:justify-self-end landscape:self-end">
+          <div className="justify-self-center landscape:col-start-2 landscape:row-start-4 landscape:justify-self-end landscape:text-right landscape:w-full">
             <WeatherDisplay
               weather={weather}
               loading={weatherLoading}

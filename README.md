@@ -3,7 +3,7 @@
 [![Deploy to GitHub Pages](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml/badge.svg?branch=main)](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml)
 [![Build Status](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml/badge.svg)](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-v1.8.10-blue.svg)](./package.json)
+[![Version](https://img.shields.io/badge/version-v1.9.1-blue.svg)](./package.json)
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org/)
 [![Next.js](https://img.shields.io/badge/Next.js-15.3.3-black)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue)](https://www.typescriptlang.org/)
@@ -111,7 +111,8 @@ This application relies on the following external services and permissions:
 
 - **APIs**:
 
-  - [Open-Meteo API](https://open-meteo.com/) for weather data
+  - [WeatherAPI.com](https://www.weatherapi.com/) for primary weather data (higher accuracy, rain probability, air quality)
+  - [Open-Meteo API](https://open-meteo.com/) for weather data fallback (free, unlimited)
   - [IP-API](https://ipapi.co/) for IP-based location fallback
   - [BigDataCloud API](https://www.bigdatacloud.com/) for reverse geocoding
 
@@ -181,18 +182,70 @@ Settings are automatically saved to your browser's local storage.
 Create a `.env.local` file in the project root for custom API endpoints:
 
 ```env
+# WeatherAPI.com (Primary - Higher accuracy, rain probability, air quality)
+NEXT_PUBLIC_WEATHERAPI_KEY=your_weatherapi_key_here
+
+# Open-Meteo (Fallback - Free, unlimited)
 NEXT_PUBLIC_WEATHER_API_BASE=https://api.open-meteo.com/v1/forecast
 ```
 
+**WeatherAPI.com Setup:**
+
+1. Sign up at [weatherapi.com](https://www.weatherapi.com/)
+2. Get your free API key (1000 calls/day)
+3. Add it to your `.env.local` file
+4. The app will automatically use WeatherAPI.com when available, falling back to Open-Meteo when quota is exceeded
+
 ## Data Sources
 
-- **Weather Data**: [Open-Meteo API](https://open-meteo.com/) - Free weather API providing current conditions and forecasts
+- **Weather Data**: [WeatherAPI.com](https://www.weatherapi.com/) (Primary) - High-accuracy weather API with rain probability, air quality index, and detailed forecasts (1000 free calls/day). Falls back to [Open-Meteo API](https://open-meteo.com/) (unlimited free tier) when quota exceeded
 - **Geolocation**: Browser Geolocation API with fallback to IP-based location via [IP-API](https://ipapi.co/)
 - **Reverse Geocoding**: [BigDataCloud API](https://www.bigdatacloud.com/) for converting coordinates to human-readable addresses
 
 ## Analytics & User Tracking
 
 The application includes comprehensive Google Analytics 4 integration to track user behavior and environment data:
+
+### Accessing User Device Information
+
+To view detailed technical information about your users' devices and environment, follow these steps:
+
+1. **Access Google Analytics 4**:
+
+   - Go to [analytics.google.com](https://analytics.google.com)
+   - Select your GA4 property (ID: G-FF81FMV5GT)
+
+2. **Navigate to Reports**:
+
+   - Click on "Reports" in the left sidebar
+   - Go to "Tech" section → "Tech details"
+
+3. **View Device & Environment Data**:
+
+   - **Device Category**: Mobile, Tablet, Desktop usage breakdown
+   - **Operating System**: iOS, Android, macOS, Windows, Linux distribution
+   - **Browser**: Safari, Chrome, Firefox, Edge usage statistics
+   - **Screen Resolution**: Most common screen sizes and pixel ratios
+   - **Language**: User language preferences
+   - **Country/Region**: Geographic distribution of users
+
+4. **Custom Dimensions & Events**:
+
+   - **Custom Events**: Track fullscreen toggles, settings changes, theme switches
+   - **User Environment**: Browser version, OS version, device type, touch support
+   - **App Usage**: Orientation changes, version updates, feature interactions
+   - **Error Monitoring**: JavaScript errors with context and stack traces
+
+5. **Real-time Monitoring**:
+
+   - Go to "Reports" → "Realtime" to see live user activity
+   - Monitor active users, page views, and real-time events
+   - View current user locations and device types
+
+6. **Advanced Analysis**:
+   - Create custom reports combining device data with user behavior
+   - Set up alerts for specific device categories or error rates
+   - Use audience segmentation based on device characteristics
 
 ### Tracked Data
 
@@ -317,6 +370,23 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 5. Open a Pull Request
 
 ## Changelog
+
+### v1.9.1
+
+- **Layout Correction**: Fixed header layout - date now appears above clock as originally intended, maintaining proper visual hierarchy
+- **Enhanced Weather Provider**: Upgraded to WeatherAPI.com as primary weather data source for higher accuracy, with Open-Meteo as fallback when API limits are reached
+- **Rain Probability Indicator**: Added rain probability percentage with cloud-rain-wind icon following the established design pattern
+- **Air Quality Index**: Implemented comprehensive air quality monitoring with EPA index scale, color-coded indicators (Good/Moderate/Poor/Very Poor/Severe/Hazardous), and leaf icon
+- **Improved Weather Accuracy**: WeatherAPI.com provides more precise local weather data compared to Open-Meteo, especially for precipitation and air quality metrics
+- **Fallback Reliability**: Robust fallback mechanism ensures weather data availability even when primary API has quota limitations
+
+### v1.9.0
+
+- **Redesigned Header Layout**: Settings icon moved to dedicated top row aligned right, version with update status icon in separate centered row below
+- **Consistent Interval Labels**: Both weather and update check intervals now use "Cada" prefix for uniform presentation
+- **Enhanced Dark Mode**: Clock background removed in dark mode to match light mode transparency, creating more elegant appearance
+- **Improved Version Detection**: Enhanced update checking system with better error handling and visual feedback
+- **Google Analytics Access Guide**: Added comprehensive instructions for accessing user device and environment data through GA4 interface
 
 ### v1.8.10
 

@@ -349,11 +349,13 @@ export const SettingsPanel = ({ appVersion }: { appVersion: string }) => {
                     <SelectValue placeholder="Seleccionar intervalo" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="1">1 minuto (por defecto)</SelectItem>
-                    <SelectItem value="5">5 minutos</SelectItem>
-                    <SelectItem value="10">10 minutos</SelectItem>
-                    <SelectItem value="15">15 minutos</SelectItem>
-                    <SelectItem value="30">30 minutos</SelectItem>
+                    <SelectItem value="1">
+                      Cada 1 minuto (por defecto)
+                    </SelectItem>
+                    <SelectItem value="5">Cada 5 minutos</SelectItem>
+                    <SelectItem value="10">Cada 10 minutos</SelectItem>
+                    <SelectItem value="15">Cada 15 minutos</SelectItem>
+                    <SelectItem value="30">Cada 30 minutos</SelectItem>
                     <SelectItem value="0">Nunca</SelectItem>
                   </SelectContent>
                 </Select>
