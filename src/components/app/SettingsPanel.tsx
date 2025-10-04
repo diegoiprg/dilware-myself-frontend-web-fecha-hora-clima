@@ -57,8 +57,8 @@ export const SettingsPanel = ({ appVersion }: { appVersion: string }) => {
     setUpdateCheckInterval,
   } = useSettings();
 
-  // Version checking hook with dynamic interval (convert hours to milliseconds)
-  const versionCheck = useVersionCheck(updateCheckInterval * 60 * 60 * 1000);
+  // Version checking hook with dynamic interval (convert minutes to milliseconds)
+  const versionCheck = useVersionCheck(updateCheckInterval * 60 * 1000);
   const { toast } = useToast();
 
   // Track settings panel open
@@ -149,102 +149,118 @@ export const SettingsPanel = ({ appVersion }: { appVersion: string }) => {
             <SheetTitle>Configuración</SheetTitle>
           </SheetHeader>
           <div className="grid gap-6 py-6">
-            <div className="grid gap-3">
-              <Label>Unidad de Temperatura</Label>
-              <RadioGroup
-                value={tempUnit}
-                onValueChange={(value) => {
-                  setTempUnit(value as any);
-                  trackUserInteraction.temperatureUnitChange(
-                    value as 'C' | 'F'
-                  );
-                }}
-              >
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="C" id="celsius" />
-                  <Label htmlFor="celsius">Celsius (°C)</Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="F" id="fahrenheit" />
-                  <Label htmlFor="fahrenheit">Fahrenheit (°F)</Label>
-                </div>
-              </RadioGroup>
+            {/* Display Settings Section */}
+            <div className="space-y-4">
+              <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
+                Pantalla
+              </h3>
+              <div className="grid gap-3">
+                <Label>Unidad de Temperatura</Label>
+                <RadioGroup
+                  value={tempUnit}
+                  onValueChange={(value) => {
+                    setTempUnit(value as any);
+                    trackUserInteraction.temperatureUnitChange(
+                      value as 'C' | 'F'
+                    );
+                  }}
+                >
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="C" id="celsius" />
+                    <Label htmlFor="celsius">Celsius (°C)</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="F" id="fahrenheit" />
+                    <Label htmlFor="fahrenheit">Fahrenheit (°F)</Label>
+                  </div>
+                </RadioGroup>
+              </div>
+              <div className="grid gap-3">
+                <Label>Formato de Hora</Label>
+                <RadioGroup
+                  value={timeFormat}
+                  onValueChange={(value) => {
+                    setTimeFormat(value as any);
+                    trackUserInteraction.timeFormatChange(
+                      value as '12h' | '24h'
+                    );
+                  }}
+                >
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="24h" id="24h" />
+                    <Label htmlFor="24h">24 Horas</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="12h" id="12h" />
+                    <Label htmlFor="12h">12 Horas (am/pm)</Label>
+                  </div>
+                </RadioGroup>
+              </div>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="show-seconds">Mostrar Segundos</Label>
+                <Switch
+                  id="show-seconds"
+                  checked={showSeconds}
+                  onCheckedChange={(checked) => {
+                    setShowSeconds(checked);
+                    trackUserInteraction.secondsToggle(checked);
+                  }}
+                />
+              </div>
             </div>
-            <div className="grid gap-3">
-              <Label>Formato de Hora</Label>
-              <RadioGroup
-                value={timeFormat}
-                onValueChange={(value) => {
-                  setTimeFormat(value as any);
-                  trackUserInteraction.timeFormatChange(value as '12h' | '24h');
-                }}
-              >
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="24h" id="24h" />
-                  <Label htmlFor="24h">24 Horas</Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="12h" id="12h" />
-                  <Label htmlFor="12h">12 Horas (am/pm)</Label>
-                </div>
-              </RadioGroup>
-            </div>
-            <div className="flex items-center justify-between">
-              <Label htmlFor="show-seconds">Mostrar Segundos</Label>
-              <Switch
-                id="show-seconds"
-                checked={showSeconds}
-                onCheckedChange={(checked) => {
-                  setShowSeconds(checked);
-                  trackUserInteraction.secondsToggle(checked);
-                }}
-              />
-            </div>
-            <div className="grid gap-3">
-              <Label>Intervalo de Actualización del Clima</Label>
-              <Select
-                value={String(refreshInterval)}
-                onValueChange={(value) => {
-                  const numValue = Number(value);
-                  setRefreshInterval(numValue);
-                  trackUserInteraction.refreshIntervalChange(numValue);
-                }}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Seleccionar intervalo" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="5">5 minutos</SelectItem>
-                  <SelectItem value="10">10 minutos</SelectItem>
-                  <SelectItem value="15">15 minutos</SelectItem>
-                  <SelectItem value="30">30 minutos</SelectItem>
-                  <SelectItem value="0">Nunca</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="grid gap-3">
-              <Label>Intervalo de Verificación de Actualizaciones</Label>
-              <Select
-                value={String(updateCheckInterval)}
-                onValueChange={(value) => {
-                  const numValue = Number(value);
-                  setUpdateCheckInterval(numValue);
-                  trackUserInteraction.updateCheckIntervalChange(numValue);
-                }}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Seleccionar intervalo" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="1">Cada hora</SelectItem>
-                  <SelectItem value="2">Cada 2 horas</SelectItem>
-                  <SelectItem value="4">Cada 4 horas</SelectItem>
-                  <SelectItem value="6">Cada 6 horas</SelectItem>
-                  <SelectItem value="12">Cada 12 horas</SelectItem>
-                  <SelectItem value="24">Cada 24 horas</SelectItem>
-                  <SelectItem value="0">Nunca</SelectItem>
-                </SelectContent>
-              </Select>
+
+            {/* Data Updates Section */}
+            <div className="space-y-4">
+              <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
+                Actualizaciones de Datos
+              </h3>
+              <div className="grid gap-3">
+                <Label>Intervalo de Actualización del Clima</Label>
+                <Select
+                  value={String(refreshInterval)}
+                  onValueChange={(value) => {
+                    const numValue = Number(value);
+                    setRefreshInterval(numValue);
+                    trackUserInteraction.refreshIntervalChange(numValue);
+                  }}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Seleccionar intervalo" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="5">5 minutos</SelectItem>
+                    <SelectItem value="10">10 minutos</SelectItem>
+                    <SelectItem value="15">15 minutos</SelectItem>
+                    <SelectItem value="30">30 minutos</SelectItem>
+                    <SelectItem value="0">Nunca</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="grid gap-3">
+                <Label>Intervalo de Verificación de Actualizaciones</Label>
+                <Select
+                  value={String(updateCheckInterval)}
+                  onValueChange={(value) => {
+                    const numValue = Number(value);
+                    setUpdateCheckInterval(numValue);
+                    trackUserInteraction.updateCheckIntervalChange(numValue);
+                  }}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Seleccionar intervalo" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="5">Cada 5 minutos</SelectItem>
+                    <SelectItem value="15">Cada 15 minutos</SelectItem>
+                    <SelectItem value="30">Cada 30 minutos</SelectItem>
+                    <SelectItem value="60">Cada hora</SelectItem>
+                    <SelectItem value="120">Cada 2 horas</SelectItem>
+                    <SelectItem value="360">Cada 6 horas</SelectItem>
+                    <SelectItem value="720">Cada 12 horas</SelectItem>
+                    <SelectItem value="0">Nunca</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
           </div>
         </SheetContent>

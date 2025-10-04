@@ -26,7 +26,7 @@ interface Settings {
   timeFormat: TimeFormat;
   showSeconds: boolean;
   refreshInterval: number; // weather refresh interval in minutes
-  updateCheckInterval: number; // version update check interval in hours
+  updateCheckInterval: number; // version update check interval in minutes
 }
 
 /**
@@ -53,7 +53,7 @@ const defaultSettings: Settings = {
   timeFormat: '24h',
   showSeconds: true,
   refreshInterval: 10, // weather refresh interval in minutes
-  updateCheckInterval: 1, // version update check interval in hours
+  updateCheckInterval: 15, // version update check interval in minutes (15 min for active development)
 };
 
 /**

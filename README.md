@@ -3,7 +3,7 @@
 [![Deploy to GitHub Pages](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml/badge.svg?branch=main)](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml)
 [![Build Status](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml/badge.svg)](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-v1.8.5-blue.svg)](./package.json)
+[![Version](https://img.shields.io/badge/version-v1.8.6-blue.svg)](./package.json)
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org/)
 [![Next.js](https://img.shields.io/badge/Next.js-15.3.3-black)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue)](https://www.typescriptlang.org/)
@@ -205,18 +205,18 @@ The application includes comprehensive Google Analytics 4 integration to track u
 
 ## Configuration Options
 
-The app provides extensive customization options through the settings panel:
+The app provides extensive customization options through the organized settings panel:
 
-### Display Settings
+### Pantalla (Display Settings)
 
 - **Temperature Unit**: Choose between Celsius (°C) or Fahrenheit (°F)
 - **Time Format**: Select 12-hour (AM/PM) or 24-hour format
 - **Seconds Display**: Toggle visibility of seconds in the clock
 
-### Update Settings
+### Actualizaciones de Datos (Data Updates)
 
 - **Weather Refresh Interval**: Configure how often weather data updates (5, 10, 15, 30 minutes, or never)
-- **Version Check Interval**: Set how frequently the app checks for updates (1, 2, 4, 6, 12, 24 hours, or never)
+- **Version Check Interval**: Set how frequently the app checks for updates (5, 15, 30 minutes, 1, 2, 6, 12 hours, or never)
 
 ### Data Persistence
 
@@ -243,7 +243,7 @@ The application includes an intelligent update notification system that keeps us
 ### How It Works
 
 1. **Initial Check**: On app load, performs an immediate version check with robust error handling
-2. **Periodic Checks**: Automatically checks for new versions at user-configurable intervals (1-24 hours, or never)
+2. **Periodic Checks**: Automatically checks for new versions at user-configurable intervals (5 minutes to 12 hours, or never)
 3. **API Fallback**: If GitHub API fails, falls back to local package.json version check
 4. **Timeout Protection**: 8-second timeout for API calls, 3-second timeout for fallbacks to prevent hanging
 5. **Visual Feedback**: Shows appropriate icons positioned before version text (loading 🔄, update ⚠️, up-to-date ✅)
@@ -295,6 +295,14 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 5. Open a Pull Request
 
 ## Changelog
+
+### v1.8.6
+
+- **Fixed Version Detection for Deployed Apps**: Resolved issue where deployed versions weren't detected due to browser caching by implementing cache-busting headers and parameters for package.json fallback requests
+- **Reorganized Settings Panel**: Improved user experience by organizing settings into logical sections ("Pantalla" and "Actualizaciones de Datos") with clear visual separation
+- **Optimized Update Check Intervals**: Changed default update check interval from 1 hour to 15 minutes for active development, with granular control from 5 minutes to 12 hours
+- **Enhanced Cache-Busting**: Added timestamp parameters and no-cache headers to prevent stale version detection in deployed environments
+- **Better Settings UX**: Clear section headers and logical grouping make configuration options easier to find and understand
 
 ### v1.8.5
 

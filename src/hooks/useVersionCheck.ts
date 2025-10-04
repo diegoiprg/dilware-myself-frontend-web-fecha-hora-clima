@@ -28,7 +28,7 @@ export interface VersionInfo {
  * @param versionEndpoint - URL to fetch latest version info (optional)
  */
 export function useVersionCheck(
-  checkInterval: number = 60 * 60 * 1000, // 1 hour (default)
+  checkInterval: number = 15 * 60 * 1000, // 15 minutes (default for active development)
   versionEndpoint?: string
 ): VersionCheckResult & {
   checkForUpdates: () => Promise<void>;
@@ -120,11 +120,18 @@ export function useVersionCheck(
       console.warn('Failed to check for updates:', err);
       setError(err instanceof Error ? err.message : 'Unknown error');
 
-      // Fallback: try to get version from package.json on the deployed site
+      // Fallback: try to get version from package.json on the deployed site with cache-busting
       try {
-        console.log('Attempting fallback version check from /package.json');
-        const packageResponse = await fetch('/package.json', {
+        console.log(
+          'Attempting fallback version check from /package.json with cache busting'
+        );
+        const cacheBustParam = `?t=${Date.now()}`; // Cache busting parameter
+        const packageResponse = await fetch(`/package.json${cacheBustParam}`, {
           signal: AbortSignal.timeout(3000), // 3 second timeout for fallback
+          headers: {
+            'Cache-Control': 'no-cache',
+            Pragma: 'no-cache',
+          },
         });
         if (packageResponse.ok) {
           const packageData = await packageResponse.json();
@@ -137,13 +144,14 @@ export function useVersionCheck(
             'Fallback package.json request failed with status:',
             packageResponse.status
           );
-          // Set current version as latest if fallback fails
+          // If we can't get the deployed version, assume current version for now
+          // This will be re-checked on next interval
           setLatestVersion(APP_VERSION.replace(/^v/, ''));
           setLastChecked(new Date());
         }
       } catch (fallbackErr) {
         console.warn('Fallback version check also failed:', fallbackErr);
-        // Set current version as latest if fallback fails
+        // If fallback fails completely, assume current version
         console.log(
           'Using current version as fallback:',
           APP_VERSION.replace(/^v/, '')
