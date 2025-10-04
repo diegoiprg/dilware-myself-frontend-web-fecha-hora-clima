@@ -8,6 +8,7 @@
  * - Time format (12h/24h)
  * - Seconds display toggle
  * - Weather data refresh interval
+ * - Version update check interval
  */
 
 import React from 'react';
@@ -52,10 +53,12 @@ export const SettingsPanel = ({ appVersion }: { appVersion: string }) => {
     setShowSeconds,
     refreshInterval,
     setRefreshInterval,
+    updateCheckInterval,
+    setUpdateCheckInterval,
   } = useSettings();
 
-  // Version checking hook
-  const versionCheck = useVersionCheck();
+  // Version checking hook with dynamic interval (convert hours to milliseconds)
+  const versionCheck = useVersionCheck(updateCheckInterval * 60 * 60 * 1000);
   const { toast } = useToast();
 
   // Track settings panel open
@@ -181,7 +184,7 @@ export const SettingsPanel = ({ appVersion }: { appVersion: string }) => {
               />
             </div>
             <div className="grid gap-3">
-              <Label>Intervalo de Actualización</Label>
+              <Label>Intervalo de Actualización del Clima</Label>
               <Select
                 value={String(refreshInterval)}
                 onValueChange={(value) => {
@@ -198,6 +201,30 @@ export const SettingsPanel = ({ appVersion }: { appVersion: string }) => {
                   <SelectItem value="10">10 minutos</SelectItem>
                   <SelectItem value="15">15 minutos</SelectItem>
                   <SelectItem value="30">30 minutos</SelectItem>
+                  <SelectItem value="0">Nunca</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="grid gap-3">
+              <Label>Intervalo de Verificación de Actualizaciones</Label>
+              <Select
+                value={String(updateCheckInterval)}
+                onValueChange={(value) => {
+                  const numValue = Number(value);
+                  setUpdateCheckInterval(numValue);
+                  trackUserInteraction.updateCheckIntervalChange(numValue);
+                }}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Seleccionar intervalo" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="1">Cada hora</SelectItem>
+                  <SelectItem value="2">Cada 2 horas</SelectItem>
+                  <SelectItem value="4">Cada 4 horas</SelectItem>
+                  <SelectItem value="6">Cada 6 horas</SelectItem>
+                  <SelectItem value="12">Cada 12 horas</SelectItem>
+                  <SelectItem value="24">Cada 24 horas</SelectItem>
                   <SelectItem value="0">Nunca</SelectItem>
                 </SelectContent>
               </Select>

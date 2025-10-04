@@ -3,7 +3,7 @@
 [![Deploy to GitHub Pages](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml/badge.svg?branch=main)](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml)
 [![Build Status](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml/badge.svg)](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-v1.8.3-blue.svg)](./package.json)
+[![Version](https://img.shields.io/badge/version-v1.8.4-blue.svg)](./package.json)
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org/)
 [![Next.js](https://img.shields.io/badge/Next.js-15.3.3-black)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue)](https://www.typescriptlang.org/)
@@ -201,7 +201,26 @@ The application includes comprehensive Google Analytics 4 integration to track u
 - **Weather & Location**: Data loading success/failure, geolocation permissions, location accuracy
 - **User Environment**: Browser name/version, operating system, device type, screen resolution, pixel ratio, touch support, language, timezone
 - **Error Monitoring**: JavaScript errors with context and stack traces
-- **Version Management**: Update availability checks, user update notifications, version status tracking
+- **Version Management**: Update availability checks, user update notifications, version status tracking, update check interval preferences
+
+## Configuration Options
+
+The app provides extensive customization options through the settings panel:
+
+### Display Settings
+
+- **Temperature Unit**: Choose between Celsius (°C) or Fahrenheit (°F)
+- **Time Format**: Select 12-hour (AM/PM) or 24-hour format
+- **Seconds Display**: Toggle visibility of seconds in the clock
+
+### Update Settings
+
+- **Weather Refresh Interval**: Configure how often weather data updates (5, 10, 15, 30 minutes, or never)
+- **Version Check Interval**: Set how frequently the app checks for updates (1, 2, 4, 6, 12, 24 hours, or never)
+
+### Data Persistence
+
+All settings are automatically saved to localStorage and persist across browser sessions.
 
 ## Update Notifications
 
@@ -224,12 +243,13 @@ The application includes an intelligent update notification system that keeps us
 ### How It Works
 
 1. **Initial Check**: On app load, performs an immediate version check with robust error handling
-2. **Periodic Checks**: Every 30 minutes, automatically checks for new versions in the background
+2. **Periodic Checks**: Automatically checks for new versions at user-configurable intervals (1-24 hours, or never)
 3. **API Fallback**: If GitHub API fails, falls back to local package.json version check
 4. **Timeout Protection**: 8-second timeout for API calls, 3-second timeout for fallbacks to prevent hanging
 5. **Visual Feedback**: Shows appropriate icons (loading 🔄, update ⚠️, up-to-date ✅) in settings panel
 6. **Smart Notifications**: Displays toast messages only when updates are actually available
-7. **Analytics Tracking**: Records all version check interactions for usage analysis
+7. **Analytics Tracking**: Records all version check interactions and interval preferences for usage analysis
+8. **User Control**: Complete customization of update checking frequency through settings panel
 
 ### Privacy & Compliance
 
@@ -274,6 +294,13 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 5. Open a Pull Request
 
 ## Changelog
+
+### v1.8.4
+
+- **Customizable Update Check Interval**: Users can now configure how often the app checks for version updates (1, 2, 4, 6, 12, or 24 hours, or never)
+- **Improved Update Frequency**: Changed default update check interval from 30 minutes to 1 hour for better performance and reduced API calls
+- **Enhanced Settings Panel**: Added new configuration option for version update check frequency alongside weather refresh settings
+- **Better User Control**: Users have full control over update checking behavior, from hourly checks to completely disabling automatic updates
 
 ### v1.8.3
 

@@ -25,7 +25,8 @@ interface Settings {
   tempUnit: TempUnit;
   timeFormat: TimeFormat;
   showSeconds: boolean;
-  refreshInterval: number; // in minutes
+  refreshInterval: number; // weather refresh interval in minutes
+  updateCheckInterval: number; // version update check interval in hours
 }
 
 /**
@@ -36,6 +37,7 @@ interface SettingsState extends Settings {
   setTimeFormat: (format: TimeFormat) => void;
   setShowSeconds: (show: boolean) => void;
   setRefreshInterval: (interval: number) => void;
+  setUpdateCheckInterval: (interval: number) => void;
 }
 
 /**
@@ -50,7 +52,8 @@ const defaultSettings: Settings = {
   tempUnit: 'C',
   timeFormat: '24h',
   showSeconds: true,
-  refreshInterval: 10, // 10 minutes
+  refreshInterval: 10, // weather refresh interval in minutes
+  updateCheckInterval: 1, // version update check interval in hours
 };
 
 /**
@@ -97,6 +100,8 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
     setSettings((s) => ({ ...s, showSeconds: show }));
   const setRefreshInterval = (interval: number) =>
     setSettings((s) => ({ ...s, refreshInterval: interval }));
+  const setUpdateCheckInterval = (interval: number) =>
+    setSettings((s) => ({ ...s, updateCheckInterval: interval }));
 
   return (
     <SettingsContext.Provider
@@ -106,6 +111,7 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
         setTimeFormat,
         setShowSeconds,
         setRefreshInterval,
+        setUpdateCheckInterval,
       }}
     >
       {children}

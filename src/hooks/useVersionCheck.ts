@@ -28,7 +28,7 @@ export interface VersionInfo {
  * @param versionEndpoint - URL to fetch latest version info (optional)
  */
 export function useVersionCheck(
-  checkInterval: number = 30 * 60 * 1000, // 30 minutes
+  checkInterval: number = 60 * 60 * 1000, // 1 hour (default)
   versionEndpoint?: string
 ): VersionCheckResult & {
   checkForUpdates: () => Promise<void>;

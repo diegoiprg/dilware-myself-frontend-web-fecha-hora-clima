@@ -81,6 +81,9 @@ export const trackUserInteraction = {
 
   updateNotificationShown: (latestVersion: string) =>
     trackEvent('update_notification_shown', { latest_version: latestVersion }),
+
+  updateCheckIntervalChange: (interval: number) =>
+    trackEvent('update_check_interval_change', { interval_hours: interval }),
 };
 
 /**
