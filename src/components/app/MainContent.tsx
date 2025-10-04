@@ -145,9 +145,9 @@ export default function MainContent() {
       ref={containerRef}
       className="bg-background text-foreground h-screen w-screen select-none overflow-hidden pt-[env(safe-area-inset-top)] pl-[env(safe-area-inset-left)] pr-[env(safe-area-inset-right)] pb-[env(safe-area-inset-bottom)]"
     >
-      {/* Grid container with responsive layout: 6 rows portrait, 4 rows landscape */}
+      {/* Grid container with responsive layout: 5 rows portrait, 4 rows landscape */}
       <div
-        className={`h-full w-full max-w-none mx-auto grid grid-rows-[1fr_1fr_1fr_3fr_1fr_1fr] landscape:grid-rows-[1fr_1fr_3fr_1fr] landscape:grid-cols-2 place-items-center p-2 sm:p-4 md:p-6 lg:p-8`}
+        className={`h-full w-full max-w-none mx-auto grid grid-rows-[1fr_1fr_3fr_1fr_1fr] landscape:grid-rows-[1fr_1fr_3fr_1fr] landscape:grid-cols-2 place-items-center p-2 sm:p-4 md:p-6 lg:p-8`}
       >
         <Header appVersion={APP_VERSION} />
 

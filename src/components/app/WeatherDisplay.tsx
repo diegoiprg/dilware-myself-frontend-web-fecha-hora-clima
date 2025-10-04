@@ -161,6 +161,25 @@ const getAirQualityInfo = (aqi: number) => {
 };
 
 /**
+ * Returns UV index description and color based on UV value
+ * @param uvIndex - UV Index value
+ * @returns Object with description and color
+ */
+const getUVIndexInfo = (uvIndex: number) => {
+  if (uvIndex <= 2) {
+    return { description: 'Bajo', color: 'text-green-500' };
+  } else if (uvIndex <= 5) {
+    return { description: 'Moderado', color: 'text-yellow-500' };
+  } else if (uvIndex <= 7) {
+    return { description: 'Alto', color: 'text-orange-500' };
+  } else if (uvIndex <= 10) {
+    return { description: 'Muy alto', color: 'text-red-500' };
+  } else {
+    return { description: 'Extremo', color: 'text-purple-500' };
+  }
+};
+
+/**
  * Formats temperature value with the specified unit
  * @param temp - Temperature value in Celsius
  * @param unit - Temperature unit ('C' or 'F')
@@ -243,10 +262,18 @@ export const WeatherDisplay = ({ weather, loading, error, onRetry }: Props) => {
           </div>
           <div className="flex items-center gap-1">
             <div className="bg-white/20 rounded-full p-1">
-              <Sun className="size-4 sm:size-5 md:size-6 lg:size-7" />
+              <Sun
+                className={`size-4 sm:size-5 md:size-6 lg:size-7 ${
+                  getUVIndexInfo(weather.uvIndex).color
+                }`}
+              />
             </div>
-            <span className="text-lg sm:text-xl md:text-2xl">
-              {Math.round(weather.uvIndex)}
+            <span
+              className={`text-lg sm:text-xl md:text-2xl ${
+                getUVIndexInfo(weather.uvIndex).color
+              }`}
+            >
+              {getUVIndexInfo(weather.uvIndex).description}
             </span>
           </div>
           <div className="flex items-center gap-1">
