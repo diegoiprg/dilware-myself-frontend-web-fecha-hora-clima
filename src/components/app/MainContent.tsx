@@ -12,13 +12,13 @@
  * - Settings panel for user customization
  *
  * Layout Structure (Portrait):
- * - Row 1: Date (left) and Version/Menu (right)
- * - Row 2: Clock (centered, largest element)
+ * - Row 1: Date (centered) and Version/Menu (centered) - auto height
+ * - Row 2: Clock (centered, flexible height)
  * - Row 3: Location (centered)
- * - Row 4: Weather (centered)
+ * - Row 4: Weather (centered) - auto height
  *
  * Layout Structure (Landscape):
- * - Row 1: Date (left column) and Version/Menu (right column)
+ * - Row 1: Date (left column, centered) and Version/Menu (right column, centered)
  * - Row 2: Clock (spans full width)
  * - Row 3: Location (left) and Weather (right)
  */
@@ -146,17 +146,17 @@ export default function MainContent() {
     >
       {/* Grid container with responsive layout: 4 rows portrait, 4 rows landscape */}
       <div
-        className={`h-full w-full max-w-none mx-auto grid grid-rows-[1fr_1fr_3fr_1fr] landscape:grid-rows-[1fr_1fr_3fr_1fr] landscape:grid-cols-2 place-items-center p-2 sm:p-4 md:p-6 lg:p-8`}
+        className={`h-full w-full max-w-none mx-auto grid grid-rows-[auto_auto_1fr_auto] landscape:grid-rows-[1fr_1fr_3fr_1fr] landscape:grid-cols-2 place-items-center p-2 sm:p-4 md:p-6 lg:p-8`}
       >
         {/* Row 1: Date (left) and Version+Menu (right) */}
         <div className="flex w-full items-center landscape:grid landscape:grid-cols-2 landscape:gap-4">
-          {/* Date - left aligned in portrait, left column in landscape */}
-          <div className="flex-1 text-left landscape:col-start-1 landscape:flex landscape:justify-start">
+          {/* Date - centered in portrait, left column centered in landscape */}
+          <div className="text-center landscape:col-start-1 landscape:flex landscape:justify-center">
             <DateDisplay date={currentTime} />
           </div>
 
-          {/* Version + Menu - right aligned in portrait, right column in landscape */}
-          <div className="flex items-center justify-end gap-2 min-w-0 ml-auto landscape:ml-0 landscape:col-start-2 landscape:justify-end">
+          {/* Version + Menu - centered in portrait, right column centered in landscape */}
+          <div className="flex items-center justify-center gap-2 min-w-0 landscape:col-start-2 landscape:justify-center">
             <a
               href="https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima"
               target="_blank"
