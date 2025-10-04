@@ -133,6 +133,11 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 
 ## Changelog
 
+### v1.6.14
+
+- Moved location icon to the left side of the first location line (address/district)
+- Positioned the second location line (province/department/country) directly below the first line text, with empty space below the icon
+
 ### v1.6.13
 
 - Repositioned location icon to the left with location text on the right, creating a horizontal layout between the address information lines

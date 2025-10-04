@@ -8,10 +8,7 @@ export const LocationDisplay = ({ displayName }: { displayName?: string }) => {
   if (!displayName) {
     return (
       <div className="w-full landscape:w-full flex flex-col justify-center landscape:justify-start">
-        <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-muted-foreground text-center landscape:text-left">
-          ...
-        </div>
-        <div className="flex items-center justify-center landscape:justify-start gap-3 mt-1 mb-1">
+        <div className="flex items-center justify-center landscape:justify-start gap-3">
           <div className="bg-white/20 rounded-full p-2">
             <MapPin className="size-5 sm:size-6 md:size-7 lg:size-8" />
           </div>
@@ -31,19 +28,19 @@ export const LocationDisplay = ({ displayName }: { displayName?: string }) => {
 
   return (
     <div className="w-full landscape:w-full flex flex-col justify-center landscape:justify-start">
-      <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-muted-foreground text-center landscape:text-left whitespace-normal">
-        {addressDistrict}
-      </div>
-      <div className="flex items-center justify-center landscape:justify-start gap-3 mt-1 mb-1">
+      <div className="flex items-center justify-center landscape:justify-start gap-3">
         <div className="bg-white/20 rounded-full p-2">
           <MapPin className="size-5 sm:size-6 md:size-7 lg:size-8" />
         </div>
-        {provinceDepartmentCountry && (
-          <span className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-muted-foreground whitespace-normal">
-            {provinceDepartmentCountry}
-          </span>
-        )}
+        <span className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-muted-foreground whitespace-normal">
+          {addressDistrict}
+        </span>
       </div>
+      {provinceDepartmentCountry && (
+        <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-muted-foreground text-center landscape:text-left whitespace-normal mt-1">
+          {provinceDepartmentCountry}
+        </div>
+      )}
     </div>
   );
 };
