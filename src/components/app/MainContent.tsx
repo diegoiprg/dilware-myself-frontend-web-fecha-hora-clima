@@ -150,13 +150,13 @@ export default function MainContent() {
       >
         {/* Row 1: Date (left) and Version+Menu (right) */}
         <div className="flex w-full items-center landscape:grid landscape:grid-cols-2 landscape:gap-4">
-          {/* Date - centered in portrait, left column centered in landscape */}
-          <div className="text-center landscape:col-start-1 landscape:flex landscape:justify-center">
+          {/* Date - full width centered in portrait, left column centered in landscape */}
+          <div className="w-full text-center landscape:col-start-1 landscape:flex landscape:justify-center">
             <DateDisplay date={currentTime} />
           </div>
 
-          {/* Version + Menu - centered in portrait, right column centered in landscape */}
-          <div className="flex items-center justify-center gap-2 min-w-0 landscape:col-start-2 landscape:justify-center">
+          {/* Version + Menu - flex-1 centered in portrait, right column centered in landscape */}
+          <div className="flex-1 flex items-center justify-center gap-2 min-w-0 landscape:col-start-2 landscape:justify-center">
             <a
               href="https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima"
               target="_blank"
