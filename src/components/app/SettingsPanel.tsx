@@ -45,14 +45,26 @@ import { useToast } from '@/hooks/use-toast';
 export const SettingsPanel = ({ appVersion }: { appVersion: string }) => {
   // Extract settings state and setters from context
   const {
-    tempUnit,
-    setTempUnit,
+    // Date settings
+    dateSeparator,
+    setDateSeparator,
+    abbreviateDay,
+    setAbbreviateDay,
+    monthFormat,
+    setMonthFormat,
+    // Time settings
     timeFormat,
     setTimeFormat,
     showSeconds,
     setShowSeconds,
+    // Weather settings
+    tempUnit,
+    setTempUnit,
     refreshInterval,
     setRefreshInterval,
+    // General settings
+    theme,
+    setTheme,
     updateCheckInterval,
     setUpdateCheckInterval,
   } = useSettings();
@@ -120,8 +132,7 @@ export const SettingsPanel = ({ appVersion }: { appVersion: string }) => {
     // Container for version text and settings trigger, aligned horizontally
     <div className="flex items-center gap-2 sm:gap-4">
       {/* Display the current app version with status icon */}
-      <div className="flex items-center gap-1">
-        {getVersionIcon()}
+      <div className="flex items-center gap-2">
         <a
           href="https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima"
           target="_blank"
@@ -131,6 +142,7 @@ export const SettingsPanel = ({ appVersion }: { appVersion: string }) => {
         >
           {appVersion}
         </a>
+        {getVersionIcon()}
       </div>
       {/* Settings panel trigger button */}
       <Sheet>
@@ -149,32 +161,81 @@ export const SettingsPanel = ({ appVersion }: { appVersion: string }) => {
             <SheetTitle>Configuración</SheetTitle>
           </SheetHeader>
           <div className="grid gap-6 py-6">
-            {/* Display Settings Section */}
+            {/* Fecha (Date) Section */}
             <div className="space-y-4">
               <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
-                Pantalla
+                Fecha
               </h3>
               <div className="grid gap-3">
-                <Label>Unidad de Temperatura</Label>
+                <Label>Separador de Fecha</Label>
                 <RadioGroup
-                  value={tempUnit}
+                  value={dateSeparator}
                   onValueChange={(value) => {
-                    setTempUnit(value as any);
-                    trackUserInteraction.temperatureUnitChange(
-                      value as 'C' | 'F'
-                    );
+                    setDateSeparator(value as any);
+                    trackUserInteraction.dateSeparatorChange(value as any);
                   }}
                 >
                   <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="C" id="celsius" />
-                    <Label htmlFor="celsius">Celsius (°C)</Label>
+                    <RadioGroupItem value="space" id="space" />
+                    <Label htmlFor="space">Espacio (por defecto)</Label>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="F" id="fahrenheit" />
-                    <Label htmlFor="fahrenheit">Fahrenheit (°F)</Label>
+                    <RadioGroupItem value="dot" id="dot" />
+                    <Label htmlFor="dot">Punto (.)</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="slash" id="slash" />
+                    <Label htmlFor="slash">Barra (/)</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="dash" id="dash" />
+                    <Label htmlFor="dash">Guion (-)</Label>
                   </div>
                 </RadioGroup>
               </div>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="abbreviate-day">
+                  Abreviar Día (3 caracteres)
+                </Label>
+                <Switch
+                  id="abbreviate-day"
+                  checked={abbreviateDay}
+                  onCheckedChange={(checked) => {
+                    setAbbreviateDay(checked);
+                    trackUserInteraction.abbreviateDayToggle(checked);
+                  }}
+                />
+              </div>
+              <div className="grid gap-3">
+                <Label>Formato del Mes</Label>
+                <RadioGroup
+                  value={monthFormat}
+                  onValueChange={(value) => {
+                    setMonthFormat(value as any);
+                    trackUserInteraction.monthFormatChange(value as any);
+                  }}
+                >
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="full" id="full" />
+                    <Label htmlFor="full">Completo (por defecto)</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="short" id="short" />
+                    <Label htmlFor="short">3 caracteres</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="numeric" id="numeric" />
+                    <Label htmlFor="numeric">Numérico (2 dígitos)</Label>
+                  </div>
+                </RadioGroup>
+              </div>
+            </div>
+
+            {/* Hora (Time) Section */}
+            <div className="space-y-4">
+              <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
+                Hora
+              </h3>
               <div className="grid gap-3">
                 <Label>Formato de Hora</Label>
                 <RadioGroup
@@ -188,7 +249,7 @@ export const SettingsPanel = ({ appVersion }: { appVersion: string }) => {
                 >
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="24h" id="24h" />
-                    <Label htmlFor="24h">24 Horas</Label>
+                    <Label htmlFor="24h">24 Horas (por defecto)</Label>
                   </div>
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="12h" id="12h" />
@@ -209,13 +270,34 @@ export const SettingsPanel = ({ appVersion }: { appVersion: string }) => {
               </div>
             </div>
 
-            {/* Data Updates Section */}
+            {/* Clima (Weather) Section */}
             <div className="space-y-4">
               <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
-                Actualizaciones de Datos
+                Clima
               </h3>
               <div className="grid gap-3">
-                <Label>Intervalo de Actualización del Clima</Label>
+                <Label>Unidad de Temperatura</Label>
+                <RadioGroup
+                  value={tempUnit}
+                  onValueChange={(value) => {
+                    setTempUnit(value as any);
+                    trackUserInteraction.temperatureUnitChange(
+                      value as 'C' | 'F'
+                    );
+                  }}
+                >
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="C" id="celsius" />
+                    <Label htmlFor="celsius">Celsius (°C) (por defecto)</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="F" id="fahrenheit" />
+                    <Label htmlFor="fahrenheit">Fahrenheit (°F)</Label>
+                  </div>
+                </RadioGroup>
+              </div>
+              <div className="grid gap-3">
+                <Label>Intervalo de Actualización</Label>
                 <Select
                   value={String(refreshInterval)}
                   onValueChange={(value) => {
@@ -228,13 +310,39 @@ export const SettingsPanel = ({ appVersion }: { appVersion: string }) => {
                     <SelectValue placeholder="Seleccionar intervalo" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="5">5 minutos</SelectItem>
+                    <SelectItem value="5">5 minutos (por defecto)</SelectItem>
                     <SelectItem value="10">10 minutos</SelectItem>
                     <SelectItem value="15">15 minutos</SelectItem>
                     <SelectItem value="30">30 minutos</SelectItem>
                     <SelectItem value="0">Nunca</SelectItem>
                   </SelectContent>
                 </Select>
+              </div>
+            </div>
+
+            {/* General Section */}
+            <div className="space-y-4">
+              <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
+                General
+              </h3>
+              <div className="grid gap-3">
+                <Label>Modo de Tema</Label>
+                <RadioGroup
+                  value={theme}
+                  onValueChange={(value) => {
+                    setTheme(value as any);
+                    trackUserInteraction.themeChange(value as any);
+                  }}
+                >
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="dark" id="dark" />
+                    <Label htmlFor="dark">Oscuro (por defecto)</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="light" id="light" />
+                    <Label htmlFor="light">Claro</Label>
+                  </div>
+                </RadioGroup>
               </div>
               <div className="grid gap-3">
                 <Label>Intervalo de Verificación de Actualizaciones</Label>
@@ -250,7 +358,9 @@ export const SettingsPanel = ({ appVersion }: { appVersion: string }) => {
                     <SelectValue placeholder="Seleccionar intervalo" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="5">Cada 5 minutos</SelectItem>
+                    <SelectItem value="5">
+                      Cada 5 minutos (por defecto)
+                    </SelectItem>
                     <SelectItem value="15">Cada 15 minutos</SelectItem>
                     <SelectItem value="30">Cada 30 minutos</SelectItem>
                     <SelectItem value="60">Cada hora</SelectItem>

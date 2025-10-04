@@ -19,13 +19,39 @@ export type TempUnit = 'C' | 'F';
 export type TimeFormat = '12h' | '24h';
 
 /**
+ * Date separator type
+ */
+export type DateSeparator = 'space' | 'dot' | 'slash' | 'dash';
+
+/**
+ * Month format type
+ */
+export type MonthFormat = 'full' | 'short' | 'numeric';
+
+/**
+ * Theme type
+ */
+export type Theme = 'light' | 'dark';
+
+/**
  * Settings interface for user preferences
  */
 interface Settings {
-  tempUnit: TempUnit;
+  // Date settings
+  dateSeparator: DateSeparator;
+  abbreviateDay: boolean;
+  monthFormat: MonthFormat;
+
+  // Time settings
   timeFormat: TimeFormat;
   showSeconds: boolean;
+
+  // Weather settings
+  tempUnit: TempUnit;
   refreshInterval: number; // weather refresh interval in minutes
+
+  // General settings
+  theme: Theme;
   updateCheckInterval: number; // version update check interval in minutes
 }
 
@@ -33,10 +59,21 @@ interface Settings {
  * Settings context state including setters
  */
 interface SettingsState extends Settings {
-  setTempUnit: (unit: TempUnit) => void;
+  // Date setters
+  setDateSeparator: (separator: DateSeparator) => void;
+  setAbbreviateDay: (abbreviate: boolean) => void;
+  setMonthFormat: (format: MonthFormat) => void;
+
+  // Time setters
   setTimeFormat: (format: TimeFormat) => void;
   setShowSeconds: (show: boolean) => void;
+
+  // Weather setters
+  setTempUnit: (unit: TempUnit) => void;
   setRefreshInterval: (interval: number) => void;
+
+  // General setters
+  setTheme: (theme: Theme) => void;
   setUpdateCheckInterval: (interval: number) => void;
 }
 
@@ -49,11 +86,22 @@ const SETTINGS_STORAGE_KEY = 'chronos-settings';
  * Default settings values
  */
 const defaultSettings: Settings = {
-  tempUnit: 'C',
+  // Date settings
+  dateSeparator: 'space',
+  abbreviateDay: false,
+  monthFormat: 'full',
+
+  // Time settings
   timeFormat: '24h',
   showSeconds: true,
-  refreshInterval: 10, // weather refresh interval in minutes
-  updateCheckInterval: 15, // version update check interval in minutes (15 min for active development)
+
+  // Weather settings
+  tempUnit: 'C',
+  refreshInterval: 5, // weather refresh interval in minutes (5 min default)
+
+  // General settings
+  theme: 'dark',
+  updateCheckInterval: 5, // version update check interval in minutes (5 min default)
 };
 
 /**
@@ -92,14 +140,29 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [settings]);
 
-  const setTempUnit = (unit: TempUnit) =>
-    setSettings((s) => ({ ...s, tempUnit: unit }));
+  // Date setters
+  const setDateSeparator = (separator: DateSeparator) =>
+    setSettings((s) => ({ ...s, dateSeparator: separator }));
+  const setAbbreviateDay = (abbreviate: boolean) =>
+    setSettings((s) => ({ ...s, abbreviateDay: abbreviate }));
+  const setMonthFormat = (format: MonthFormat) =>
+    setSettings((s) => ({ ...s, monthFormat: format }));
+
+  // Time setters
   const setTimeFormat = (format: TimeFormat) =>
     setSettings((s) => ({ ...s, timeFormat: format }));
   const setShowSeconds = (show: boolean) =>
     setSettings((s) => ({ ...s, showSeconds: show }));
+
+  // Weather setters
+  const setTempUnit = (unit: TempUnit) =>
+    setSettings((s) => ({ ...s, tempUnit: unit }));
   const setRefreshInterval = (interval: number) =>
     setSettings((s) => ({ ...s, refreshInterval: interval }));
+
+  // General setters
+  const setTheme = (theme: Theme) =>
+    setSettings((s) => ({ ...s, theme: theme }));
   const setUpdateCheckInterval = (interval: number) =>
     setSettings((s) => ({ ...s, updateCheckInterval: interval }));
 
@@ -107,10 +170,18 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
     <SettingsContext.Provider
       value={{
         ...settings,
-        setTempUnit,
+        // Date setters
+        setDateSeparator,
+        setAbbreviateDay,
+        setMonthFormat,
+        // Time setters
         setTimeFormat,
         setShowSeconds,
+        // Weather setters
+        setTempUnit,
         setRefreshInterval,
+        // General setters
+        setTheme,
         setUpdateCheckInterval,
       }}
     >

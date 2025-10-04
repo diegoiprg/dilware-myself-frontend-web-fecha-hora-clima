@@ -87,6 +87,19 @@ export const trackUserInteraction = {
 
   updateApplied: (version: string) =>
     trackEvent('update_applied', { applied_version: version }),
+
+  // Date settings
+  dateSeparatorChange: (separator: string) =>
+    trackEvent('date_separator_change', { separator }),
+
+  abbreviateDayToggle: (enabled: boolean) =>
+    trackEvent('abbreviate_day_toggle', { enabled }),
+
+  monthFormatChange: (format: string) =>
+    trackEvent('month_format_change', { format }),
+
+  // Theme settings
+  themeChange: (theme: string) => trackEvent('theme_change', { theme }),
 };
 
 /**

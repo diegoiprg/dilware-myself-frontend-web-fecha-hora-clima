@@ -3,7 +3,7 @@
 [![Deploy to GitHub Pages](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml/badge.svg?branch=main)](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml)
 [![Build Status](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml/badge.svg)](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-v1.8.6-blue.svg)](./package.json)
+[![Version](https://img.shields.io/badge/version-v1.8.7-blue.svg)](./package.json)
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org/)
 [![Next.js](https://img.shields.io/badge/Next.js-15.3.3-black)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue)](https://www.typescriptlang.org/)
@@ -205,18 +205,28 @@ The application includes comprehensive Google Analytics 4 integration to track u
 
 ## Configuration Options
 
-The app provides extensive customization options through the organized settings panel:
+The app provides extensive customization options through the comprehensively organized settings panel:
 
-### Pantalla (Display Settings)
+### Fecha (Date Settings)
 
-- **Temperature Unit**: Choose between Celsius (°C) or Fahrenheit (°F)
-- **Time Format**: Select 12-hour (AM/PM) or 24-hour format
-- **Seconds Display**: Toggle visibility of seconds in the clock
+- **Separador de Fecha**: Choose between space (default), dot (.), slash (/), or dash (-) separators
+- **Abreviar Día**: Toggle to show day names in 3 characters (e.g., "Sáb" instead of "Sábado")
+- **Formato del Mes**: Select full names, 3-character abbreviations, or 2-digit numeric format
 
-### Actualizaciones de Datos (Data Updates)
+### Hora (Time Settings)
 
-- **Weather Refresh Interval**: Configure how often weather data updates (5, 10, 15, 30 minutes, or never)
-- **Version Check Interval**: Set how frequently the app checks for updates (5, 15, 30 minutes, 1, 2, 6, 12 hours, or never)
+- **Formato de Hora**: Choose between 24-hour (default) or 12-hour (AM/PM) format
+- **Mostrar Segundos**: Toggle visibility of seconds in the clock display
+
+### Clima (Weather Settings)
+
+- **Unidad de Temperatura**: Choose between Celsius (°C, default) or Fahrenheit (°F)
+- **Intervalo de Actualización**: Configure how often weather data updates (5 minutes default, up to 30 minutes)
+
+### General (General Settings)
+
+- **Modo de Tema**: Select between dark (default) or light theme
+- **Intervalo de Verificación de Actualizaciones**: Set how frequently the app checks for new versions (5 minutes default, up to 12 hours)
 
 ### Data Persistence
 
@@ -295,6 +305,17 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 5. Open a Pull Request
 
 ## Changelog
+
+### v1.8.7
+
+- **Enhanced Settings Panel Organization**: Completely reorganized settings panel into logical sections (Fecha, Hora, Clima, General) for better user experience and easier navigation
+- **Advanced Date Formatting Options**: Added customizable date separators (space, dot, slash, dash), day name abbreviation (3 characters), and month formats (full, short, numeric)
+- **Comprehensive Time Display Controls**: Added options to show/hide seconds and choose between 24-hour or 12-hour (AM/PM) formats
+- **Weather Configuration Enhancements**: Added temperature unit selection (Celsius/Fahrenheit) and customizable refresh intervals
+- **Theme Mode Support**: Added light/dark theme selection in general settings
+- **Improved UI Layout**: Moved update status icon after version text with proper spacing, and enhanced overall visual hierarchy
+- **Granular Update Intervals**: Changed default update check interval to 5 minutes for active development with options from 5 minutes to 12 hours
+- **Enhanced Analytics**: Added tracking for all new configuration options (date formatting, theme changes, etc.)
 
 ### v1.8.6
 
