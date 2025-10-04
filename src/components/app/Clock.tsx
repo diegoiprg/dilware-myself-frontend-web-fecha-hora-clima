@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSettings } from '@/context/SettingsContext';
-import { useIsAndroidTablet } from '@/hooks/useIsAndroidTablet';
+import { useIsAndroidTabletPortrait } from '@/hooks/useIsAndroidTablet';
 
 /**
  * Formats a Date object into a time string based on format preferences
@@ -53,7 +53,7 @@ interface ClockProps {
 export const Clock = React.memo(
   ({ time, onClick, isFullscreenSupported = true }: ClockProps) => {
     const { timeFormat, showSeconds } = useSettings();
-    const isAndroidTablet = useIsAndroidTablet();
+    const isAndroidTabletPortrait = useIsAndroidTabletPortrait();
     const formattedTime = formatTime(time, timeFormat, showSeconds);
 
     return (
@@ -61,7 +61,7 @@ export const Clock = React.memo(
         <div
           onClick={isFullscreenSupported ? onClick : undefined}
           className={`bg-white/10 backdrop-blur-xl rounded-3xl p-8 font-code font-bold text-center text-7xl sm:text-8xl md:text-9xl lg:text-[10rem] xl:text-[12rem] 2xl:text-[15rem] ${
-            isAndroidTablet
+            isAndroidTabletPortrait
               ? 'md:text-[10rem] lg:text-[12rem] xl:text-[14rem] 2xl:text-[17rem]'
               : ''
           } leading-none whitespace-nowrap tabular-nums overflow-hidden ${
