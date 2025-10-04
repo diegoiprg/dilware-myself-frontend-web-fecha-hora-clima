@@ -3,7 +3,7 @@
 [![Deploy to GitHub Pages](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml/badge.svg?branch=main)](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml)
 [![Build Status](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml/badge.svg)](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-v1.6.19-blue.svg)](./package.json)
+[![Version](https://img.shields.io/badge/version-v1.6.20-blue.svg)](./package.json)
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org/)
 [![Next.js](https://img.shields.io/badge/Next.js-15.3.3-black)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue)](https://www.typescriptlang.org/)
@@ -150,6 +150,10 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 5. Open a Pull Request
 
 ## Changelog
+
+### v1.6.20
+
+- Fixed GitHub Actions deployment workflow configuration for reliable builds
 
 ### v1.6.19
 
@@ -377,6 +381,12 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 - Added GPLv3 LICENSE
 - Set license in package.json
 - Removed Firebase hosting config
+
+## Author
+
+**Diego Iparraguirre**
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-diegoiprg-blue)](https://linkedin.com/in/diegoiprg)
+[![GitHub](https://img.shields.io/badge/GitHub-diegoiprg-black)](https://github.com/diegoiprg)
 
 ## Acknowledgments
 
