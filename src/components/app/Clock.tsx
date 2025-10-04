@@ -80,7 +80,7 @@ export const Clock = React.memo(
           className={`bg-white/10 backdrop-blur-xl rounded-3xl p-8 font-code font-bold text-center text-7xl sm:text-8xl md:text-9xl lg:text-[10rem] xl:text-[12rem] 2xl:text-[15rem] ${
             isAndroidTablet
               ? isPortrait
-                ? 'md:text-[14rem] lg:text-[16rem] xl:text-[18rem] 2xl:text-[21rem]'
+                ? 'md:text-[16rem] lg:text-[18rem] xl:text-[20rem] 2xl:text-[23rem]'
                 : 'md:text-[10rem] lg:text-[12rem] xl:text-[14rem] 2xl:text-[17rem]'
               : isIPad
               ? isPortrait

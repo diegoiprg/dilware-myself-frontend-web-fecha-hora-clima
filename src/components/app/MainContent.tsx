@@ -162,7 +162,7 @@ export default function MainContent() {
         </div>
 
         <div
-          className={`landscape:col-start-1 landscape:row-start-3 landscape:self-end ${
+          className={`landscape:col-start-1 landscape:row-start-3 landscape:self-end landscape:mb-4 ${
             !(weather || weatherLoading)
               ? 'landscape:col-span-2 landscape:justify-self-center'
               : 'landscape:justify-self-start'
