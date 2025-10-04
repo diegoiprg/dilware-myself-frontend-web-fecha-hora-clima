@@ -32,10 +32,10 @@ export const LocationDisplay = ({ displayName }: { displayName?: string }) => {
           <MapPin className="size-8 sm:size-10 md:size-12 lg:size-14" />
         </div>
         <span className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-muted-foreground whitespace-normal">
-          <span className="font-bold">
-            {parts.slice(0, 2).filter(Boolean).join(', ')}
-          </span>
-          {parts[2] ? `, ${parts[2]}` : ''}
+          <span className="font-bold">{parts[0]}</span>
+          {parts.slice(1).filter(Boolean).length > 0
+            ? `, ${parts.slice(1).filter(Boolean).join(', ')}`
+            : ''}
         </span>
       </div>
       {regionCountry && (
