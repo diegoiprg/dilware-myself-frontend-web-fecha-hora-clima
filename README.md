@@ -3,7 +3,7 @@
 [![Deploy to GitHub Pages](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml/badge.svg?branch=main)](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml)
 [![Build Status](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml/badge.svg)](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-v1.9.3-blue.svg)](./package.json)
+[![Version](https://img.shields.io/badge/version-v1.9.4-blue.svg)](./package.json)
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org/)
 [![Next.js](https://img.shields.io/badge/Next.js-15.3.3-black)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue)](https://www.typescriptlang.org/)
@@ -370,6 +370,19 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 5. Open a Pull Request
 
 ## Changelog
+
+### v1.9.4
+
+- **Header Layout Overhaul**: Complete reorganization with 50% date on left, 50% menu+version on right, maintaining consistency across all orientations and devices
+- **Version Hyperlink**: Version text now functions as a clickable hyperlink opening GitHub repository in new tab
+- **Weather Section Redesign**: Transformed weather display into structured 3-line paragraph format for better readability
+- **Weather Information Hierarchy**:
+  - Line 1: Weather description + icon + temperature (e.g., "Nublado ☁️ 16°C")
+  - Line 2: MIN/MAX temperatures, humidity, precipitation with respective icons
+  - Line 3: UV index and air quality indicators with descriptive text and colors
+- **Menu Icon Alignment**: Ensured menu icon maintains right alignment in landscape mode across tablets, iPads, and iPhones
+- **Settings Menu Defaults**: Fixed "por defecto" options to appear properly selected in settings panel
+- **Local Temperature Updates**: Temperature unit changes now update weather display locally without full page reload, eliminating jarring user experience
 
 ### v1.9.3
 

@@ -14,6 +14,7 @@ import {
   ArrowDown,
   CloudRainWind,
   Leaf,
+  Wind,
 } from 'lucide-react';
 import type { WeatherData } from '@/hooks/useWeather';
 import { useEffect } from 'react';
@@ -225,8 +226,9 @@ export const WeatherDisplay = ({ weather, loading, error, onRetry }: Props) => {
 
   return (
     <div className="w-full text-3xl sm:text-4xl md:text-5xl lg:text-6xl overflow-hidden">
-      <div className="flex flex-col items-center gap-1 sm:gap-2 md:gap-3">
-        <div className="flex items-center justify-center gap-4 font-bold">
+      <div className="flex flex-col items-center gap-1 sm:gap-2 md:gap-3 text-center">
+        {/* Line 1: Weather description + icon + temperature */}
+        <div className="flex items-center justify-center gap-3 font-bold">
           <span className="text-xl sm:text-2xl md:text-3xl lg:text-4xl">
             {getWeatherDescription(weather.weatherCode)}
           </span>
@@ -235,64 +237,58 @@ export const WeatherDisplay = ({ weather, loading, error, onRetry }: Props) => {
             {formatTemp(weather.temperature, tempUnit)}
           </span>
         </div>
-        <div className="flex items-center gap-4">
+
+        {/* Line 2: MIN, MAX, humidity, precipitation, wind */}
+        <div className="flex items-center justify-center gap-4">
           <div className="flex items-center gap-1">
-            <div className="bg-white/20 rounded-full p-1">
-              <ArrowDown className="size-4 sm:size-5 md:size-6 lg:size-7" />
-            </div>
+            <ArrowDown className="size-4 sm:size-5 md:size-6 lg:size-7" />
             <span className="text-lg sm:text-xl md:text-2xl">
               {formatTemp(weather.minTemperature, tempUnit)}
             </span>
           </div>
           <div className="flex items-center gap-1">
-            <div className="bg-white/20 rounded-full p-1">
-              <ArrowUp className="size-4 sm:size-5 md:size-6 lg:size-7" />
-            </div>
+            <ArrowUp className="size-4 sm:size-5 md:size-6 lg:size-7" />
             <span className="text-lg sm:text-xl md:text-2xl">
               {formatTemp(weather.maxTemperature, tempUnit)}
             </span>
           </div>
           <div className="flex items-center gap-1">
-            <div className="bg-white/20 rounded-full p-1">
-              <Droplets className="size-4 sm:size-5 md:size-6 lg:size-7" />
-            </div>
+            <Droplets className="size-4 sm:size-5 md:size-6 lg:size-7" />
             <span className="text-lg sm:text-xl md:text-2xl">
               {Math.round(weather.humidity)}%
             </span>
           </div>
           <div className="flex items-center gap-1">
-            <div className="bg-white/20 rounded-full p-1">
-              <CloudRainWind className="size-4 sm:size-5 md:size-6 lg:size-7" />
-            </div>
+            <CloudRainWind className="size-4 sm:size-5 md:size-6 lg:size-7" />
             <span className="text-lg sm:text-xl md:text-2xl">
               {Math.round(weather.rainProbability)}%
             </span>
           </div>
+        </div>
+
+        {/* Line 3: UV index and air quality */}
+        <div className="flex items-center justify-center gap-4">
           <div className="flex items-center gap-1">
-            <div className="bg-white/20 rounded-full p-1">
-              <Sun
-                className={`size-4 sm:size-5 md:size-6 lg:size-7 ${
-                  getUVIndexInfo(weather.uvIndex).color
-                }`}
-              />
-            </div>
+            <Sun
+              className={`size-4 sm:size-5 md:size-6 lg:size-7 ${
+                getUVIndexInfo(weather.uvIndex).color
+              }`}
+            />
             <span
               className={`text-lg sm:text-xl md:text-2xl ${
                 getUVIndexInfo(weather.uvIndex).color
               }`}
             >
-              {Math.round(weather.uvIndex)} -{' '}
+              UV {Math.round(weather.uvIndex)} -{' '}
               {getUVIndexInfo(weather.uvIndex).description.toLowerCase()}
             </span>
           </div>
           <div className="flex items-center gap-1">
-            <div className="bg-white/20 rounded-full p-1">
-              <Leaf
-                className={`size-4 sm:size-5 md:size-6 lg:size-7 ${
-                  getAirQualityInfo(weather.airQuality).color
-                }`}
-              />
-            </div>
+            <Leaf
+              className={`size-4 sm:size-5 md:size-6 lg:size-7 ${
+                getAirQualityInfo(weather.airQuality).color
+              }`}
+            />
             <span
               className={`text-lg sm:text-xl md:text-2xl ${
                 getAirQualityInfo(weather.airQuality).color
