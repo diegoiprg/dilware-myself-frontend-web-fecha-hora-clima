@@ -10,6 +10,7 @@
  * - Weather data refresh interval
  */
 
+import React from 'react';
 import {
   Sheet,
   SheetContent,
@@ -27,9 +28,14 @@ import {
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Settings } from 'lucide-react';
+import { Settings, RefreshCw, CheckCircle, AlertCircle } from 'lucide-react';
 import { useSettings } from '@/context/SettingsContext';
 import { trackUserInteraction } from '@/lib/analytics';
+import {
+  useVersionCheck,
+  getVersionStatusMessage,
+} from '@/hooks/useVersionCheck';
+import { useToast } from '@/hooks/use-toast';
 
 /**
  * SettingsPanel - Configuration panel component
@@ -48,23 +54,64 @@ export const SettingsPanel = ({ appVersion }: { appVersion: string }) => {
     setRefreshInterval,
   } = useSettings();
 
+  // Version checking hook
+  const versionCheck = useVersionCheck();
+  const { toast } = useToast();
+
   // Track settings panel open
   const handleSettingsOpen = () => {
     trackUserInteraction.settingsPanelOpen();
   };
 
+  // Show update notification when update is detected
+  React.useEffect(() => {
+    if (versionCheck.hasUpdate && versionCheck.latestVersion) {
+      toast({
+        title: 'Actualización disponible',
+        description: `Nueva versión ${versionCheck.latestVersion} disponible. Actualiza la página para obtener las últimas mejoras.`,
+        duration: 10000, // 10 seconds
+      });
+
+      // Track update notification shown
+      trackUserInteraction.updateNotificationShown(versionCheck.latestVersion);
+    }
+  }, [versionCheck.hasUpdate, versionCheck.latestVersion, toast]);
+
+  // Get the appropriate icon based on version status
+  const getVersionIcon = () => {
+    if (versionCheck.isChecking) {
+      return <RefreshCw className="size-4 animate-spin text-blue-500" />;
+    }
+    if (versionCheck.hasUpdate) {
+      return <AlertCircle className="size-4 text-orange-500" />;
+    }
+    if (versionCheck.latestVersion && !versionCheck.hasUpdate) {
+      return <CheckCircle className="size-4 text-green-500" />;
+    }
+    return null;
+  };
+
+  // Get tooltip text for version status
+  const getVersionTooltip = () => {
+    return getVersionStatusMessage(versionCheck);
+  };
+
   return (
     // Container for version text and settings trigger, aligned horizontally
     <div className="flex items-center gap-2 sm:gap-4">
-      {/* Display the current app version */}
-      <a
-        href="https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-[1.75rem] text-muted-foreground/50 font-code hover:text-muted-foreground transition-colors"
-      >
-        {appVersion}
-      </a>
+      {/* Display the current app version with status icon */}
+      <div className="flex items-center gap-1">
+        <a
+          href="https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-[1.75rem] text-muted-foreground/50 font-code hover:text-muted-foreground transition-colors flex items-center gap-1"
+          title={getVersionTooltip()}
+        >
+          {appVersion}
+        </a>
+        {getVersionIcon()}
+      </div>
       {/* Settings panel trigger button */}
       <Sheet>
         <SheetTrigger asChild>

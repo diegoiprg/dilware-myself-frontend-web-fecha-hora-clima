@@ -2,6 +2,12 @@
  * Google Analytics 4 tracking utilities
  */
 
+import {
+  getUserEnvironment,
+  formatEnvironmentForAnalytics,
+} from './userEnvironment';
+import { APP_VERSION } from './version';
+
 // GA4 Measurement ID - Replace with your actual GA4 ID
 const GA_MEASUREMENT_ID = 'G-FF81FMV5GT';
 
@@ -23,7 +29,7 @@ export const trackEvent = (
 
   window.gtag('event', eventName, {
     ...parameters,
-    app_version: 'v1.7.1',
+    app_version: APP_VERSION,
     timestamp: new Date().toISOString(),
   });
 };
@@ -72,6 +78,9 @@ export const trackUserInteraction = {
 
   refreshIntervalChange: (interval: number) =>
     trackEvent('refresh_interval_change', { interval_minutes: interval }),
+
+  updateNotificationShown: (latestVersion: string) =>
+    trackEvent('update_notification_shown', { latest_version: latestVersion }),
 };
 
 /**
@@ -106,6 +115,67 @@ export const trackAppUsage = {
 };
 
 /**
+ * Track user environment data
+ */
+export const trackUserEnvironment = {
+  /**
+   * Track complete user environment on app initialization
+   */
+  trackEnvironment: () => {
+    const env = getUserEnvironment();
+    const envData = formatEnvironmentForAnalytics(env);
+
+    trackEvent('user_environment', envData);
+  },
+
+  /**
+   * Track browser information
+   */
+  trackBrowser: () => {
+    const env = getUserEnvironment();
+    trackEvent('browser_info', {
+      browser_name: env.browser.name,
+      browser_version: env.browser.version,
+    });
+  },
+
+  /**
+   * Track operating system information
+   */
+  trackOS: () => {
+    const env = getUserEnvironment();
+    trackEvent('os_info', {
+      os_name: env.os.name,
+      os_version: env.os.version,
+    });
+  },
+
+  /**
+   * Track device information
+   */
+  trackDevice: () => {
+    const env = getUserEnvironment();
+    trackEvent('device_info', {
+      device_type: env.device.type,
+      screen_resolution: `${env.device.screen.width}x${env.device.screen.height}`,
+      pixel_ratio: env.device.screen.pixelRatio,
+      touch_support: env.device.touch,
+    });
+  },
+
+  /**
+   * Track user preferences (language, timezone)
+   */
+  trackUserPreferences: () => {
+    const env = getUserEnvironment();
+    trackEvent('user_preferences', {
+      language: env.language,
+      timezone: env.timezone,
+    });
+  },
+};
+
+/**
  * Track errors
  */
 export const trackError = (error: Error, context: string): void => {
@@ -117,23 +187,41 @@ export const trackError = (error: Error, context: string): void => {
 };
 
 /**
- * Initialize GA with custom dimensions
+ * Initialize GA with custom dimensions and user environment tracking
  */
 export const initializeAnalytics = (): void => {
   if (!isGAReady()) return;
 
+  // Get user environment data
+  const env = getUserEnvironment();
+  const envData = formatEnvironmentForAnalytics(env);
+
   // Set initial custom dimensions
   const dimensions = {
-    app_version: 'v1.8.0',
-    device_category: getDeviceCategory(),
+    app_version: APP_VERSION,
+    device_category: env.device.type,
     orientation:
-      window.innerHeight > window.innerWidth ? 'portrait' : 'landscape',
+      env.device.screen.height > env.device.screen.width
+        ? 'portrait'
+        : 'landscape',
+    browser_name: env.browser.name,
+    os_name: env.os.name,
+    screen_resolution: envData.screen_resolution,
+    language: env.language,
+    timezone: env.timezone,
   };
 
   setCustomDimensions(dimensions);
 
-  // Track device type
-  trackAppUsage.deviceType(getDeviceCategory());
+  // Track complete user environment
+  trackUserEnvironment.trackEnvironment();
+
+  // Track individual components
+  trackAppUsage.deviceType(env.device.type);
+  trackUserEnvironment.trackBrowser();
+  trackUserEnvironment.trackOS();
+  trackUserEnvironment.trackDevice();
+  trackUserEnvironment.trackUserPreferences();
 };
 
 /**

@@ -3,7 +3,7 @@
 [![Deploy to GitHub Pages](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml/badge.svg?branch=main)](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml)
 [![Build Status](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml/badge.svg)](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-v1.8.0-blue.svg)](./package.json)
+[![Version](https://img.shields.io/badge/version-v1.8.2-blue.svg)](./package.json)
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org/)
 [![Next.js](https://img.shields.io/badge/Next.js-15.3.3-black)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue)](https://www.typescriptlang.org/)
@@ -28,6 +28,8 @@ Minimalist and full-screen web application developed with a vibecoding approach 
 - **Screen Wake Lock**: Keeps the screen awake during fullscreen mode (compatibility varies by device and OS).
 - **Customizable Settings**: A settings panel allows users to toggle features like the clock format and seconds display.
 - **Responsive Design**: The layout adapts gracefully to different screen sizes, from mobile devices to large desktop monitors.
+- **Analytics & User Insights**: Comprehensive Google Analytics 4 integration tracks user interactions, environment data (browser, OS, device), and app usage patterns for continuous improvement.
+- **Automatic Update Notifications**: Smart version checking with visual indicators and notifications when new app versions are available, ensuring users stay up-to-date with the latest features.
 
 ## Usage
 
@@ -188,6 +190,52 @@ NEXT_PUBLIC_WEATHER_API_BASE=https://api.open-meteo.com/v1/forecast
 - **Geolocation**: Browser Geolocation API with fallback to IP-based location via [IP-API](https://ipapi.co/)
 - **Reverse Geocoding**: [BigDataCloud API](https://www.bigdatacloud.com/) for converting coordinates to human-readable addresses
 
+## Analytics & User Tracking
+
+The application includes comprehensive Google Analytics 4 integration to track user behavior and environment data:
+
+### Tracked Data
+
+- **User Interactions**: Fullscreen toggles, settings changes, temperature unit changes, time format preferences
+- **App Usage**: Orientation changes, device type detection, app version tracking, update notifications
+- **Weather & Location**: Data loading success/failure, geolocation permissions, location accuracy
+- **User Environment**: Browser name/version, operating system, device type, screen resolution, pixel ratio, touch support, language, timezone
+- **Error Monitoring**: JavaScript errors with context and stack traces
+- **Version Management**: Update availability checks, user update notifications, version status tracking
+
+## Update Notifications
+
+The application includes an intelligent update notification system that keeps users informed about new versions:
+
+### Visual Indicators
+
+- **🔄 Checking**: Blue spinning icon when checking for updates
+- **⚠️ Update Available**: Orange warning icon when a new version is detected
+- **✅ Up to Date**: Green checkmark icon when the app is current
+
+### Notification Features
+
+- **Automatic Checks**: Background version checking every 30 minutes
+- **Toast Notifications**: Non-intrusive popup messages when updates are available
+- **GitHub Integration**: Fetches latest release information from GitHub API
+- **Fallback Mechanism**: Uses local package.json as backup for version detection
+- **User Control**: Users can dismiss update notifications
+
+### How It Works
+
+1. The app periodically checks the GitHub repository for new releases
+2. Compares the current version with the latest available version
+3. Shows appropriate visual indicators in the settings panel
+4. Displays toast notifications for available updates
+5. Tracks user interactions with update notifications in analytics
+
+### Privacy & Compliance
+
+- All tracking is anonymous and aggregated
+- No personally identifiable information is collected
+- Analytics data is used solely for improving user experience and app performance
+- Users can opt-out of analytics by using browser privacy extensions
+
 ## Browser Compatibility
 
 - Modern browsers with ES6+ support
@@ -224,6 +272,19 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 5. Open a Pull Request
 
 ## Changelog
+
+### v1.8.2
+
+- **Version Update Notifications**: Automatic detection of new app versions with visual indicators and toast notifications when updates are available
+- **Update Status Icons**: Visual feedback showing update availability (orange warning icon), checking status (spinning blue icon), or up-to-date status (green checkmark icon)
+- **Smart Version Checking**: Periodic background checks for new versions using GitHub API with fallback mechanisms
+- **User-Friendly Notifications**: Non-intrusive toast messages informing users about available updates with clear call-to-action to refresh the page
+
+### v1.8.1
+
+- **User Environment Tracking**: Comprehensive analytics implementation to track user browser, operating system, device type, screen resolution, language, timezone, and site version for better understanding of user demographics and device compatibility
+- **Enhanced Analytics**: Added detailed user environment data collection including browser name/version, OS name/version, device type, screen resolution, pixel ratio, touch support, language preferences, and timezone information
+- **Custom Dimensions**: Extended GA4 custom dimensions to include user environment data for advanced segmentation and reporting
 
 ### v1.8.0
 
