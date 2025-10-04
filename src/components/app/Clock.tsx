@@ -53,7 +53,8 @@ interface ClockProps {
 }
 
 /**
- * Clock component - Displays the current time in large, responsive text
+ * Clock component - Displays the current time in large, responsive text filling the cell
+ * Centered at 100% width, text sized to occupy maximum space without distortion
  * Clicking toggles fullscreen mode if supported
  * @param time - Current time Date object
  * @param onClick - Handler for click events (fullscreen toggle)
@@ -103,17 +104,17 @@ export const Clock = React.memo(
       <main className="w-full flex-1 flex flex-col items-center justify-center">
         <div
           onClick={isFullscreenSupported ? onClick : undefined}
-          className={`font-code font-bold text-center max-w-[95%] mx-auto text-9xl sm:text-[10rem] md:text-[12rem] lg:text-[15rem] xl:text-[20rem] 2xl:text-[25rem] ${
+          className={`font-code font-bold text-center w-full text-[12rem] sm:text-[15rem] md:text-[18rem] lg:text-[22rem] xl:text-[28rem] 2xl:text-[35rem] ${
             isAndroidTablet
               ? isPortrait
-                ? 'md:text-[20rem] lg:text-[23rem] xl:text-[28rem] 2xl:text-[32rem]'
-                : 'md:text-[14rem] lg:text-[17rem] xl:text-[22rem] 2xl:text-[26rem]'
+                ? 'md:text-[25rem] lg:text-[28rem] xl:text-[33rem] 2xl:text-[40rem]'
+                : 'md:text-[18rem] lg:text-[21rem] xl:text-[26rem] 2xl:text-[33rem]'
               : isIPad
               ? isPortrait
-                ? 'md:text-[13rem] lg:text-[16rem] xl:text-[21rem] 2xl:text-[25rem]'
-                : 'md:text-[15rem] lg:text-[18rem] xl:text-[23rem] 2xl:text-[27rem]'
+                ? 'md:text-[17rem] lg:text-[20rem] xl:text-[25rem] 2xl:text-[32rem]'
+                : 'md:text-[19rem] lg:text-[22rem] xl:text-[27rem] 2xl:text-[34rem]'
               : isDesktop
-              ? 'lg:text-[20rem] xl:text-[25rem] 2xl:text-[30rem]'
+              ? 'lg:text-[25rem] xl:text-[30rem] 2xl:text-[38rem]'
               : ''
           } leading-none whitespace-nowrap tabular-nums overflow-hidden ${
             isFullscreenSupported ? 'cursor-pointer' : 'cursor-default'

@@ -92,7 +92,7 @@ const formatDate = (
 };
 
 /**
- * DateDisplay component - Shows the current date with calendar icon
+ * DateDisplay component - Shows the current date with calendar icon, centered at 100% width
  * @param date - Date object to display
  */
 export const DateDisplay = ({ date }: { date: Date }) => {
@@ -106,14 +106,16 @@ export const DateDisplay = ({ date }: { date: Date }) => {
   );
 
   return (
-    <div className="text-3xl sm:text-4xl flex items-center gap-3">
-      <div className="rounded-full p-2">
-        <CalendarDays className="size-6 sm:size-8" />
+    <div className="w-full flex flex-col items-center justify-center">
+      <div className="flex items-center justify-center gap-3">
+        <div className="rounded-full p-2">
+          <CalendarDays className="size-6 sm:size-8" />
+        </div>
+        <span className="text-3xl sm:text-4xl pt-1">
+          <span className="font-bold">{formattedDate.split(',')[0]},</span>
+          {formattedDate.split(',').slice(1).join(',')}
+        </span>
       </div>
-      <span className="pt-1">
-        <span className="font-bold">{formattedDate.split(',')[0]},</span>
-        {formattedDate.split(',').slice(1).join(',')}
-      </span>
     </div>
   );
 };

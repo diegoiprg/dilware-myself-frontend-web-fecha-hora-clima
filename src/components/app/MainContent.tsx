@@ -12,14 +12,14 @@
  * - Settings panel for user customization
  *
  * Layout Structure (Portrait):
- * - Row 1: Date (centered) and Version/Menu (centered) - auto height
- * - Row 2: Clock (centered, flexible height)
+ * - Row 1: Date (centered at 100% width) and Version/Menu (centered) - auto height
+ * - Row 2: Clock (centered at 100% width, large text filling space)
  * - Row 3: Location (centered)
  * - Row 4: Weather (centered) - auto height
  *
  * Layout Structure (Landscape):
- * - Row 1: Date (centered) and Version/Menu (centered)
- * - Row 2: Clock (spans full width)
+ * - Row 1: Date (centered at 100% width) and Version/Menu (centered)
+ * - Row 2: Clock (spans full width, large text filling space)
  * - Row 3: Location (left) and Weather (right)
  */
 
