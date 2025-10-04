@@ -133,6 +133,12 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 
 ## Changelog
 
+### v1.6.15
+
+- Restructured location display: first line shows street, locality, and city (in bold), second line shows region and country
+- Improved vertical alignment of location text lines for better visual consistency
+- Made the day value in the date display bold for enhanced readability
+
 ### v1.6.14
 
 - Moved location icon to the left side of the first location line (address/district)

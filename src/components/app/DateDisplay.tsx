@@ -41,13 +41,23 @@ const formatDate = (date: Date): string => {
  * @param date - Date object to display
  */
 export const DateDisplay = ({ date }: { date: Date }) => {
-  const formattedDate = formatDate(date);
+  const dayName = new Intl.DateTimeFormat('es-ES', { weekday: 'long' }).format(
+    date
+  );
+  const capitalizedDayName = dayName.charAt(0).toUpperCase() + dayName.slice(1);
+  const day = String(date.getDate()).padStart(2, '0');
+  const monthAbbr = MONTHS_ES[date.getMonth()];
+  const year = date.getFullYear();
+
   return (
     <div className="text-3xl sm:text-4xl flex items-center gap-3">
       <div className="bg-white/20 rounded-full p-2">
         <CalendarDays className="size-6 sm:size-8" />
       </div>
-      <span className="pt-1">{formattedDate}</span>
+      <span className="pt-1">
+        {capitalizedDayName}, <span className="font-bold">{day}</span>{' '}
+        {monthAbbr} {year}
+      </span>
     </div>
   );
 };
