@@ -1,6 +1,10 @@
 import React from 'react';
 import { useSettings } from '@/context/SettingsContext';
-import { useIsAndroidTabletPortrait } from '@/hooks/useIsAndroidTablet';
+import {
+  useIsAndroidTablet,
+  useIsIPad,
+  useIsDesktop,
+} from '@/hooks/useIsAndroidTablet';
 
 /**
  * Formats a Date object into a time string based on format preferences
@@ -53,16 +57,37 @@ interface ClockProps {
 export const Clock = React.memo(
   ({ time, onClick, isFullscreenSupported = true }: ClockProps) => {
     const { timeFormat, showSeconds } = useSettings();
-    const isAndroidTabletPortrait = useIsAndroidTabletPortrait();
+    const isAndroidTablet = useIsAndroidTablet();
+    const isIPad = useIsIPad();
+    const isDesktop = useIsDesktop();
+    const [isPortrait, setIsPortrait] = React.useState(
+      window.innerHeight > window.innerWidth
+    );
     const formattedTime = formatTime(time, timeFormat, showSeconds);
+
+    React.useEffect(() => {
+      const handleResize = () => {
+        setIsPortrait(window.innerHeight > window.innerWidth);
+      };
+      window.addEventListener('resize', handleResize);
+      return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     return (
       <main className="w-full flex-1 flex flex-col items-center justify-center">
         <div
           onClick={isFullscreenSupported ? onClick : undefined}
           className={`bg-white/10 backdrop-blur-xl rounded-3xl p-8 font-code font-bold text-center text-7xl sm:text-8xl md:text-9xl lg:text-[10rem] xl:text-[12rem] 2xl:text-[15rem] ${
-            isAndroidTabletPortrait
-              ? 'md:text-[10rem] lg:text-[12rem] xl:text-[14rem] 2xl:text-[17rem]'
+            isAndroidTablet
+              ? isPortrait
+                ? 'md:text-[12rem] lg:text-[14rem] xl:text-[16rem] 2xl:text-[19rem]'
+                : 'md:text-[10rem] lg:text-[12rem] xl:text-[14rem] 2xl:text-[17rem]'
+              : isIPad
+              ? isPortrait
+                ? 'md:text-[10rem] lg:text-[12rem] xl:text-[14rem] 2xl:text-[17rem]'
+                : 'md:text-[11rem] lg:text-[13rem] xl:text-[15rem] 2xl:text-[18rem]'
+              : isDesktop
+              ? 'lg:text-[12rem] xl:text-[15rem] 2xl:text-[18rem]'
               : ''
           } leading-none whitespace-nowrap tabular-nums overflow-hidden ${
             isFullscreenSupported ? 'cursor-pointer' : 'cursor-default'

@@ -51,9 +51,14 @@ export const SettingsPanel = ({ appVersion }: { appVersion: string }) => {
     // Container for version text and settings trigger, aligned horizontally
     <div className="flex items-center gap-2 sm:gap-4">
       {/* Display the current app version */}
-      <div className="text-xl text-muted-foreground/50 font-code">
+      <a
+        href="https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-[1.75rem] text-muted-foreground/50 font-code hover:text-muted-foreground transition-colors"
+      >
         {appVersion}
-      </div>
+      </a>
       {/* Settings panel trigger button */}
       <Sheet>
         <SheetTrigger asChild>

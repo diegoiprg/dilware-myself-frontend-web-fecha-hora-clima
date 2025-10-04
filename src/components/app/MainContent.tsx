@@ -36,9 +36,7 @@ import { SettingsPanel } from '@/components/app/SettingsPanel';
 import { DateDisplay } from '@/components/app/DateDisplay';
 import { LocationDisplay } from '@/components/app/LocationDisplay';
 import { WeatherDisplay } from '@/components/app/WeatherDisplay';
-
-// App version - displayed in the settings panel
-const APP_VERSION = 'v1.6.24';
+import { APP_VERSION } from '@/lib/version';
 
 /**
  * MainContent - The root component for the dashboard
