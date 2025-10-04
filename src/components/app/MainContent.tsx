@@ -12,14 +12,13 @@
  * - Settings panel for user customization
  *
  * Layout Structure (Portrait):
- * - Row 1: Settings panel (top right)
- * - Row 2: Date display (left aligned)
- * - Row 3: Clock (centered, largest element)
- * - Row 4: Location display (centered)
- * - Row 5: Weather display (centered)
+ * - Row 1: Date (left) and Version/Menu (right)
+ * - Row 2: Clock (centered, largest element)
+ * - Row 3: Location (centered)
+ * - Row 4: Weather (centered)
  *
  * Layout Structure (Landscape):
- * - Row 1: Date (left) and Settings (right)
+ * - Row 1: Date (left column) and Version/Menu (right column)
  * - Row 2: Clock (spans full width)
  * - Row 3: Location (left) and Weather (right)
  */
@@ -149,15 +148,15 @@ export default function MainContent() {
       <div
         className={`h-full w-full max-w-none mx-auto grid grid-rows-[1fr_1fr_3fr_1fr] landscape:grid-rows-[1fr_1fr_3fr_1fr] landscape:grid-cols-2 place-items-center p-2 sm:p-4 md:p-6 lg:p-8`}
       >
-        {/* Row 1: Date (50% left) and Version+Menu (50% right) */}
-        <div className="flex w-full items-center">
-          {/* Date - 50% left, aligned left */}
-          <div className="flex-1 text-left">
+        {/* Row 1: Date (left) and Version+Menu (right) */}
+        <div className="flex w-full items-center landscape:grid landscape:grid-cols-2 landscape:gap-4">
+          {/* Date - left aligned in portrait, left column in landscape */}
+          <div className="flex-1 text-left landscape:col-start-1 landscape:flex landscape:justify-start">
             <DateDisplay date={currentTime} />
           </div>
 
-          {/* Version + Menu - aligned right for all screen types */}
-          <div className="ml-auto flex items-center justify-end gap-2 min-w-0">
+          {/* Version + Menu - right aligned in portrait, right column in landscape */}
+          <div className="flex items-center justify-end gap-2 min-w-0 ml-auto landscape:ml-0 landscape:col-start-2 landscape:justify-end">
             <a
               href="https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima"
               target="_blank"
