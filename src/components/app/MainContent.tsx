@@ -145,7 +145,7 @@ export default function MainContent() {
             : 'grid-rows-[1fr_1fr_3fr_2fr]'
         } landscape:grid-rows-[1fr_3fr_1fr] landscape:grid-cols-2 place-items-center p-2 sm:p-4 md:p-6 lg:p-8`}
       >
-        <div className="flex items-center gap-4 justify-self-center landscape:col-start-2 landscape:row-start-1 landscape:justify-self-end">
+        <div className="flex items-center gap-4 justify-self-center landscape:col-start-2 landscape:row-start-1 landscape:justify-self-end -mt-2 sm:-mt-4 md:-mt-6 lg:-mt-8">
           <SettingsPanel appVersion={APP_VERSION} />
         </div>
 
