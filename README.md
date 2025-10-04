@@ -3,7 +3,7 @@
 [![Deploy to GitHub Pages](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml/badge.svg?branch=main)](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml)
 [![Build Status](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml/badge.svg)](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-v1.8.2-blue.svg)](./package.json)
+[![Version](https://img.shields.io/badge/version-v1.8.3-blue.svg)](./package.json)
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org/)
 [![Next.js](https://img.shields.io/badge/Next.js-15.3.3-black)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue)](https://www.typescriptlang.org/)
@@ -223,11 +223,13 @@ The application includes an intelligent update notification system that keeps us
 
 ### How It Works
 
-1. The app periodically checks the GitHub repository for new releases
-2. Compares the current version with the latest available version
-3. Shows appropriate visual indicators in the settings panel
-4. Displays toast notifications for available updates
-5. Tracks user interactions with update notifications in analytics
+1. **Initial Check**: On app load, performs an immediate version check with robust error handling
+2. **Periodic Checks**: Every 30 minutes, automatically checks for new versions in the background
+3. **API Fallback**: If GitHub API fails, falls back to local package.json version check
+4. **Timeout Protection**: 8-second timeout for API calls, 3-second timeout for fallbacks to prevent hanging
+5. **Visual Feedback**: Shows appropriate icons (loading 🔄, update ⚠️, up-to-date ✅) in settings panel
+6. **Smart Notifications**: Displays toast messages only when updates are actually available
+7. **Analytics Tracking**: Records all version check interactions for usage analysis
 
 ### Privacy & Compliance
 
@@ -272,6 +274,13 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 5. Open a Pull Request
 
 ## Changelog
+
+### v1.8.3
+
+- **Fixed Version Update Detection**: Resolved issue where update icons remained in loading state indefinitely by improving error handling, timeout management, and fallback mechanisms
+- **Enhanced Version Checking Logic**: Added comprehensive logging, better timeout handling (8s for API, 3s for fallback), and improved state management to prevent hanging requests
+- **Robust Error Recovery**: Implemented multiple fallback strategies including local package.json check and current version assumption when API calls fail
+- **Improved Interval Management**: Fixed useEffect dependencies to prevent multiple concurrent intervals and ensure proper cleanup
 
 ### v1.8.2
 

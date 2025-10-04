@@ -4,7 +4,7 @@
  * Periodically checks for new app versions and provides update status
  */
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { APP_VERSION } from '@/lib/version';
 
 export interface VersionCheckResult {
@@ -40,6 +40,9 @@ export function useVersionCheck(
   const [error, setError] = useState<string | null>(null);
   const [dismissedUpdate, setDismissedUpdate] = useState<string | null>(null);
 
+  // Use ref to store interval ID for proper cleanup
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+
   // Default endpoint - can be overridden
   const defaultEndpoint =
     versionEndpoint ||
@@ -51,12 +54,21 @@ export function useVersionCheck(
     setIsChecking(true);
     setError(null);
 
+    // Add timeout to prevent hanging
+    const timeoutId = setTimeout(() => {
+      console.warn('Version check timed out');
+      setIsChecking(false);
+      setError('Request timeout');
+    }, 10000); // 10 second timeout
+
     try {
       // For GitHub releases, we get the latest release
       const response = await fetch(defaultEndpoint, {
         headers: {
           Accept: 'application/vnd.github.v3+json',
         },
+        // Add timeout to fetch request
+        signal: AbortSignal.timeout(8000), // 8 second timeout for fetch
       });
 
       if (!response.ok) {
@@ -69,36 +81,78 @@ export function useVersionCheck(
       const latestVersionRaw = releaseData.tag_name || releaseData.version;
       const latestVersionClean = latestVersionRaw?.replace(/^v/, '') || null;
 
-      setLatestVersion(latestVersionClean);
-      setLastChecked(new Date());
+      console.log('Version check result:', {
+        raw: latestVersionRaw,
+        clean: latestVersionClean,
+        current: APP_VERSION.replace(/^v/, ''),
+        hasUpdate: latestVersionClean
+          ? isNewerVersion(latestVersionClean, APP_VERSION.replace(/^v/, ''))
+          : false,
+      });
 
-      // Track version check in analytics
-      if (typeof window !== 'undefined' && window.gtag) {
-        window.gtag('event', 'version_check', {
-          current_version: APP_VERSION,
-          latest_version: latestVersionClean,
-          has_update:
-            latestVersionClean &&
-            isNewerVersion(latestVersionClean, APP_VERSION),
-        });
+      // Ensure we have a valid version
+      if (latestVersionClean) {
+        setLatestVersion(latestVersionClean);
+        setLastChecked(new Date());
+
+        // Track version check in analytics
+        if (typeof window !== 'undefined' && window.gtag) {
+          window.gtag('event', 'version_check', {
+            current_version: APP_VERSION,
+            latest_version: latestVersionClean,
+            has_update: isNewerVersion(
+              latestVersionClean,
+              APP_VERSION.replace(/^v/, '')
+            ),
+          });
+        }
+      } else {
+        // If we can't extract version, assume current version
+        console.warn(
+          'Could not extract version from API response, using current version'
+        );
+        setLatestVersion(APP_VERSION.replace(/^v/, ''));
+        setLastChecked(new Date());
       }
+
+      console.log('Version check completed successfully');
     } catch (err) {
       console.warn('Failed to check for updates:', err);
       setError(err instanceof Error ? err.message : 'Unknown error');
 
       // Fallback: try to get version from package.json on the deployed site
       try {
-        const packageResponse = await fetch('/package.json');
+        console.log('Attempting fallback version check from /package.json');
+        const packageResponse = await fetch('/package.json', {
+          signal: AbortSignal.timeout(3000), // 3 second timeout for fallback
+        });
         if (packageResponse.ok) {
           const packageData = await packageResponse.json();
           const packageVersion = packageData.version;
+          console.log('Fallback version check successful:', packageVersion);
           setLatestVersion(packageVersion);
+          setLastChecked(new Date());
+        } else {
+          console.warn(
+            'Fallback package.json request failed with status:',
+            packageResponse.status
+          );
+          // Set current version as latest if fallback fails
+          setLatestVersion(APP_VERSION.replace(/^v/, ''));
           setLastChecked(new Date());
         }
       } catch (fallbackErr) {
-        // Ignore fallback errors
+        console.warn('Fallback version check also failed:', fallbackErr);
+        // Set current version as latest if fallback fails
+        console.log(
+          'Using current version as fallback:',
+          APP_VERSION.replace(/^v/, '')
+        );
+        setLatestVersion(APP_VERSION.replace(/^v/, ''));
+        setLastChecked(new Date());
       }
     } finally {
+      clearTimeout(timeoutId);
       setIsChecking(false);
     }
   }, [isChecking, defaultEndpoint]);
@@ -111,17 +165,41 @@ export function useVersionCheck(
 
   // Check for updates on mount and periodically
   useEffect(() => {
-    // Initial check
-    checkForUpdates();
+    // Initial check with fallback
+    const performInitialCheck = async () => {
+      try {
+        await checkForUpdates();
+      } catch (error) {
+        // If initial check fails, assume current version is latest
+        console.warn(
+          'Initial version check failed, assuming current version is latest'
+        );
+        setLatestVersion(APP_VERSION.replace(/^v/, ''));
+        setLastChecked(new Date());
+        setIsChecking(false);
+      }
+    };
+
+    performInitialCheck();
 
     // Set up periodic checks
-    const interval = setInterval(checkForUpdates, checkInterval);
+    intervalRef.current = setInterval(() => {
+      checkForUpdates().catch((error) => {
+        console.warn('Periodic version check failed:', error);
+      });
+    }, checkInterval);
 
-    return () => clearInterval(interval);
-  }, [checkForUpdates, checkInterval]);
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+    };
+  }, [checkInterval]); // Remove checkForUpdates from dependencies
 
+  const currentVersionClean = APP_VERSION.replace(/^v/, '');
   const hasUpdate = latestVersion
-    ? isNewerVersion(latestVersion, APP_VERSION) &&
+    ? isNewerVersion(latestVersion, currentVersionClean) &&
       dismissedUpdate !== latestVersion
     : false;
 
@@ -142,13 +220,28 @@ export function useVersionCheck(
  * Supports semantic versioning (major.minor.patch)
  */
 function isNewerVersion(version1: string, version2: string): boolean {
-  const v1Parts = version1.split('.').map(Number);
-  const v2Parts = version2.split('.').map(Number);
+  // Handle invalid versions
+  if (!version1 || !version2) return false;
+
+  // Normalize versions (remove 'v' prefix if present)
+  const v1 = version1.replace(/^v/, '');
+  const v2 = version2.replace(/^v/, '');
+
+  // Split and parse version parts
+  const v1Parts = v1.split('.').map((part) => {
+    const num = parseInt(part, 10);
+    return isNaN(num) ? 0 : num;
+  });
+  const v2Parts = v2.split('.').map((part) => {
+    const num = parseInt(part, 10);
+    return isNaN(num) ? 0 : num;
+  });
 
   // Pad shorter version with zeros
   while (v1Parts.length < v2Parts.length) v1Parts.push(0);
   while (v2Parts.length < v1Parts.length) v2Parts.push(0);
 
+  // Compare version parts
   for (let i = 0; i < v1Parts.length; i++) {
     if (v1Parts[i] > v2Parts[i]) return true;
     if (v1Parts[i] < v2Parts[i]) return false;
