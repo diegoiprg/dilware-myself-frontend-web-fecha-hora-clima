@@ -3,7 +3,7 @@
 [![Deploy to GitHub Pages](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml/badge.svg?branch=main)](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml)
 [![Build Status](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml/badge.svg)](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-v1.6.8-blue.svg)](./package.json)
+[![Version](https://img.shields.io/badge/version-v1.6.16-blue.svg)](./package.json)
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org/)
 [![Next.js](https://img.shields.io/badge/Next.js-15.3.3-black)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue)](https://www.typescriptlang.org/)
@@ -31,9 +31,27 @@ A minimalist, full-screen web application that provides a quick and elegant view
 
 ## Screenshots
 
-![Personal Dashboard Screenshot](https://via.placeholder.com/800x600/000000/FFFFFF?text=Personal+Dashboard+Screenshot)
+### iPhone (Portrait)
 
-_Note: Add actual screenshots of the application in light and dark modes, and different screen sizes._
+![iPhone Portrait](screenshots/iphone-portrait.png)
+
+### iPhone (Landscape)
+
+![iPhone Landscape](screenshots/iphone-landscape.png)
+
+### iPad (Portrait)
+
+![iPad Portrait](screenshots/ipad-portrait.png)
+
+### iPad (Landscape)
+
+![iPad Landscape](screenshots/ipad-landscape.png)
+
+### macOS (Desktop)
+
+![macOS Desktop](screenshots/macos-desktop.png)
+
+_Note: Screenshots show the application running with sample data. The interface adapts responsively across different devices and orientations._
 
 ## Technologies Used
 
@@ -132,6 +150,13 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 5. Open a Pull Request
 
 ## Changelog
+
+### v1.6.16
+
+- Standardized location icon size to match weather icon dimensions
+- Made day name (e.g., "viernes") bold in date display while keeping other text normal
+- Applied selective bold formatting to street and locality in location display, with city and other elements normal weight
+- Ensured consistent bold styling across date and location elements to match weather/temperature appearance
 
 ### v1.6.15
 

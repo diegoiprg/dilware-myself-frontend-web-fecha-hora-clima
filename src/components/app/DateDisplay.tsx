@@ -55,7 +55,7 @@ export const DateDisplay = ({ date }: { date: Date }) => {
         <CalendarDays className="size-6 sm:size-8" />
       </div>
       <span className="pt-1">
-        {capitalizedDayName}, <span className="font-bold">{day}</span>{' '}
+        <span className="font-bold">{capitalizedDayName}</span>, {day}{' '}
         {monthAbbr} {year}
       </span>
     </div>
