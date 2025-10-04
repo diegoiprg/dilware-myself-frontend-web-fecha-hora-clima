@@ -262,6 +262,14 @@ export const WeatherDisplay = ({ weather, loading, error, onRetry }: Props) => {
           </div>
           <div className="flex items-center gap-1">
             <div className="bg-white/20 rounded-full p-1">
+              <CloudRainWind className="size-4 sm:size-5 md:size-6 lg:size-7" />
+            </div>
+            <span className="text-lg sm:text-xl md:text-2xl">
+              {Math.round(weather.rainProbability)}%
+            </span>
+          </div>
+          <div className="flex items-center gap-1">
+            <div className="bg-white/20 rounded-full p-1">
               <Sun
                 className={`size-4 sm:size-5 md:size-6 lg:size-7 ${
                   getUVIndexInfo(weather.uvIndex).color
@@ -273,15 +281,8 @@ export const WeatherDisplay = ({ weather, loading, error, onRetry }: Props) => {
                 getUVIndexInfo(weather.uvIndex).color
               }`}
             >
-              {getUVIndexInfo(weather.uvIndex).description}
-            </span>
-          </div>
-          <div className="flex items-center gap-1">
-            <div className="bg-white/20 rounded-full p-1">
-              <CloudRainWind className="size-4 sm:size-5 md:size-6 lg:size-7" />
-            </div>
-            <span className="text-lg sm:text-xl md:text-2xl">
-              {Math.round(weather.rainProbability)}%
+              {Math.round(weather.uvIndex)} -{' '}
+              {getUVIndexInfo(weather.uvIndex).description.toLowerCase()}
             </span>
           </div>
           <div className="flex items-center gap-1">

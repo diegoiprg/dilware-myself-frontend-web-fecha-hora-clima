@@ -12,14 +12,14 @@ interface HeaderProps {
  */
 export const Header = ({ appVersion }: HeaderProps) => {
   return (
-    <div className="flex items-center justify-between w-full">
+    <div className="flex items-center justify-between w-full -mt-4 sm:-mt-6 md:-mt-8 lg:-mt-10">
       {/* Version on the left */}
       <div className="flex items-center gap-3">
-        <span className="text-3xl sm:text-4xl pt-1">v{appVersion}</span>
+        <span className="text-3xl sm:text-4xl pt-1">{appVersion}</span>
       </div>
 
       {/* Settings menu on the right */}
-      <div className="-mt-2 sm:-mt-4 md:-mt-6 lg:-mt-8">
+      <div>
         <SettingsPanel appVersion={appVersion} />
       </div>
     </div>

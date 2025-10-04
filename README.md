@@ -3,7 +3,7 @@
 [![Deploy to GitHub Pages](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml/badge.svg?branch=main)](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml)
 [![Build Status](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml/badge.svg)](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-v1.9.2-blue.svg)](./package.json)
+[![Version](https://img.shields.io/badge/version-v1.9.3-blue.svg)](./package.json)
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org/)
 [![Next.js](https://img.shields.io/badge/Next.js-15.3.3-black)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue)](https://www.typescriptlang.org/)
@@ -370,6 +370,14 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 5. Open a Pull Request
 
 ## Changelog
+
+### v1.9.3
+
+- **Header Layout Refinement**: Fixed double "v" in version display, adjusted header spacing for better visual balance, ensured menu icon maintains right alignment in all orientations
+- **Weather Indicators Reordering**: Moved rain probability indicator to appear immediately after humidity indicator for logical flow
+- **Enhanced UV Index Display**: UV index now shows both numeric value and descriptive text in format "X - description" (e.g., "4 - moderado") with traffic light color coding
+- **Dark Mode Color Palette Overhaul**: Completely redesigned dark mode colors for better contrast and visual appeal, matching light mode quality with deeper blacks, brighter whites, and improved readability
+- **Layout Consistency**: Maintained single-row layout for location and weather in portrait mode, with proper 50/50 split in landscape mode
 
 ### v1.9.2
 
