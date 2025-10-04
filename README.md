@@ -133,6 +133,12 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 
 ## Changelog
 
+### v1.6.10
+
+- Made weather icon and temperature display two points smaller for better visual balance
+- Increased date display size by one point for improved readability
+- Reduced location icon and text size by one point, with department and country displayed below on a new line
+
 ### v1.6.9
 
 - Fixed weather display layout: weather description, weather icon, and temperature now have consistent sizing and proper order (description - icon - temperature)
@@ -222,6 +228,93 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 - Hide weather cell completely when data doesn't load
 - Make location cell expand to 100% width in landscape when weather is hidden
 - Enhanced clock prominence with larger text sizes
+
+### v1.4.6
+
+- Version update and improvements
+
+### v1.4.5
+
+- Version update and improvements
+
+### v1.4.4
+
+- Version update and improvements
+
+### v1.4.3
+
+- Version update and improvements
+
+### v1.4.2
+
+- Version update and improvements
+
+### v1.4.1
+
+- Version update and improvements
+
+### v1.4.0
+
+- Version update and improvements
+
+### v1.3.10
+
+- Version update and improvements
+
+### v1.3.9
+
+- Version update and improvements
+
+### v1.3.8
+
+- Version update and improvements
+
+### v1.3.7
+
+- Version update and improvements
+
+### v1.3.6
+
+- Version update and improvements
+
+### v1.3.5
+
+- Version update and improvements
+
+### v1.3.4
+
+- Version update and improvements
+
+### v1.3.3
+
+- Version update and improvements
+
+### v1.3.2
+
+- Version update and improvements
+
+### v1.3.1
+
+- Version update and improvements
+
+### v1.3.0
+
+- Version update and improvements
+
+### v1.0.3
+
+- Added console message for IP-based location
+
+### v1.0.1
+
+- Improved indentation and formatting of deployment script
+
+### v1.0.0
+
+- Initial release
+- Added GPLv3 LICENSE
+- Set license in package.json
+- Removed Firebase hosting config
 
 ## Acknowledgments
 

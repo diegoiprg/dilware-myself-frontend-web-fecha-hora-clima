@@ -28,7 +28,7 @@ const getWeatherIcon = (
   large = false
 ): React.ReactNode => {
   const iconSize = large
-    ? 'size-12 sm:size-14 md:size-16'
+    ? 'size-8 sm:size-10 md:size-12 lg:size-14'
     : 'size-4 sm:size-5 md:size-6 lg:size-7';
   switch (weatherCode) {
     case 0:
@@ -175,7 +175,7 @@ export const WeatherDisplay = ({ weather, loading, error }: Props) => {
             {getWeatherDescription(weather.weatherCode)}
           </span>
           <div className="bg-white/20 rounded-full p-1">{weatherIcon}</div>
-          <span className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl">
+          <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
             {formatTemp(weather.temperature, tempUnit)}
           </span>
         </div>
