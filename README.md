@@ -188,7 +188,7 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 
 ### v1.6.23
 
-- Increased clock text size by 2 points on Android tablets in both portrait and landscape modes to better utilize screen space
+- Increased clock text size by 2rem on Android tablets in both portrait and landscape modes to better utilize screen space
 
 ### v1.6.22
 
