@@ -129,12 +129,12 @@ export const SettingsPanel = ({ appVersion }: { appVersion: string }) => {
                 }}
               >
                 <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="short" id="short-day" />
-                  <Label htmlFor="short-day">Abreviado (3 caracteres)</Label>
+                  <RadioGroupItem value="full" id="full-day" />
+                  <Label htmlFor="full-day">Completo (por defecto)</Label>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="full" id="full-day" />
-                  <Label htmlFor="full-day">Completo</Label>
+                  <RadioGroupItem value="short" id="short-day" />
+                  <Label htmlFor="short-day">Abreviado</Label>
                 </div>
               </RadioGroup>
             </div>
@@ -148,12 +148,12 @@ export const SettingsPanel = ({ appVersion }: { appVersion: string }) => {
                 }}
               >
                 <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="short" id="short" />
-                  <Label htmlFor="short">Abreviado (3 caracteres)</Label>
+                  <RadioGroupItem value="full" id="full" />
+                  <Label htmlFor="full">Completo (por defecto)</Label>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="full" id="full" />
-                  <Label htmlFor="full">Completo</Label>
+                  <RadioGroupItem value="short" id="short" />
+                  <Label htmlFor="short">Abreviado</Label>
                 </div>
               </RadioGroup>
             </div>

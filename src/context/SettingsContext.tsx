@@ -95,8 +95,8 @@ const SETTINGS_STORAGE_KEY = 'chronos-settings';
 const defaultSettings: Settings = {
   // Date settings
   dateSeparator: 'space',
-  dayFormat: 'short',
-  monthFormat: 'short',
+  dayFormat: 'full',
+  monthFormat: 'full',
 
   // Time settings
   timeFormat: '24h',

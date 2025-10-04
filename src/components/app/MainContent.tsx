@@ -149,16 +149,15 @@ export default function MainContent() {
       <div
         className={`h-full w-full max-w-none mx-auto grid grid-rows-[1fr_1fr_3fr_1fr] landscape:grid-rows-[1fr_1fr_3fr_1fr] landscape:grid-cols-2 place-items-center p-2 sm:p-4 md:p-6 lg:p-8`}
       >
-        {/* Row 1: Date (50% left) and Menu+Version (50% right) */}
+        {/* Row 1: Date (50% left) and Version+Menu (50% right) */}
         <div className="flex w-full items-center">
-          {/* Date - 50% left */}
-          <div className="flex-1 justify-self-start text-left">
+          {/* Date - 50% left, aligned left */}
+          <div className="flex-1 text-left">
             <DateDisplay date={currentTime} />
           </div>
 
-          {/* Menu + Version - 50% right */}
-          <div className="flex-1 flex flex-col items-end justify-center gap-1">
-            <Header appVersion={APP_VERSION} />
+          {/* Version + Menu - 50% right, aligned right */}
+          <div className="flex-1 flex items-center justify-end gap-2">
             <a
               href="https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima"
               target="_blank"
@@ -167,11 +166,12 @@ export default function MainContent() {
             >
               {APP_VERSION}
             </a>
+            <Header appVersion={APP_VERSION} />
           </div>
         </div>
 
-        {/* Row 2: Clock - spans full width */}
-        <div className="w-full h-full flex items-center justify-center max-w-[90%] landscape:col-span-2 landscape:row-start-2">
+        {/* Row 2: Clock - spans full width, centered */}
+        <div className="w-full h-full flex items-center justify-center max-w-[90%] landscape:col-span-2 landscape:row-start-2 dark:bg-transparent">
           <Clock
             time={currentTime}
             onClick={handleFullscreen}
@@ -179,22 +179,25 @@ export default function MainContent() {
           />
         </div>
 
-        {/* Row 3: Location - spans full width */}
-        <div className="justify-self-center landscape:col-span-2 landscape:row-start-3">
-          <LocationDisplay displayName={location?.displayName} />
-        </div>
-
-        {/* Row 4: Weather - spans full width */}
-        {(weather || weatherLoading) && (
-          <div className="justify-self-center landscape:col-span-2 landscape:row-start-4">
-            <WeatherDisplay
-              weather={weather}
-              loading={weatherLoading}
-              error={weatherError || locationError}
-              onRetry={retryWeather}
-            />
+        {/* Row 3: Location (50% left) and Weather (50% right) */}
+        <div className="flex w-full items-center landscape:col-span-2 landscape:row-start-3">
+          {/* Location - 50% left, aligned left */}
+          <div className="flex-1 text-left landscape:justify-start">
+            <LocationDisplay displayName={location?.displayName} />
           </div>
-        )}
+
+          {/* Weather - 50% right, aligned right */}
+          {(weather || weatherLoading) && (
+            <div className="flex-1 text-right landscape:justify-end">
+              <WeatherDisplay
+                weather={weather}
+                loading={weatherLoading}
+                error={weatherError || locationError}
+                onRetry={retryWeather}
+              />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

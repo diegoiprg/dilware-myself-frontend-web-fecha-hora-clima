@@ -101,17 +101,16 @@
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   }
 
-  /* Dark mode font overrides */
-  .dark body {
-    font-family: var(--font-body-dark), -apple-system, BlinkMacSystemFont,
-      'Segoe UI', Roboto, sans-serif;
+  /* Use light mode fonts for both light and dark modes */
+  body {
+    font-family: var(--font-body), 'Rajdhani', sans-serif;
   }
 
-  .dark .font-headline {
-    font-family: var(--font-headline-dark), 'Orbitron', monospace;
+  .font-headline {
+    font-family: var(--font-headline), 'Orbitron', monospace;
   }
 
-  .dark .font-code {
-    font-family: var(--font-code-dark), 'JetBrains Mono', monospace;
+  .font-code {
+    font-family: var(--font-roboto-mono), 'Roboto Mono', monospace;
   }
 }

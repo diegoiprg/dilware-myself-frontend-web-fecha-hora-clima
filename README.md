@@ -3,7 +3,7 @@
 [![Deploy to GitHub Pages](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml/badge.svg?branch=main)](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml)
 [![Build Status](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions/workflows/deploy-gh-pages.yml/badge.svg)](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/actions)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-v1.9.5-blue.svg)](./package.json)
+[![Version](https://img.shields.io/badge/version-v1.9.6-blue.svg)](./package.json)
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org/)
 [![Next.js](https://img.shields.io/badge/Next.js-15.3.3-black)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue)](https://www.typescriptlang.org/)
@@ -370,6 +370,19 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 5. Open a Pull Request
 
 ## Changelog
+
+### v1.9.6
+
+- **Layout Grid Restructure**: Complete reorganization of the main grid layout for better visual hierarchy and consistency
+- **Row 1 Layout**: Date display takes 50% width on the left (left-aligned), version+menu takes 50% width on the right (right-aligned)
+- **Row 2 Layout**: Clock spans full width and is perfectly centered both horizontally and vertically
+- **Row 3 Layout**: Location takes 50% width on the left (left-aligned), weather takes 50% width on the right (right-aligned)
+- **Universal Layout Consistency**: All layout rules apply consistently across portrait and landscape orientations, all screen sizes, and all devices
+- **Settings Menu Defaults**: Updated day and month format options to "Completo (por defecto)" and "Abreviado" with proper default selections
+- **Typography Unification**: Removed conditional font loading - now uses light mode typography (Orbitron + Rajdhani) for both light and dark modes
+- **Single-Line Version+Menu**: Version text and menu icon now appear on the same line in the top-right cell
+- **Dark Mode Clock Background**: Removed background color from clock row in dark mode for cleaner appearance
+- **Default Format Changes**: Day and month formats now default to "full" (complete) instead of "short" (abbreviated)
 
 ### v1.9.5
 
