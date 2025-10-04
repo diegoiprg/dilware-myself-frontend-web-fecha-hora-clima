@@ -14,7 +14,7 @@
 [![GitHub issues](https://img.shields.io/github/issues/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima)](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/issues)
 [![GitHub pull requests](https://img.shields.io/github/issues-pr/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima)](https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima/pulls)
 
-A minimalist, full-screen web application that provides a quick and elegant view of the current time, date, user's location, and local weather. It is designed to be used as a browser start page, a personal dashboard, or a display for a wall-mounted screen.
+Minimalist and full-screen web application developed with a vibecoding approach (AI + human guidance). Displays real-time date, time, location, and local weather, ideal for giving a second life to tablets or old devices as connected clocks, dashboards, or interactive backgrounds. Built with pure HTML, CSS, and JavaScript, without frameworks or external dependencies, prioritizing performance, stability, and cross-platform compatibility. Although it works correctly in most modern browsers, it is especially optimized for the Apple ecosystem (iOS, iPadOS, and macOS), with a smooth experience in Safari and WebKit thanks to its adapted rendering and efficient resource management. Experimental project to explore how AI can accelerate development without losing human control or technical quality, improving abstraction, design, and communication skills during the process.
 
 [**Live Demo**](https://diegoiprg.github.io/dilware-myself-frontend-web-fecha-hora-clima/)
 
@@ -63,6 +63,40 @@ This project is built with a modern web stack:
 - **UI Components**: [shadcn/ui](https://ui.shadcn.com/)
 - **AI/Backend**: [Google's Genkit](https://firebase.google.com/docs/genkit) for potential backend and AI-powered features.
 - **Deployment**: [GitHub Pages](https://pages.github.com/) via [GitHub Actions](https://github.com/features/actions).
+
+## Dependencies
+
+This application relies on the following external services and permissions:
+
+- **APIs**:
+
+  - [Open-Meteo API](https://open-meteo.com/) for weather data
+  - [IP-API](https://ipapi.co/) for IP-based location fallback
+  - [BigDataCloud API](https://www.bigdatacloud.com/) for reverse geocoding
+
+- **Permissions**:
+
+  - Location permissions (Geolocation API) for accurate positioning
+
+- **Minimum System Requirements**:
+  - **Operating Systems**: iOS 12+, iPadOS 13+, macOS 10.14+, Android 4.4+ (with limitations)
+  - **Browsers**: Safari 12+, Chrome 81+ (with limitations), Firefox 65+, Edge 79+
+
+## Technical Limitations
+
+While the application can run on older devices such as Android 4.4 and Chrome 81, there are some limitations:
+
+- **Weather Data**: The weather section may not function properly on older Android versions and Chrome browsers.
+- **Location Accuracy**: Location detection is less precise on older devices and browsers.
+
+## Testing
+
+The application has been tested on the following devices and configurations (vertical and horizontal modes):
+
+- Android tablets
+- iPhone
+- iPad
+- macOS
 
 ## Getting Started
 
