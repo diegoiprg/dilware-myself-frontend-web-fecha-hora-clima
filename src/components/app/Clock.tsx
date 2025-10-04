@@ -103,17 +103,17 @@ export const Clock = React.memo(
       <main className="w-full flex-1 flex flex-col items-center justify-center">
         <div
           onClick={isFullscreenSupported ? onClick : undefined}
-          className={`bg-white/10 backdrop-blur-xl rounded-3xl p-8 font-code font-bold text-center text-7xl sm:text-8xl md:text-9xl lg:text-[10rem] xl:text-[12rem] 2xl:text-[15rem] dark:bg-transparent dark:backdrop-blur-none dark:rounded-none dark:p-0 ${
+          className={`bg-white/10 backdrop-blur-xl rounded-3xl p-8 font-code font-bold text-center text-8xl sm:text-9xl md:text-[10rem] lg:text-[12rem] xl:text-[15rem] 2xl:text-[18rem] dark:bg-transparent dark:backdrop-blur-none dark:rounded-none dark:p-0 ${
             isAndroidTablet
               ? isPortrait
-                ? 'md:text-[16rem] lg:text-[18rem] xl:text-[20rem] 2xl:text-[23rem]'
-                : 'md:text-[10rem] lg:text-[12rem] xl:text-[14rem] 2xl:text-[17rem]'
+                ? 'md:text-[18rem] lg:text-[20rem] xl:text-[22rem] 2xl:text-[25rem]'
+                : 'md:text-[12rem] lg:text-[14rem] xl:text-[16rem] 2xl:text-[19rem]'
               : isIPad
               ? isPortrait
-                ? 'md:text-[9.5rem] lg:text-[11.5rem] xl:text-[13.5rem] 2xl:text-[16.5rem]'
-                : 'md:text-[11rem] lg:text-[13rem] xl:text-[15rem] 2xl:text-[18rem]'
+                ? 'md:text-[11.5rem] lg:text-[13.5rem] xl:text-[15.5rem] 2xl:text-[18.5rem]'
+                : 'md:text-[13rem] lg:text-[15rem] xl:text-[17rem] 2xl:text-[20rem]'
               : isDesktop
-              ? 'lg:text-[13rem] xl:text-[16rem] 2xl:text-[20rem]'
+              ? 'lg:text-[15rem] xl:text-[18rem] 2xl:text-[22rem]'
               : ''
           } leading-none whitespace-nowrap tabular-nums overflow-hidden ${
             isFullscreenSupported ? 'cursor-pointer' : 'cursor-default'

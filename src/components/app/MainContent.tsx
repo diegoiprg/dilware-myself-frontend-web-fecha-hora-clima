@@ -156,13 +156,13 @@ export default function MainContent() {
             <DateDisplay date={currentTime} />
           </div>
 
-          {/* Version + Menu - 50% right, aligned right */}
-          <div className="flex-1 flex items-center justify-end gap-2">
+          {/* Version + Menu - aligned right for all screen types */}
+          <div className="ml-auto flex items-center justify-end gap-2 min-w-0">
             <a
               href="https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-2xl sm:text-3xl text-muted-foreground/50 font-code hover:text-muted-foreground transition-colors"
+              className="text-2xl sm:text-3xl text-muted-foreground/50 font-code hover:text-muted-foreground transition-colors whitespace-nowrap"
             >
               {APP_VERSION}
             </a>
@@ -171,7 +171,7 @@ export default function MainContent() {
         </div>
 
         {/* Row 2: Clock - spans full width, centered */}
-        <div className="w-full h-full flex items-center justify-center max-w-[90%] landscape:col-span-2 landscape:row-start-2 dark:bg-transparent">
+        <div className="w-full h-full flex items-center justify-center landscape:col-span-2 landscape:row-start-2 dark:bg-black/10">
           <Clock
             time={currentTime}
             onClick={handleFullscreen}
@@ -179,10 +179,10 @@ export default function MainContent() {
           />
         </div>
 
-        {/* Row 3: Location (50% left) and Weather (50% right) */}
+        {/* Row 3: Location (centered, 100% width) and Weather (50% right) */}
         <div className="flex w-full items-center landscape:col-span-2 landscape:row-start-3">
-          {/* Location - 50% left, aligned left */}
-          <div className="flex-1 text-left landscape:justify-start">
+          {/* Location - centered, 100% width with flexible text */}
+          <div className="w-full text-center landscape:flex-1 landscape:justify-center">
             <LocationDisplay displayName={location?.displayName} />
           </div>
 
