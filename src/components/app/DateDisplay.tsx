@@ -107,7 +107,7 @@ export const DateDisplay = ({ date }: { date: Date }) => {
 
   return (
     <div className="text-3xl sm:text-4xl flex items-center gap-3">
-      <div className="bg-white/20 dark:bg-black/20 rounded-full p-2">
+      <div className="rounded-full p-2">
         <CalendarDays className="size-6 sm:size-8" />
       </div>
       <span className="pt-1">

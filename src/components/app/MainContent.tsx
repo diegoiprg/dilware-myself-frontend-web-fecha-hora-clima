@@ -171,7 +171,7 @@ export default function MainContent() {
         </div>
 
         {/* Row 2: Clock - spans full width, centered */}
-        <div className="w-full h-full flex items-center justify-center landscape:col-span-2 landscape:row-start-2 dark:bg-black/10">
+        <div className="w-full h-full flex items-center justify-center landscape:col-span-2 landscape:row-start-2">
           <Clock
             time={currentTime}
             onClick={handleFullscreen}

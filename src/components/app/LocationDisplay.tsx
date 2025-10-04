@@ -9,7 +9,7 @@ export const LocationDisplay = ({ displayName }: { displayName?: string }) => {
     return (
       <div className="w-full flex flex-col items-center justify-center">
         <div className="flex items-center justify-center gap-3">
-          <div className="bg-white/20 dark:bg-black/20 rounded-full p-2">
+          <div className="rounded-full p-2">
             <MapPin className="size-5 sm:size-6 md:size-7 lg:size-8" />
           </div>
           <span className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-muted-foreground text-center">
@@ -28,7 +28,7 @@ export const LocationDisplay = ({ displayName }: { displayName?: string }) => {
   return (
     <div className="w-full flex flex-col items-center justify-center">
       <div className="flex items-center justify-center gap-3">
-        <div className="bg-white/20 dark:bg-black/20 rounded-full p-2">
+        <div className="rounded-full p-2">
           <MapPin className="size-8 sm:size-10 md:size-12 lg:size-14" />
         </div>
         <span className="text-xl sm:text-2xl md:text-3xl lg:text-4xl whitespace-normal text-center">
