@@ -77,10 +77,11 @@ export const SettingsPanel = ({ appVersion }: { appVersion: string }) => {
       <SheetTrigger asChild>
         <button
           onClick={handleSettingsOpen}
-          className="text-muted-foreground hover:text-foreground transition-colors bg-white/20 rounded-full p-2"
+          className="text-muted-foreground hover:text-foreground transition-colors bg-white/20 rounded-full p-2 flex items-center gap-2"
           aria-label="Settings"
           title="Settings"
         >
+          <span className="text-sm">{appVersion}</span>
           <Menu className="size-6" />
         </button>
       </SheetTrigger>

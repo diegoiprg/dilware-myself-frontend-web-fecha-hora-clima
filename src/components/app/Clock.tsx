@@ -53,8 +53,8 @@ interface ClockProps {
 }
 
 /**
- * Clock component - Displays the current time in large text scaled with vmin for responsiveness
- * Centered at 100% width, fills available space without distortion
+ * Clock component - Displays the current time in large text scaled with vmin for maximum visibility
+ * Centered at 100% width, largest possible text for all screen sizes and orientations
  * Clicking toggles fullscreen mode if supported
  * @param time - Current time Date object
  * @param onClick - Handler for click events (fullscreen toggle)
@@ -104,7 +104,7 @@ export const Clock = React.memo(
       <main className="w-full flex-1 flex flex-col items-center justify-center">
         <div
           onClick={isFullscreenSupported ? onClick : undefined}
-          className={`font-code font-bold text-center w-full text-[8vmin] leading-none whitespace-nowrap tabular-nums overflow-hidden ${
+          className={`font-code font-bold text-center w-full text-[15vmin] leading-none whitespace-nowrap tabular-nums overflow-hidden ${
             isFullscreenSupported ? 'cursor-pointer' : 'cursor-default'
           }`}
         >

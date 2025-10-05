@@ -31,7 +31,7 @@ export const WeatherSkeleton = ({
         )}
       </div>
     ) : (
-      'Cargando clima...'
+      'Clima no disponible'
     )}
   </div>
 );

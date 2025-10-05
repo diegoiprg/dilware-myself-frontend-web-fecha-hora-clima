@@ -16,6 +16,7 @@
  * - Clock section (flex-1, centered, large text filling space)
  * - Location section (centered)
  * - Weather section (centered)
+ * - Version/Menu section (centered)
  *
  * Layout Structure (Landscape - Flex Row):
  * - Left column: Date, Clock, Location (each flex-1, centered)
@@ -144,7 +145,7 @@ export default function MainContent() {
       className="bg-background text-foreground h-screen w-screen select-none overflow-hidden pt-[env(safe-area-inset-top)] pl-[env(safe-area-inset-left)] pr-[env(safe-area-inset-right)] pb-[env(safe-area-inset-bottom)]"
     >
       {/* Flex container with responsive layout: portrait column, landscape row */}
-      <div className="h-full w-full flex flex-col landscape:flex-row p-2 sm:p-4 md:p-6 lg:p-8">
+      <div className="h-full w-full flex flex-col landscape:flex-row">
         {/* Portrait layout */}
         <div className="flex flex-col landscape:hidden h-full">
           <div className="flex items-center justify-center p-4">
@@ -169,6 +170,9 @@ export default function MainContent() {
                 onRetry={retryWeather}
               />
             )}
+          </div>
+          <div className="flex items-center justify-center p-4">
+            <Header appVersion={APP_VERSION} />
           </div>
         </div>
 

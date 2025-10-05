@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.9.16] - 2025-10-05
+
+### Changed
+
+- Texto del reloj aumentado a 15vmin para máxima visibilidad en todas las dimensiones y orientaciones
+- Texto de versión e icono de configuración ahora siempre visibles en portrait y landscape
+- Contenido landscape ahora ocupa 100% ancho de pantalla removiendo padding
+- Placeholder de clima muestra "Clima no disponible" cuando no carga en tablets antiguas
+- Actualizado versionado en package.json y src/lib/version.ts
+- Actualizados comentarios del código
+
+### Fixed
+
+- Texto del reloj más grande y visible desde lejos
+- Versión y configuración siempre mostradas
+- Layout landscape ocupa ancho completo
+- Placeholder adecuado para clima no disponible
+
 ## [1.9.15] - 2025-10-05
 
 ### Changed
