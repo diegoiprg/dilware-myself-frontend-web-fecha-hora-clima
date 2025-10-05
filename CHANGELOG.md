@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.9.17] - 2025-10-05
+
+### Changed
+
+- Layout dividido verticalmente en 1/4 (menú+fecha), 2/4 (reloj), 1/4 (ubicación+clima)
+- Menú y fecha en mismo párrafo, menú primero luego fecha, en parte superior
+- Layout unificado para portrait y landscape con flexbox
+- Actualizado versionado en package.json y src/lib/version.ts
+- Actualizados comentarios del código
+
+### Fixed
+
+- Layout consistente en todas las dimensiones y orientaciones de pantalla
+- Menú posicionado correctamente en la parte superior
+
 ## [1.9.16] - 2025-10-05
 
 ### Changed

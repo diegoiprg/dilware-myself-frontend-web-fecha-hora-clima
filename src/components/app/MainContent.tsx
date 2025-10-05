@@ -11,16 +11,10 @@
  * - Real-time updates for time, location, and weather data
  * - Settings panel for user customization
  *
- * Layout Structure (Portrait - Flex Column):
- * - Date section (centered)
- * - Clock section (flex-1, centered, large text filling space)
- * - Location section (centered)
- * - Weather section (centered)
- * - Version/Menu section (centered)
- *
- * Layout Structure (Landscape - Flex Row):
- * - Left column: Date, Clock, Location (each flex-1, centered)
- * - Right column: Version/Menu, Weather (each flex-1, centered)
+ * Layout Structure (Vertical division into 1/4, 2/4, 1/4):
+ * - Top section (1/4): Menu and Date (same paragraph, menu first)
+ * - Middle section (2/4): Clock (large text filling space)
+ * - Bottom section (1/4): Location and Weather (side by side in landscape)
  */
 
 'use client';
@@ -144,24 +138,29 @@ export default function MainContent() {
       ref={containerRef}
       className="bg-background text-foreground h-screen w-screen select-none overflow-hidden pt-[env(safe-area-inset-top)] pl-[env(safe-area-inset-left)] pr-[env(safe-area-inset-right)] pb-[env(safe-area-inset-bottom)]"
     >
-      {/* Flex container with responsive layout: portrait column, landscape row */}
-      <div className="h-full w-full flex flex-col landscape:flex-row">
-        {/* Portrait layout */}
-        <div className="flex flex-col landscape:hidden h-full">
-          <div className="flex items-center justify-center p-4">
+      {/* Layout divided vertically into 1/4, 2/4, 1/4 */}
+      <div className="h-full w-full flex flex-col">
+        {/* Top section - 1/4 height: Menu and Date */}
+        <div className="flex-1 flex items-center justify-center p-4">
+          <div className="flex items-center gap-4">
+            <Header appVersion={APP_VERSION} />
             <DateDisplay date={currentTime} />
           </div>
-          <div className="flex-1 flex items-center justify-center">
-            <Clock
-              time={currentTime}
-              onClick={handleFullscreen}
-              isFullscreenSupported={isFullscreenSupported}
-            />
-          </div>
-          <div className="flex items-center justify-center p-4">
+        </div>
+
+        {/* Middle section - 2/4 height: Clock */}
+        <div className="flex-[2] flex items-center justify-center">
+          <Clock
+            time={currentTime}
+            onClick={handleFullscreen}
+            isFullscreenSupported={isFullscreenSupported}
+          />
+        </div>
+
+        {/* Bottom section - 1/4 height: Location and Weather */}
+        <div className="flex-1 flex items-center justify-center p-4">
+          <div className="flex items-center justify-center gap-4 landscape:flex-row">
             <LocationDisplay displayName={location?.displayName} />
-          </div>
-          <div className="flex items-center justify-center p-4">
             {(weather || weatherLoading) && (
               <WeatherDisplay
                 weather={weather}
@@ -170,43 +169,6 @@ export default function MainContent() {
                 onRetry={retryWeather}
               />
             )}
-          </div>
-          <div className="flex items-center justify-center p-4">
-            <Header appVersion={APP_VERSION} />
-          </div>
-        </div>
-
-        {/* Landscape layout */}
-        <div className="hidden landscape:flex flex-row h-full">
-          <div className="flex-1 flex flex-col">
-            <div className="flex-1 flex items-center justify-center p-4">
-              <DateDisplay date={currentTime} />
-            </div>
-            <div className="flex-1 flex items-center justify-center">
-              <Clock
-                time={currentTime}
-                onClick={handleFullscreen}
-                isFullscreenSupported={isFullscreenSupported}
-              />
-            </div>
-            <div className="flex-1 flex items-center justify-center p-4">
-              <LocationDisplay displayName={location?.displayName} />
-            </div>
-          </div>
-          <div className="flex-1 flex flex-col">
-            <div className="flex-1 flex items-center justify-center p-4">
-              <Header appVersion={APP_VERSION} />
-            </div>
-            <div className="flex-1 flex items-center justify-center p-4">
-              {(weather || weatherLoading) && (
-                <WeatherDisplay
-                  weather={weather}
-                  loading={weatherLoading}
-                  error={weatherError || locationError}
-                  onRetry={retryWeather}
-                />
-              )}
-            </div>
           </div>
         </div>
       </div>
