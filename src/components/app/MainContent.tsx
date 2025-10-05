@@ -11,16 +11,15 @@
  * - Real-time updates for time, location, and weather data
  * - Settings panel for user customization
  *
- * Layout Structure (Portrait):
- * - Row 1: Date (centered at 100% width) and Version/Menu (centered) - auto height
- * - Row 2: Clock (centered at 100% width, large text filling space)
- * - Row 3: Location (centered)
- * - Row 4: Weather (centered) - auto height
+ * Layout Structure (Portrait - Flex Column):
+ * - Date section (centered)
+ * - Clock section (flex-1, centered, large text filling space)
+ * - Location section (centered)
+ * - Weather section (centered)
  *
- * Layout Structure (Landscape):
- * - Row 1: Date (centered at 100% width) and Version/Menu (centered)
- * - Row 2: Clock (spans full width, large text filling space)
- * - Row 3: Location (left) and Weather (right)
+ * Layout Structure (Landscape - Flex Row):
+ * - Left column: Date, Clock, Location (each flex-1, centered)
+ * - Right column: Version/Menu, Weather (each flex-1, centered)
  */
 
 'use client';
@@ -144,58 +143,67 @@ export default function MainContent() {
       ref={containerRef}
       className="bg-background text-foreground h-screen w-screen select-none overflow-hidden pt-[env(safe-area-inset-top)] pl-[env(safe-area-inset-left)] pr-[env(safe-area-inset-right)] pb-[env(safe-area-inset-bottom)]"
     >
-      {/* Grid container with responsive layout: 4 rows portrait, 4 rows landscape */}
-      <div
-        className={`h-full w-full max-w-none mx-auto grid grid-rows-[auto_auto_1fr_auto] landscape:grid-rows-[1fr_1fr_3fr_1fr] landscape:grid-cols-2 place-items-center p-2 sm:p-4 md:p-6 lg:p-8`}
-      >
-        {/* Row 1: Date (centered) and Version/Menu (centered) */}
-        <div className="flex w-full items-center landscape:col-span-2">
-          {/* Date - full width centered in portrait, flex-1 centered in landscape */}
-          <div className="w-full text-center landscape:flex-1 landscape:justify-center">
+      {/* Flex container with responsive layout: portrait column, landscape row */}
+      <div className="h-full w-full flex flex-col landscape:flex-row p-2 sm:p-4 md:p-6 lg:p-8">
+        {/* Portrait layout */}
+        <div className="flex flex-col landscape:hidden h-full">
+          <div className="flex items-center justify-center p-4">
             <DateDisplay date={currentTime} />
           </div>
-
-          {/* Version + Menu - flex-1 centered in portrait and landscape */}
-          <div className="flex-1 flex items-center justify-center gap-2 min-w-0">
-            <a
-              href="https://github.com/diegoiprg/dilware-myself-frontend-web-fecha-hora-clima"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-2xl sm:text-3xl text-muted-foreground/50 font-code hover:text-muted-foreground transition-colors whitespace-nowrap"
-            >
-              {APP_VERSION}
-            </a>
-            <Header appVersion={APP_VERSION} />
+          <div className="flex-1 flex items-center justify-center">
+            <Clock
+              time={currentTime}
+              onClick={handleFullscreen}
+              isFullscreenSupported={isFullscreenSupported}
+            />
           </div>
-        </div>
-
-        {/* Row 2: Clock - spans full width, centered */}
-        <div className="w-full h-full flex items-center justify-center landscape:col-span-2 landscape:row-start-2">
-          <Clock
-            time={currentTime}
-            onClick={handleFullscreen}
-            isFullscreenSupported={isFullscreenSupported}
-          />
-        </div>
-
-        {/* Row 3: Location (centered, 100% width) and Weather (50% right) */}
-        <div className="flex w-full items-center landscape:col-span-2 landscape:row-start-3">
-          {/* Location - centered, 100% width with flexible text */}
-          <div className="w-full text-center landscape:flex-1 landscape:justify-center">
+          <div className="flex items-center justify-center p-4">
             <LocationDisplay displayName={location?.displayName} />
           </div>
-
-          {/* Weather - 50% right, aligned right */}
-          {(weather || weatherLoading) && (
-            <div className="flex-1 text-right landscape:justify-end">
+          <div className="flex items-center justify-center p-4">
+            {(weather || weatherLoading) && (
               <WeatherDisplay
                 weather={weather}
                 loading={weatherLoading}
                 error={weatherError || locationError}
                 onRetry={retryWeather}
               />
+            )}
+          </div>
+        </div>
+
+        {/* Landscape layout */}
+        <div className="hidden landscape:flex flex-row h-full">
+          <div className="flex-1 flex flex-col">
+            <div className="flex-1 flex items-center justify-center p-4">
+              <DateDisplay date={currentTime} />
             </div>
-          )}
+            <div className="flex-1 flex items-center justify-center">
+              <Clock
+                time={currentTime}
+                onClick={handleFullscreen}
+                isFullscreenSupported={isFullscreenSupported}
+              />
+            </div>
+            <div className="flex-1 flex items-center justify-center p-4">
+              <LocationDisplay displayName={location?.displayName} />
+            </div>
+          </div>
+          <div className="flex-1 flex flex-col">
+            <div className="flex-1 flex items-center justify-center p-4">
+              <Header appVersion={APP_VERSION} />
+            </div>
+            <div className="flex-1 flex items-center justify-center p-4">
+              {(weather || weatherLoading) && (
+                <WeatherDisplay
+                  weather={weather}
+                  loading={weatherLoading}
+                  error={weatherError || locationError}
+                  onRetry={retryWeather}
+                />
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </div>
