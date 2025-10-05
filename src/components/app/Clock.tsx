@@ -108,13 +108,13 @@ export const Clock = React.memo(
             isAndroidTablet
               ? isPortrait
                 ? 'text-[17vmin]'
-                : 'text-[19vmin]'
+                : 'text-[21vmin]'
               : isIPad
               ? isPortrait
                 ? 'text-[17vmin]'
-                : 'text-[19vmin]'
+                : 'text-[20vmin]'
               : isDesktop
-              ? 'lg:text-[17vmin] xl:text-[19vmin] 2xl:text-[19vmin] 3xl:text-[19vmin] 4xl:text-[19vmin]'
+              ? 'lg:text-[17vmin] xl:text-[21vmin] 2xl:text-[21vmin] 3xl:text-[23vmin] 4xl:text-[23vmin]'
               : !isPortrait
               ? 'text-[17vmin]'
               : 'text-[16vmin]'

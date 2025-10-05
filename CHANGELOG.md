@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.9.20] - 2025-10-05
+
+### Changed
+
+- Tamaños de letra del reloj ajustados para tablet android landscape +2rem, ipad landscape +1rem, desktop hd/fullhd +2rem, wqhd/uhd +4rem
+- Tamaños de letra de la fecha ajustados para iPhone +1rem portrait/+2rem landscape, tablet android +1rem portrait/+2rem landscape, iPad +1rem portrait/+2rem landscape, desktop +1rem portrait/+2rem landscape
+- Actualizado versionado en package.json y src/lib/version.ts
+- Actualizados comentarios del código
+
+### Fixed
+
+- Tamaños de texto optimizados para mejor legibilidad en todos los dispositivos y orientaciones
+
 ## [1.9.19] - 2025-10-05
 
 ### Changed

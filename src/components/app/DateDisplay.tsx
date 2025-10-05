@@ -111,9 +111,9 @@ export const DateDisplay = ({ date }: { date: Date }) => {
         <div className="rounded-full p-2">
           <CalendarDays className="size-6 sm:size-8" />
         </div>
-        <span className="text-3xl sm:text-4xl pt-1">
+        <span className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-4xl 2xl:text-4xl pt-1">
           <span className="font-bold">{formattedDate.split(',')[0]},</span>
-          {formattedDate.split(',').slice(1).join(',')}
+          <span>{formattedDate.split(',').slice(1).join(',')}</span>
         </span>
       </div>
     </div>
