@@ -107,17 +107,17 @@ export const Clock = React.memo(
           className={`font-code font-bold text-center w-full text-[15vmin] ${
             isAndroidTablet
               ? isPortrait
-                ? 'text-[16vmin]'
+                ? 'text-[17vmin]'
                 : 'text-[19vmin]'
               : isIPad
               ? isPortrait
-                ? 'text-[16vmin]'
-                : 'text-[18vmin]'
+                ? 'text-[17vmin]'
+                : 'text-[19vmin]'
               : isDesktop
-              ? 'lg:text-[16vmin] xl:text-[18vmin] 2xl:text-[18vmin] 3xl:text-[20vmin] 4xl:text-[20vmin]'
+              ? 'lg:text-[17vmin] xl:text-[19vmin] 2xl:text-[19vmin] 3xl:text-[19vmin] 4xl:text-[19vmin]'
               : !isPortrait
               ? 'text-[17vmin]'
-              : ''
+              : 'text-[16vmin]'
           } leading-none whitespace-nowrap tabular-nums overflow-hidden ${
             isFullscreenSupported ? 'cursor-pointer' : 'cursor-default'
           }`}

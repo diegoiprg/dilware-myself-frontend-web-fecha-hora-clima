@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.9.19] - 2025-10-05
+
+### Changed
+
+- Tamaño de letra de versión cambiado a 1.5rem
+- Tamaños de letra del reloj ajustados: +1rem iOS portrait, +2rem iOS landscape, +2rem otros portrait, +4rem otros landscape
+- Mejoras en CI/CD: cache de node_modules, npm ci, cache de .next para acelerar build & deploy
+- Actualizado versionado en package.json y src/lib/version.ts
+- Actualizados comentarios del código
+
+### Fixed
+
+- Tamaños de texto consistentes en versión y reloj
+- Build & deploy más rápidos con caching optimizado
+
 ## [1.9.18] - 2025-10-05
 
 ### Changed

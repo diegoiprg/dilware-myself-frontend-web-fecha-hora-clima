@@ -81,7 +81,7 @@ export const SettingsPanel = ({ appVersion }: { appVersion: string }) => {
           aria-label="Settings"
           title="Settings"
         >
-          <span className="text-sm">{appVersion}</span>
+          <span className="text-[1.5rem]">{appVersion}</span>
           <Menu className="size-6" />
         </button>
       </SheetTrigger>
