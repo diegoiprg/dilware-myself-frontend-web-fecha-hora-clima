@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.9.18] - 2025-10-05
+
+### Changed
+
+- Fila 1: versión en línea 1, fecha en línea 2
+- Indicadores de clima reorganizados: humedad y precipitación en línea separada debajo de min/max
+- Fondo de modo claro cambiado al color de letras de modo oscuro
+- Tamaños de letra del reloj ajustados para dispositivos específicos (+rem según especificaciones)
+- Actualizado versionado en package.json y src/lib/version.ts
+- Actualizados comentarios del código
+
+### Fixed
+
+- Mejor visibilidad de indicadores de clima en iOS portrait
+- Fondo consistente en modo claro
+- Tamaños de reloj optimizados para cada dispositivo y orientación
+
 ## [1.9.17] - 2025-10-05
 
 ### Changed

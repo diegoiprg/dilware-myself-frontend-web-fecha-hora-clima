@@ -240,7 +240,7 @@ export const WeatherDisplay = ({ weather, loading, error, onRetry }: Props) => {
           </span>
         </div>
 
-        {/* Line 2: MIN, MAX, humidity, precipitation, wind */}
+        {/* Line 2: MIN, MAX */}
         <div className="flex items-center justify-center gap-4">
           <div className="flex items-center gap-1">
             <ArrowDown className="size-4 sm:size-5 md:size-6 lg:size-7" />
@@ -254,6 +254,10 @@ export const WeatherDisplay = ({ weather, loading, error, onRetry }: Props) => {
               {formatTemp(weather.maxTemperature, tempUnit)}
             </span>
           </div>
+        </div>
+
+        {/* Line 2.5: humidity, precipitation */}
+        <div className="flex items-center justify-center gap-4">
           <div className="flex items-center gap-1">
             <Droplets className="size-4 sm:size-5 md:size-6 lg:size-7" />
             <span className="text-lg sm:text-xl md:text-2xl">

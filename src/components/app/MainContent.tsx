@@ -12,7 +12,7 @@
  * - Settings panel for user customization
  *
  * Layout Structure (Vertical division into 1/4, 2/4, 1/4):
- * - Top section (1/4): Menu and Date (same paragraph, menu first)
+ * - Top section (1/4): Menu (line 1) and Date (line 2)
  * - Middle section (2/4): Clock (large text filling space)
  * - Bottom section (1/4): Location and Weather (side by side in landscape)
  */
@@ -141,9 +141,11 @@ export default function MainContent() {
       {/* Layout divided vertically into 1/4, 2/4, 1/4 */}
       <div className="h-full w-full flex flex-col">
         {/* Top section - 1/4 height: Menu and Date */}
-        <div className="flex-1 flex items-center justify-center p-4">
-          <div className="flex items-center gap-4">
+        <div className="flex-1 flex flex-col items-center justify-center p-4">
+          <div className="flex items-center justify-center">
             <Header appVersion={APP_VERSION} />
+          </div>
+          <div className="flex items-center justify-center">
             <DateDisplay date={currentTime} />
           </div>
         </div>

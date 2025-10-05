@@ -104,7 +104,21 @@ export const Clock = React.memo(
       <main className="w-full flex-1 flex flex-col items-center justify-center">
         <div
           onClick={isFullscreenSupported ? onClick : undefined}
-          className={`font-code font-bold text-center w-full text-[15vmin] leading-none whitespace-nowrap tabular-nums overflow-hidden ${
+          className={`font-code font-bold text-center w-full text-[15vmin] ${
+            isAndroidTablet
+              ? isPortrait
+                ? 'text-[16vmin]'
+                : 'text-[19vmin]'
+              : isIPad
+              ? isPortrait
+                ? 'text-[16vmin]'
+                : 'text-[18vmin]'
+              : isDesktop
+              ? 'lg:text-[16vmin] xl:text-[18vmin] 2xl:text-[18vmin] 3xl:text-[20vmin] 4xl:text-[20vmin]'
+              : !isPortrait
+              ? 'text-[17vmin]'
+              : ''
+          } leading-none whitespace-nowrap tabular-nums overflow-hidden ${
             isFullscreenSupported ? 'cursor-pointer' : 'cursor-default'
           }`}
         >
